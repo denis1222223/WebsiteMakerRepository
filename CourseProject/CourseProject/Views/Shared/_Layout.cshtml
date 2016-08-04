@@ -55,18 +55,18 @@
     </div>
 
 
+    @RenderBody()
 
-    <div class="container body-content">
-        @RenderBody()
-
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year – WebsiteMaker</p>
-        </footer>
-    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted">@DateTime.Now.Year – WebsiteMaker</p>
+        </div>
+    </footer>
+  
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/checkFunction.js")
     @RenderSection("scripts", required: false)
 </body>
 </html>

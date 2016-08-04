@@ -1,8 +1,26 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    margin-bottom: 60px;
 }
 
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    background-color: #f5f5f5;
+}
+
+.footer .container{
+    padding: 15px;
+}
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -20,9 +38,26 @@
     padding: 0px 20px;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+.form-create {
+    margin-top: 50px;
+    min-width: 170px;
+}
+
+.theme-link img{
+    background-color: black;
+    width: 300px;
+    height: 200px;
+}
+
+.theme .row{
+    margin-top: 200px;
+}
+
+.btn-radio {
+	width: 100%;
+}
+.img-radio {
+	opacity: 0.5;
+	margin-bottom: 5px;
+    min-width: 30px;
 }
