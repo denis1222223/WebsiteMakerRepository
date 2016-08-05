@@ -16,7 +16,7 @@ namespace CourseProject.Controllers
         [HttpPost]
         public string Create()
         {
-            return "Спасибо, " + Request.Form.Keys + ", за покупку!";
+            return "Спасибо, " + Request.Form["Theme"] +", за покупку!";
         }
     }
 }

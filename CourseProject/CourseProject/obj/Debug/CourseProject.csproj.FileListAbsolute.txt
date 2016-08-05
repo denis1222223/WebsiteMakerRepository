@@ -304,6 +304,6 @@ C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bi
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\ru\Microsoft.Owin.Security.Google.resources.dll
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\ru\Microsoft.Owin.Security.Twitter.resources.dll
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\ru\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
-C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\CourseProject.csprojResolveAssemblyReference.cache
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\CourseProject.dll
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\CourseProject.pdb
+C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\CourseProject.csprojResolveAssemblyReference.cache

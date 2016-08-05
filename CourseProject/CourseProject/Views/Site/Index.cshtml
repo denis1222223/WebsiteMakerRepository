@@ -6,44 +6,63 @@
 
 <div class="container body-content">
     <div class="row">
-        <form class="form-create col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4"
+        <form class="form-create col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4"
               method="post" action="~/Site/Create" role="form">
             <div class="form-group ">
                 <label>Название</label>
                 <input type="text" class="form-control" name="SiteName">
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword1">Теги</label>
+                <label>Теги</label>
                 <textarea class="form-control" rows="3"></textarea>
             </div>
             <div class="form-group">
-                <label for="exampleInputEmail1">Тема</label>
+                <label>Тема</label>
                 <div class="row">
                     <div class="check-block col-xs-4">
-                        <img src="http://placehold.it/160x100" class="img-responsive img-radio">
-                        <input type="checkbox" name="left-item" class="hidden form-control">
+                        <img src="http://res.cloudinary.com/website-maker/image/upload/v1470407055/themes/qV4bIJqo074.jpg" name="Theme" class="img-responsive img-radio">
+                        <input type="radio" name="Theme" class="hidden form-control" value="Dark">
                     </div>
                     <div class="check-block col-xs-4">
-                        <img src="http://placehold.it/160x100" class="img-responsive img-radio">
-                        <input type="checkbox" name="middle-item" class="hidden form-control">
+                        <img src="http://res.cloudinary.com/website-maker/image/upload/v1470407068/themes/RYA5wR6bKo8.jpg" name="Theme" class="img-responsive img-radio">
+                        <input type="radio" name="Theme" class="hidden form-control" value="White">
                     </div>
                     <div class="check-block col-xs-4">
-                        <img src="http://placehold.it/160x100" class="img-responsive img-radio">
-                        <input type="checkbox" name="right-item" class="hidden form-control">
+                        <img src="http://res.cloudinary.com/website-maker/image/upload/v1470407062/themes/V_gSfLje_7U.jpg" name="Theme" class="img-responsive img-radio">
+                        <input type="radio" name="Theme" class="hidden form-control" value="Red">
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <select name="Theme">
-                    <option value="1">Пункт 1</option>
-                    <option value="2">Пункт 2</option>
-                    <option value="3">Пункт 3</option>
+                <label>Шаблон для контента</label>
+                <div class="row">
+                    <div class="check-block col-xs-4">
+                        <img src="http://res.cloudinary.com/website-maker/image/upload/v1470407055/themes/qV4bIJqo074.jpg" name="Template" class="img-responsive img-radio">
+                        <input type="radio" name="Template" class="hidden form-control" value="Vertical">
+                    </div>
+                    <div class="check-block col-xs-4">
+                        <img src="http://res.cloudinary.com/website-maker/image/upload/v1470407068/themes/RYA5wR6bKo8.jpg" name="Template" class="img-responsive img-radio">
+                        <input type="radio" name="Template" class="hidden form-control" value="Horizontal">
+                    </div>
+                    <div class="check-block col-xs-4">
+                        <img src="http://res.cloudinary.com/website-maker/image/upload/v1470407062/themes/V_gSfLje_7U.jpg" name="Template" class="img-responsive img-radio">
+                        <input type="radio" name="Template" class="hidden form-control" value="Vertical-horizontal">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Навигационная панель</label>
+                <select name="Navigation" class="form-control">
+                    <option value="Vertical">Вертикальная</option>
+                    <option value="Horizontal">Горизонтальная</option>
+                    <option value="VerticalAndHorizontal">Вертикальная и горизонтальная</option>
+                    <option value="None">Отсутствует</option>
                 </select>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-default">Создать</button>
             </div>
-</form>
+        </form>
     </div>
 </div>
 
