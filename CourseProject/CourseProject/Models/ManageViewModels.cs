@@ -2,9 +2,42 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using CloudinaryDotNet;
 
 namespace CourseProject.Models
 {
+
+    public class ManageModel
+    {
+        [Display(Name = "Изображение")]
+        public string Picture { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Текущий пароль")]
+        public string OldPassword { get; set; }
+
+        [StringLength(100, ErrorMessage = "Значение {0} должно содержать символов не менее: {2}.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Новый пароль")]
+        public string NewPassword { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Подтверждение нового пароля")]
+        [Compare("NewPassword", ErrorMessage = "Новый пароль и его подтверждение не совпадают.")]
+        public string ConfirmPassword { get; set; }
+
+        public Cloudinary Cloudinary { get; set; }
+
+        public ManageModel()
+        {
+            Cloudinary = new Cloudinary(
+            new Account(
+                "website-maker",
+                "746939985299262",
+                "ma6_4ccKsAk2Q_CiXcDszMKn7A4"));
+        }
+    }
+
     public class IndexViewModel
     {
         public bool HasPassword { get; set; }

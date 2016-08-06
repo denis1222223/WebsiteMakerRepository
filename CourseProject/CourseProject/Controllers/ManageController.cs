@@ -7,6 +7,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CourseProject.Models;
+using CloudinaryDotNet.Actions;
+using CloudinaryDotNet;
 
 namespace CourseProject.Controllers
 {
@@ -63,16 +65,45 @@ namespace CourseProject.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Ваш номер телефона удален."
                 : "";
 
+            //var userId = User.Identity.GetUserId();
+            //var user = await UserManager.FindByIdAsync(userId);
+            //var model = new IndexViewModel
+            //{
+            //    HasPassword = HasPassword(),
+            //    PictureTag = user.PictureTag,
+            //    PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
+            //    TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
+            //    Logins = await UserManager.GetLoginsAsync(userId),
+            //    BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+            //};
             var userId = User.Identity.GetUserId();
-            var model = new IndexViewModel
+            var user = await UserManager.FindByIdAsync(userId);
+            var model = new ManageModel
             {
-                HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                Picture = user.Picture
             };
+
             return View(model);
+        }
+
+        public ActionResult ChangeImage(HttpPostedFileBase Picture)
+        {
+           var cloudinary = new Cloudinary(
+           new Account(
+               "website-maker",
+               "746939985299262",
+               "ma6_4ccKsAk2Q_CiXcDszMKn7A4"));
+
+            var result = cloudinary.Upload(new ImageUploadParams()
+            {
+                File = new FileDescription(Picture.FileName, Picture.InputStream),
+                Folder = "avatars"
+            });
+            var user = UserManager.FindByName(User.Identity.GetUserName());
+            user.PhoneNumber = result.PublicId;
+            UserManager.Update(user);
+
+            return RedirectToAction("Index", "Home");
         }
 
         //
