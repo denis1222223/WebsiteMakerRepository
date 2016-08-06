@@ -4,65 +4,63 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container body-content">
-    <div class="row">
-        <form class="form-create col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4"
-              method="post" action="~/Site/Create" role="form">
-            <div class="form-group ">
-                <label>Название</label>
-                <input type="text" class="form-control" name="SiteName">
-            </div>
-            <div class="form-group">
-                <label>Теги</label>
-                <textarea class="form-control" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-                <label>Тема</label>
-                <div class="row">
-                    <div class="check-block col-xs-4">
-                        <img src="http://res.cloudinary.com/website-maker/image/upload/v1470407055/themes/qV4bIJqo074.jpg" name="Theme" class="img-responsive img-radio">
-                        <input type="radio" name="Theme" class="hidden form-control" value="Dark">
-                    </div>
-                    <div class="check-block col-xs-4">
-                        <img src="http://res.cloudinary.com/website-maker/image/upload/v1470407068/themes/RYA5wR6bKo8.jpg" name="Theme" class="img-responsive img-radio">
-                        <input type="radio" name="Theme" class="hidden form-control" value="White">
-                    </div>
-                    <div class="check-block col-xs-4">
-                        <img src="http://res.cloudinary.com/website-maker/image/upload/v1470407062/themes/V_gSfLje_7U.jpg" name="Theme" class="img-responsive img-radio">
-                        <input type="radio" name="Theme" class="hidden form-control" value="Red">
-                    </div>
+<div class="row">
+    <form class="form-create col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4"
+            method="post" action="~/Site/Create" role="form">
+        <div class="form-group ">
+            <label>Название</label>
+            <input type="text" class="form-control" name="SiteName">
+        </div>
+        <div class="form-group">
+            <label>Теги</label>
+            <textarea class="form-control" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Тема</label>
+            <div class="row">
+                <div class="check-block col-xs-4">
+                    <img src="http://res.cloudinary.com/website-maker/image/upload/v1470407055/themes/qV4bIJqo074.jpg" name="Theme" class="img-responsive img-radio">
+                    <input type="radio" name="Theme" class="hidden form-control" value="Dark">
+                </div>
+                <div class="check-block col-xs-4">
+                    <img src="http://res.cloudinary.com/website-maker/image/upload/v1470407068/themes/RYA5wR6bKo8.jpg" name="Theme" class="img-responsive img-radio">
+                    <input type="radio" name="Theme" class="hidden form-control" value="White">
+                </div>
+                <div class="check-block col-xs-4">
+                    <img src="http://res.cloudinary.com/website-maker/image/upload/v1470407062/themes/V_gSfLje_7U.jpg" name="Theme" class="img-responsive img-radio">
+                    <input type="radio" name="Theme" class="hidden form-control" value="Red">
                 </div>
             </div>
-            <div class="form-group">
-                <label>Шаблон для контента</label>
-                <div class="row">
-                    <div class="check-block col-xs-4">
-                        <img src="http://res.cloudinary.com/website-maker/image/upload/v1470449020/layouts/layout1.png" name="Template" class="img-responsive img-radio">
-                        <input type="radio" name="Template" class="hidden form-control" value="Vertical">
-                    </div>
-                    <div class="check-block col-xs-4">
-                        <img src="http://res.cloudinary.com/website-maker/image/upload/v1470449020/layouts/layout2.png" name="Template" class="img-responsive img-radio">
-                        <input type="radio" name="Template" class="hidden form-control" value="Horizontal">
-                    </div>
-                    <div class="check-block col-xs-4">
-                        <img src="http://res.cloudinary.com/website-maker/image/upload/v1470449020/layouts/layout3.png" name="Template" class="img-responsive img-radio">
-                        <input type="radio" name="Template" class="hidden form-control" value="Vertical-horizontal">
-                    </div>
+        </div>
+        <div class="form-group">
+            <label>Шаблон для контента</label>
+            <div class="row">
+                <div class="check-block col-xs-4">
+                    <img src="http://res.cloudinary.com/website-maker/image/upload/v1470449020/layouts/layout1.png" name="Template" class="img-responsive img-radio">
+                    <input type="radio" name="Template" class="hidden form-control" value="Vertical">
+                </div>
+                <div class="check-block col-xs-4">
+                    <img src="http://res.cloudinary.com/website-maker/image/upload/v1470449020/layouts/layout2.png" name="Template" class="img-responsive img-radio">
+                    <input type="radio" name="Template" class="hidden form-control" value="Horizontal">
+                </div>
+                <div class="check-block col-xs-4">
+                    <img src="http://res.cloudinary.com/website-maker/image/upload/v1470449020/layouts/layout3.png" name="Template" class="img-responsive img-radio">
+                    <input type="radio" name="Template" class="hidden form-control" value="Vertical-horizontal">
                 </div>
             </div>
-            <div class="form-group">
-                <label>Навигационная панель</label>
-                <select name="Navigation" class="form-control">
-                    <option value="Vertical">Вертикальная</option>
-                    <option value="Horizontal">Горизонтальная</option>
-                    <option value="VerticalAndHorizontal">Вертикальная и горизонтальная</option>
-                    <option value="None">Отсутствует</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-default">Создать</button>
-            </div>
-        </form>
-    </div>
+        </div>
+        <div class="form-group">
+            <label>Навигационная панель</label>
+            <select name="Navigation" class="form-control">
+                <option value="Vertical">Вертикальная</option>
+                <option value="Horizontal">Горизонтальная</option>
+                <option value="VerticalAndHorizontal">Вертикальная и горизонтальная</option>
+                <option value="None">Отсутствует</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-default">Создать</button>
+        </div>
+    </form>
 </div>
 

@@ -54,15 +54,15 @@
         </div>
     </div>
 
-
-    @RenderBody()
-
+    <div class="container body-content">
+        @RenderBody()
+    </div>
     <footer class="footer">
         <div class="container">
             <p class="text-muted">@DateTime.Now.Year – WebsiteMaker</p>
         </div>
     </footer>
-  
+
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

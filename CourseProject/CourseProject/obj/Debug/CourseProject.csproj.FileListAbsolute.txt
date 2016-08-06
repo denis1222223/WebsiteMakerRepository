@@ -310,3 +310,6 @@ C:\Users\denis\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\De
 C:\Users\denis\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\CourseProject.csproj.GenerateResource.Cache
 C:\Users\denis\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\CourseProject.Migrations.DataMigration.resources
 C:\Users\denis\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\CourseProject.csprojResolveAssemblyReference.cache
+C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\CourseProject.Migrations.InitialCreate.resources
+C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\CourseProject.Migrations.DataMigration.resources
+C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\CourseProject.csproj.GenerateResource.Cache
