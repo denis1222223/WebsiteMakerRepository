@@ -6,6 +6,10 @@ namespace CourseProject.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
+        [Display(Name = "Имя пользователя")]
+        public string UserName { get; set; }
+
+        [Required]
         [Display(Name = "Адрес электронной почты")]
         public string Email { get; set; }
     }

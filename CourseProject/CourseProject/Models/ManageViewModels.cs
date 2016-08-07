@@ -30,6 +30,16 @@ namespace CourseProject.Models
 
         public ManageModel()
         {
+            Cloudinary = new CloudinaryModel().Cloudinary;
+        }
+    }
+
+    public class CloudinaryModel
+    {
+        public Cloudinary Cloudinary { get; set; }
+
+        public CloudinaryModel()
+        {
             Cloudinary = new Cloudinary(
             new Account(
                 "website-maker",

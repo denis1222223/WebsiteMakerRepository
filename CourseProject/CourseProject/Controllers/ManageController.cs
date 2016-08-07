@@ -13,7 +13,7 @@ using CloudinaryDotNet;
 namespace CourseProject.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : BaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -88,22 +88,19 @@ namespace CourseProject.Controllers
 
         public ActionResult ChangeImage(HttpPostedFileBase Picture)
         {
-           var cloudinary = new Cloudinary(
-           new Account(
-               "website-maker",
-               "746939985299262",
-               "ma6_4ccKsAk2Q_CiXcDszMKn7A4"));
-
-            var result = cloudinary.Upload(new ImageUploadParams()
+            if (Picture != null)
             {
-                File = new FileDescription(Picture.FileName, Picture.InputStream),
-                Folder = "avatars"
-            });
-            var user = UserManager.FindByName(User.Identity.GetUserName());
-            user.PhoneNumber = result.PublicId;
-            UserManager.Update(user);
-
-            return RedirectToAction("Index", "Home");
+                var cloudinary = new CloudinaryModel().Cloudinary;
+                var result = cloudinary.Upload(new ImageUploadParams()
+                {
+                    File = new FileDescription(Picture.FileName, Picture.InputStream),
+                    Folder = "avatars"
+                });
+                var user = UserManager.FindById(User.Identity.GetUserId());
+                cloudinary.DeleteResources(new string[] { user.Picture });
+                UserManager.SetPicture(user.Id, result.PublicId);            
+            }
+            return RedirectToAction("Index", "Manage");
         }
 
         //

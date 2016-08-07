@@ -1,77 +1,81 @@
 ﻿@using CloudinaryDotNet
-@using CloudinaryDotNet.Actions
 
 @model CourseProject.Models.ManageModel
+
 @{
     ViewBag.Title = "Управление";
 }
 
 <h2>@ViewBag.Title.</h2>
 
-<h4>Смена изображения профиля</h4>
-<hr />
 <div class="col-md-12">
-    @if (Model.Picture == null)
-    {
-        @Model.Cloudinary.Api.UrlImgUp.BuildImageTag("default_avatar_ww0y7e");
-    }
-    else
-    {
-        @Model.Cloudinary.Api.UrlImgUp.BuildImageTag("sample");
-    }
-</div><br />
-@using (Html.BeginForm("ChangeImage", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
-{
-    @*<div class="form-group">
-            @Html.LabelFor(m => m.PictureTag, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                <input type="file" id="PictureTag" name="PictureTag" accept="image/*" class="form-control">
-            </div>
-        </div>*@
-    @Html.LabelFor(m => m.Picture, new { @class = "col-md-2 control-label" })
-    <div class="col-md-10">
-        <input type="file" id="Picture" name="Picture" accept="image/*">
+    <h4>Смена изображения профиля</h4>
+    <hr />
+    <div class="col-md-offset-2">
+        @if (Model.Picture == null)
+            {
+            @Model.Cloudinary.Api.UrlImgUp.Transform(
+                   new Transformation().Width(200).Height(200).Crop("fill")).BuildImageTag("default_avatar_ww0y7e");
+            }
+            else
+            {
+            @Model.Cloudinary.Api.UrlImgUp.Transform(
+                   new Transformation().Width(200).Height(200).Crop("fill")).BuildImageTag(Model.Picture);
+            }
     </div>
-    <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="Изменить изображение" class="btn btn-default" />
-    </div>
-}
+    <br>
+    @using (Html.BeginForm("ChangeImage", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+    {
+        @Html.LabelFor(m => m.Picture, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <input type="file" id="Picture" name="Picture" accept="image/*">
+        </div>
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Сохранить изображение" class="btn btn-default" />
+        </div>
+    }
+    <br>
+</div>
 
 
-@using (Html.BeginForm("SaveChanges", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
+<div class="col-md-12">
+    <br>
     <h4>Смена пароля</h4>
     <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
+    @using (Html.BeginForm("ChangePassword", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "text-danger" })
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.OldPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.OldPassword, new { @class = "form-control" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.OldPassword, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.OldPassword, new { @class = "form-control login-input" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.NewPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.NewPassword, new { @class = "form-control" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.NewPassword, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.NewPassword, new { @class = "form-control login-input" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control login-input" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Сохранить изменения" class="btn btn-default" />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Сохранить пароль" class="btn btn-default" />
+            </div>
         </div>
-    </div>
-}
+    }
+    <br/>
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace CourseProject.Controllers
 {
-    public class SiteController : Controller
+    public class SiteController : BaseController
     {
         public ActionResult Index()
         {

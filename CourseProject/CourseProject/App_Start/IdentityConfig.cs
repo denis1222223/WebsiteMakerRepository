@@ -58,16 +58,25 @@ namespace CourseProject
         {
         }
 
+        public void SetPicture(string userId, string picture)
+        {
+            var context = new ApplicationDbContext();
+            context.Users.Find(new object[] { userId }).Picture = picture;
+            context.SaveChanges();
+        }
+
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
         {
-            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
+            var store = new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>());
+            var manager = new ApplicationUserManager(store);
+
             // Настройка логики проверки имен пользователей
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
             };
-
+            
             // Настройка логики проверки паролей
             manager.PasswordValidator = new PasswordValidator
             {
