@@ -7,7 +7,6 @@
     <title>@ViewBag.Title – WebsiteMaker</title>
     @Styles.Render("~/Content/css")
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
-    @Scripts.Render("~/bundles/modernizr")
 </head>
 
 <body>
@@ -30,7 +29,7 @@
             <div class="navbar-collapse collapse">
                 <div class="col-sm-3 col-md-3">
                     <form class="navbar-form" role="search">                 
-                        <input type="text" class="form-control" placeholder="Поиск" >
+                        <input class="form-control" type="text" placeholder="Поиск" >
                     </form>
                 </div>
 
@@ -47,7 +46,7 @@
 
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ru<span class="caret"></span></a>
+                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ru<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Ru</a></li>
                             <li><a href="#">Eng</a></li>
@@ -73,6 +72,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/Scripts/checkFunction.js")
+    @Scripts.Render("~/bundles/modernizr")
     @RenderSection("scripts", required: false)
 </body>
 </html>
