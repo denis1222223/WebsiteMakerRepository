@@ -22,12 +22,13 @@
                     else
                     {
                         @cloudinary.Api.UrlImgUp.Transform(
-                             new Transformation().Width(50).Height(50).Crop("fill").Background("#222222").Radius("max")).BuildImageTag(ViewBag.ProfilePicture)
+                             new Transformation().Width(50).Height(50).Crop("fill")).BuildImageTag(
+                             ViewBag.ProfilePicture, new StringDictionary("class=img-circle"))
                     }
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                    <li>@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })<hr style="margin-bottom: 0;" /></li>
+                    <li>@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })<hr style="margin:0px;"></li>
                     <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>
                 </ul>
             </li>

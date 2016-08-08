@@ -18,9 +18,13 @@
             @Html.AntiForgeryToken()
             <div id="socialLoginList">
                 <p>
-                    @foreach (AuthenticationDescription p in loginProviders) {
-                        <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Войти с помощью учетной записи @p.Caption">@p.AuthenticationType</button>
-                    }
+                    @*@foreach (AuthenticationDescription p in loginProviders) {
+                        <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Войти с помощью учетной записи @p.Caption">@p.AuthenticationType</button>                  
+                    }*@
+                    <button type="submit" class="btn btn-default" style="width:100px" id="Vkontakte" name="provider" value="Vkontakte"><span class="fa fa-vk fa-5x"></span></button>
+                    <button type="submit" class="btn btn-default" style="width:100px" id="Twitter" name="provider" value="Twitter"><span class="fa fa-twitter fa-5x"></span></button>
+                    <button type="submit" class="btn btn-default" style="width:100px" id="Facebook" name="provider" value="Facebook"><span class="fa fa-facebook fa-5x"></span></button>
+
                 </p>
             </div>
         }

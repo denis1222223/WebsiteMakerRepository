@@ -10,6 +10,7 @@ namespace CourseProject.Models
         public string UserName { get; set; }
 
         [Required]
+        [EmailAddress(ErrorMessage = "Некорректный адрес электронной почты.")]
         [Display(Name = "Адрес электронной почты")]
         public string Email { get; set; }
     }
@@ -46,6 +47,7 @@ namespace CourseProject.Models
     public class ForgotViewModel
     {
         [Required]
+        [EmailAddress(ErrorMessage = "Некорректный адрес электронной почты.")]
         [Display(Name = "Адрес электронной почты")]
         public string Email { get; set; }
     }
@@ -68,11 +70,13 @@ namespace CourseProject.Models
     public class RegisterViewModel
     {
         [Required]
+        [RegularExpression(@"[A-Z|a-z|\d]*", ErrorMessage = "Имя пользователя должно состоять только из латинских букв и цифр.")]
+        [StringLength(40, ErrorMessage = "Значение {0} должно содержать не менее {2} символов.", MinimumLength = 6)]
         [Display(Name = "Имя пользователя")]
         public string UserName { get; set; }
 
         [Required]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Некорректный адрес электронной почты.")]
         [Display(Name = "Адрес электронной почты")]
         public string Email { get; set; }
 
@@ -91,7 +95,7 @@ namespace CourseProject.Models
     public class ResetPasswordViewModel
     {
         [Required]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Некорректный адрес электронной почты.")]
         [Display(Name = "Адрес электронной почты")]
         public string Email { get; set; }
 
@@ -112,7 +116,7 @@ namespace CourseProject.Models
     public class ForgotPasswordViewModel
     {
         [Required]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Некорректный адрес электронной почты.")]
         [Display(Name = "Почта")]
         public string Email { get; set; }
     }
