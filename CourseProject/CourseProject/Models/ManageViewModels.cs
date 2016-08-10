@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using CloudinaryDotNet;
+using Resources;
 
 namespace CourseProject.Models
 {
@@ -13,17 +14,17 @@ namespace CourseProject.Models
         public string Picture { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Текущий пароль")]
+        [Display(Name = "PasswordCurrent", ResourceType = typeof(Resource))]
         public string OldPassword { get; set; }
 
-        [StringLength(100, ErrorMessage = "Значение {0} должно содержать символов не менее: {2}.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessageResourceName = "LengthError", ErrorMessageResourceType = typeof(Resource), MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Новый пароль")]
+        [Display(Name = "PasswordNew", ResourceType = typeof(Resource))]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Подтверждение нового пароля")]
-        [Compare("NewPassword", ErrorMessage = "Новый пароль и его подтверждение не совпадают.")]
+        [Display(Name = "PasswordConfirmNew", ResourceType = typeof(Resource))]
+        [Compare("NewPassword", ErrorMessageResourceName = "PasswordCompareError", ErrorMessageResourceType = typeof(Resource))]
         public string ConfirmPassword { get; set; }
 
         public Cloudinary Cloudinary { get; set; }
@@ -71,14 +72,14 @@ namespace CourseProject.Models
     public class SetPasswordViewModel
     {
         [Required]
-        [StringLength(100, ErrorMessage = "Значение {0} должно содержать символов не менее: {2}.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessageResourceName = "LengthError", ErrorMessageResourceType = typeof(Resource), MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Новый пароль")]
+        [Display(Name = "PasswordNew", ResourceType = typeof(Resource))]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Подтверждение нового пароля")]
-        [Compare("NewPassword", ErrorMessage = "Новый пароль и его подтверждение не совпадают.")]
+        [Display(Name = "PasswordConfirmNew", ResourceType = typeof(Resource))]
+        [Compare("NewPassword", ErrorMessageResourceName = "PasswordCompareError", ErrorMessageResourceType = typeof(Resource))]
         public string ConfirmPassword { get; set; }
     }
 
@@ -86,18 +87,18 @@ namespace CourseProject.Models
     {
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Текущий пароль")]
+        [Display(Name = "PasswordCurrent", ResourceType = typeof(Resource))]
         public string OldPassword { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "Значение {0} должно содержать символов не менее: {2}.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessageResourceName = "LengthError", ErrorMessageResourceType = typeof(Resource), MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Новый пароль")]
+        [Display(Name = "PasswordNew", ResourceType = typeof(Resource))]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Подтверждение нового пароля")]
-        [Compare("NewPassword", ErrorMessage = "Новый пароль и его подтверждение не совпадают.")]
+        [Display(Name = "PasswordConfirmNew", ResourceType = typeof(Resource))]
+        [Compare("NewPassword", ErrorMessageResourceName = "PasswordCompareError", ErrorMessageResourceType = typeof(Resource))]
         public string ConfirmPassword { get; set; }
     }
 

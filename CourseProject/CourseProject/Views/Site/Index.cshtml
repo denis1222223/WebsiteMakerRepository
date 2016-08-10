@@ -1,4 +1,5 @@
-﻿
+﻿@using Resources
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,15 +9,15 @@
     <form class="form-create col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4"
           method="post" action="~/Site/Create" role="form">
         <div class="form-group ">
-            <label>Название</label>
+            <label>@Resource.Name</label>
             <input class="form-control" type="text" name="SiteName" pattern="^[A-Za-z0-9_-]+$" maxlength="20" required>
         </div>
         <div class="form-group">
-            <label>Теги</label>
+            <label>@Resource.Tags</label>
             <textarea class="form-control" type="text" name="Tags" rows="3"></textarea>
         </div>
         <div class="form-group">
-            <label>Тема</label>
+            <label>@Resource.Theme</label>
             <div class="row">
                 <div class="check-block col-xs-4">
                     <img src="http://res.cloudinary.com/website-maker/image/upload/v1470407055/themes/qV4bIJqo074.jpg" name="Theme" class="img-responsive img-radio">
@@ -33,7 +34,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label>Шаблон для контента</label>
+            <label>@Resource.Template</label>
             <div class="row">
                 <div class="check-block col-xs-4">
                     <img src="http://res.cloudinary.com/website-maker/image/upload/v1470449020/layouts/layout1.png" name="Template" class="img-responsive img-radio">
@@ -50,16 +51,16 @@
             </div>
         </div>
         <div class="form-group">
-            <label>Навигационная панель</label>
+            <label>@Resource.NavigationBar</label>
             <select class="form-control" name="Navigation">
-                <option value="Vertical">Вертикальная</option>
-                <option value="Horizontal">Горизонтальная</option>
-                <option value="VerticalAndHorizontal">Вертикальная и горизонтальная</option>
-                <option value="None">Отсутствует</option>
+                <option value="Vertical">@Resource.Vertical</option>
+                <option value="Horizontal">@Resource.Horizontal</option>
+                <option value="VerticalAndHorizontal">@Resource.VerticalAndHorizontal</option>
+                <option value="None">@Resource.None</option>
             </select>
         </div>
         <div class="form-group">
-            <button class="btn btn-default" type="submit">Создать</button>
+            <button class="btn btn-default" type="submit">@Resource.Create</button>
         </div>
     </form>
 </div>

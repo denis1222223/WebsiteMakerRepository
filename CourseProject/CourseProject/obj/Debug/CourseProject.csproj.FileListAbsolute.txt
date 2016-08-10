@@ -331,3 +331,7 @@ C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bi
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\ru\System.Net.Http.Formatting.resources.dll
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\ru\System.Web.Http.resources.dll
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\ru\System.Web.Http.WebHost.resources.dll
+C:\Users\denis\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\en\CourseProject.resources.dll
+C:\Users\denis\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\CourseProject.Resources.Resource.resources
+C:\Users\denis\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\CourseProject.Resources.Resource.en.resources
+C:\Users\denis\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\en\CourseProject.resources.dll

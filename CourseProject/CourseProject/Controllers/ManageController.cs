@@ -350,6 +350,19 @@ namespace CourseProject.Controllers
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
 
+        [AllowAnonymous]
+        public ActionResult ChangeLanguage(string language)
+        {
+            string returnUrl = Request.UrlReferrer.AbsolutePath;
+            HttpCookie cookie = Request.Cookies["language"];
+            if (cookie != null)
+                cookie.Value = language;
+            else
+                cookie = new HttpCookie("language", language);
+            Response.Cookies.Add(cookie);
+            return Redirect(returnUrl);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)
@@ -361,7 +374,7 @@ namespace CourseProject.Controllers
             base.Dispose(disposing);
         }
 
-#region Вспомогательные приложения
+#region 
         // Используется для защиты от XSRF-атак при добавлении внешних имен входа
         private const string XsrfKey = "XsrfId";
 

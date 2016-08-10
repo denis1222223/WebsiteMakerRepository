@@ -1,4 +1,12 @@
 ﻿@using Microsoft.AspNet.Identity
+@using CloudinaryDotNet
+@using CourseProject.Models
+@using Resources
+
+@{
+    Cloudinary cloudinary = new CloudinaryModel().Cloudinary;
+}
+
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
@@ -6,17 +14,31 @@
         @Html.AntiForgeryToken()
 
         <ul class="nav navbar-nav navbar-right">
-            <li>
-                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="nopadding">
+                    @if (ViewBag.ProfilePicture == null)
+                    {
+                        <img src="http://res.cloudinary.com/website-maker/image/upload/c_scale,r_max,w_50/v1470265668/default_avatar_ww0y7e.png" />
+                    }
+                    else
+                    {
+                        @cloudinary.Api.UrlImgUp.Transform(
+                             new Transformation().Width(50).Height(50).Crop("fill")).BuildImageTag(
+                             ViewBag.ProfilePicture, new StringDictionary("class=img-circle"))
+                    }
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })<hr style="margin:0px;"></li>
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()">@Resource.LogOut</a></li>
+                </ul>
             </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>
     }
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink(Resource.SignIn, "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
 }

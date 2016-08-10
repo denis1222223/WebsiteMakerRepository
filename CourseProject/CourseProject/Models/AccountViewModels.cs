@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Resources;
 
 namespace CourseProject.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Имя пользователя")]
+        [Display(Name = "UserName", ResourceType = typeof(Resource))]
         public string UserName { get; set; }
 
         [Required]
-        [EmailAddress(ErrorMessage = "Некорректный адрес электронной почты.")]
-        [Display(Name = "Адрес электронной почты")]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resource), ErrorMessageResourceName = "EmailError")]
+        [Display(Name = "Email", ResourceType = typeof(Resource))]
         public string Email { get; set; }
     }
 
@@ -47,20 +48,20 @@ namespace CourseProject.Models
     public class ForgotViewModel
     {
         [Required]
-        [EmailAddress(ErrorMessage = "Некорректный адрес электронной почты.")]
-        [Display(Name = "Адрес электронной почты")]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resource), ErrorMessageResourceName = "EmailError")]
+        [Display(Name = "Email", ResourceType = typeof(Resource))]
         public string Email { get; set; }
     }
 
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Имя пользователя")]
+        [Display(Name = "UserName", ResourceType = typeof(Resource))]
         public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
+        [Display(Name = "Password", ResourceType = typeof(Resource))]
         public string Password { get; set; }
 
         [Display(Name = "Запомнить меня")]
@@ -70,44 +71,44 @@ namespace CourseProject.Models
     public class RegisterViewModel
     {
         [Required]
-        [RegularExpression(@"[A-Z|a-z|\d]*", ErrorMessage = "Имя пользователя должно состоять только из латинских букв и цифр.")]
-        [StringLength(40, ErrorMessage = "Значение {0} должно содержать не менее {2} символов.", MinimumLength = 6)]
-        [Display(Name = "Имя пользователя")]
+        [RegularExpression(@"[A-Z|a-z|\d]*", ErrorMessageResourceName = "UserNameCharactersError", ErrorMessageResourceType = typeof(Resource))]
+        [StringLength(40, ErrorMessageResourceName = "LengthError", ErrorMessageResourceType = typeof(Resource), MinimumLength = 6)]
+        [Display(Name = "UserName", ResourceType = typeof(Resource))]
         public string UserName { get; set; }
 
         [Required]
-        [EmailAddress(ErrorMessage = "Некорректный адрес электронной почты.")]
-        [Display(Name = "Адрес электронной почты")]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resource), ErrorMessageResourceName = "EmailError")]
+        [Display(Name = "Email", ResourceType = typeof(Resource))]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "Значение {0} должно содержать не менее {2} символов.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessageResourceName = "LengthError", ErrorMessageResourceType = typeof(Resource), MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
+        [Display(Name = "Password", ResourceType = typeof(Resource))]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Подтверждение пароля")]
-        [Compare("Password", ErrorMessage = "Пароль и его подтверждение не совпадают.")]
+        [Display(Name = "PasswordConfirm", ResourceType = typeof(Resource))]
+        [Compare("Password", ErrorMessageResourceName = "PasswordCompareError", ErrorMessageResourceType = typeof(Resource))]
         public string ConfirmPassword { get; set; }
     }
 
     public class ResetPasswordViewModel
     {
         [Required]
-        [EmailAddress(ErrorMessage = "Некорректный адрес электронной почты.")]
-        [Display(Name = "Адрес электронной почты")]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resource), ErrorMessageResourceName = "EmailError")]
+        [Display(Name = "Email", ResourceType = typeof(Resource))]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "Значение {0} должно содержать не менее {2} символов.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessageResourceName = "LengthError", ErrorMessageResourceType = typeof(Resource), MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
+        [Display(Name = "Password", ResourceType = typeof(Resource))]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Подтверждение пароля")]
-        [Compare("Password", ErrorMessage = "Пароль и его подтверждение не совпадают.")]
+        [Display(Name = "PasswordConfirm", ResourceType = typeof(Resource))]
+        [Compare("Password", ErrorMessageResourceType = typeof(Resource), ErrorMessageResourceName = "PasswordConfirmError")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
@@ -116,8 +117,8 @@ namespace CourseProject.Models
     public class ForgotPasswordViewModel
     {
         [Required]
-        [EmailAddress(ErrorMessage = "Некорректный адрес электронной почты.")]
-        [Display(Name = "Почта")]
+        [EmailAddress(ErrorMessageResourceType = typeof(Resource), ErrorMessageResourceName = "EmailError")]
+        [Display(Name = "Email", ResourceType = typeof(Resource))]
         public string Email { get; set; }
     }
 }

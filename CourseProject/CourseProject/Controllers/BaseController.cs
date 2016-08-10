@@ -1,4 +1,5 @@
-﻿using CourseProject.Models;
+﻿using CourseProject.Filters;
+using CourseProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Web.Mvc;
 
 namespace CourseProject.Controllers
 {
+    [Language]
     public class BaseController : Controller
     {
         protected override void OnActionExecuted(ActionExecutedContext filterContext)

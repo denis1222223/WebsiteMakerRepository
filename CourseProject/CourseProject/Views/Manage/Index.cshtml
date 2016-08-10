@@ -1,15 +1,16 @@
 ﻿@using CloudinaryDotNet
+@using Resources
 
 @model CourseProject.Models.ManageModel
 
 @{
-    ViewBag.Title = "Управление";
+    ViewBag.Title = @Resource.ManageTitle;
 }
 
 <h2>@ViewBag.Title.</h2>
 
 <div class="col-md-12">
-    <h4>Смена изображения профиля</h4>
+    <h4>@Resource.PictureChanging</h4>
     <hr />
     <div class="col-md-offset-2">
         @if (Model.Picture == null)
@@ -31,7 +32,7 @@
             <input type="file" id="Picture" name="Picture" accept="image/*">
         </div>
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Сохранить изображение" class="btn btn-default" />
+            <input type="submit" value="@Resource.PictureSave" class="btn btn-default" />
         </div>
     }
     <br>
@@ -40,7 +41,7 @@
 
 <div class="col-md-12">
     <br>
-    <h4>Смена пароля</h4>
+    <h4>@Resource.PasswordChanging</h4>
     <hr />
     @using (Html.BeginForm("ChangePassword", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
@@ -70,7 +71,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Сохранить пароль" class="btn btn-default" />
+                <input type="submit" value="@Resource.PasswordSave" class="btn btn-default" />
             </div>
         </div>
     }

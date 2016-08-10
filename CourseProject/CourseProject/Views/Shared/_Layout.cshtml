@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Resources
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -20,40 +22,39 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                
+
                 <a class="navbar-brand logo" href="/">
                     <img src="http://res.cloudinary.com/website-maker/image/upload/c_scale,w_50/v1469827634/logo_chyujp.png" />
                 </a>
-            </div> 
-            
+            </div>
+
             <div class="navbar-collapse collapse">
                 <div class="col-sm-3 col-md-3">
-                    <form class="navbar-form" role="search">                 
-                        <input class="form-control" type="text" placeholder="Поиск" >
+                    <form class="navbar-form" role="search">
+                        <input type="text" class="form-control" placeholder=@Resource.Search>
                     </form>
                 </div>
 
                 <ul class="nav navbar-nav">
-                    <li class="active">@Html.ActionLink("Главная", "Index", "Home")</li>
-                    <li><a href="#about">Рейтинг</a></li>
+                    <li class="active">@Html.ActionLink(Resource.Home, "Index", "Home")</li>
+                    <li><a href="#about">@Resource.Rating</a></li>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li><a href="#contact">Личный кабинет</a></li>
+                        <li><a href="#contact">@Resource.Profile</a></li>
                     }
                 </ul>
 
-                @Html.Partial("_Login")
+                @Html.Partial("_LoginPartial")
 
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ru<span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Resource.CurrentLanguage<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Ru</a></li>
-                            <li><a href="#">Eng</a></li>
+                            <li>@Html.ActionLink("Рус", "ChangeLanguage", "Manage", new { language = "ru" }, null)</li>
+                            <li>@Html.ActionLink("Eng", "ChangeLanguage", "Manage", new { language = "en" }, null)</li>
                         </ul>
                     </li>
                 </ul>
-                
             </div>
         </div>
     </div>

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using Resources;
 
 namespace IdentitySample.Models
 {
@@ -17,7 +18,7 @@ namespace IdentitySample.Models
         public string Id { get; set; }
 
         [Required(AllowEmptyStrings = false)]
-        [Display(Name = "Email")]
+        [Display(Name = "Email", ResourceType = typeof(Resource))]
         [EmailAddress]
         public string Email { get; set; }
 
