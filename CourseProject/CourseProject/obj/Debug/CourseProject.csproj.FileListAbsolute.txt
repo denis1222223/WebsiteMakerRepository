@@ -335,3 +335,7 @@ C:\Users\denis\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\en
 C:\Users\denis\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\CourseProject.Resources.Resource.resources
 C:\Users\denis\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\CourseProject.Resources.Resource.en.resources
 C:\Users\denis\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\en\CourseProject.resources.dll
+C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\CourseProject.Resources.Resource.resources
+C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\CourseProject.Resources.Resource.en.resources
+C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\en\CourseProject.resources.dll
+C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\en\CourseProject.resources.dll
