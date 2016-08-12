@@ -228,4 +228,16 @@
   <data name="VerticalAndHorizontal" xml:space="preserve">
     <value>Вертикальная и горизонтальная</value>
   </data>
+  <data name="MaxLengthError" xml:space="preserve">
+    <value>Поле должно иметь длинну менее 20 символов.</value>
+  </data>
+  <data name="SiteName" xml:space="preserve">
+    <value>Название сайта</value>
+  </data>
+  <data name="CharactersError" xml:space="preserve">
+    <value>Допустимые символы: 'A' - 'Z', 'a' - 'z', '0' - '9', '_' и '-'</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Поле обязательно для заполнения</value>
+  </data>
 </root>

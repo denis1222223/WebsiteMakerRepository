@@ -1,0 +1,52 @@
+﻿@using CourseProject.Models.Entities;
+@model CourseProject.Models.Entities.Site
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Site</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rating)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Author.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Author.UserName)
+        </dd>
+
+    </dl>
+
+    <div class="display-label"><b>Теги</b></div>
+    <ul>
+        @foreach (Tag c in Model.Tags)
+        {
+            <li>@c.Name</li>
+        }
+    </ul>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

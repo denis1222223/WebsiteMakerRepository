@@ -228,4 +228,16 @@
   <data name="VerticalAndHorizontal" xml:space="preserve">
     <value>Vertical and horizontal</value>
   </data>
+  <data name="MaxLengthError" xml:space="preserve">
+    <value>The value must contain less than 20 characters.</value>
+  </data>
+  <data name="SiteName" xml:space="preserve">
+    <value>Site name</value>
+  </data>
+  <data name="CharactersError" xml:space="preserve">
+    <value>Valid characters: 'A' - 'Z', 'a' - 'z', '0' - '9', '_' and '-'</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Field is required</value>
+  </data>
 </root>

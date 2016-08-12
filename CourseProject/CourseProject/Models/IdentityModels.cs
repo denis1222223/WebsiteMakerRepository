@@ -4,11 +4,22 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using CourseProject.Models.Entities;
+using System.Collections.Generic;
 
 namespace CourseProject.Models
 {
     public class ApplicationUser : IdentityUser
     {
+        public ApplicationUser()
+        {
+            Sites = new List<Site>();
+            Comments = new List<Comment>();
+        }
+
+        public virtual ICollection<Site> Sites { get; set; }
+
+        public virtual ICollection<Comment> Comments { get; set; }
+
         public string Picture { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

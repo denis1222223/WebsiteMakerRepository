@@ -5,17 +5,48 @@ using System.Web;
 using CourseProject.Models.Entities;
 using System.Data.Entity;
 using CourseProject.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity;
 
 namespace CourseProject.App_Start
 {
-    public class SiteDdInitializer: DropCreateDatabaseAlways<SiteContext>
+    public class SiteDdInitializer: DropCreateDatabaseAlways<ApplicationDbContext>
     {
-        protected override void Seed(SiteContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
-            Site s1 = new Site { Id = 1, Name = "abw", Rating = 2578 };
-            Site s2 = new Site { Id = 2, Name = "av", Rating = 33333 };
-            Site s3 = new Site { Id = 3, Name = "vk", Rating = 421 };
-            Site s4 = new Site { Id = 4, Name = "facebook", Rating = 28 };
+            //Site s1 = new Site { Id = 1, Name = "abw" };
+            //Site s2 = new Site { Id = 2, Name = "av" };
+            //Site s3 = new Site { Id = 3, Name = "vk" };
+            //Site s4 = new Site { Id = 4, Name = "facebook" };
+
+            var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
+
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+
+            var role1 = new IdentityRole { Name = "Admin" };
+            var role2 = new IdentityRole { Name = "User" };
+
+            roleManager.Create(role1);
+            roleManager.Create(role2);
+
+            var admin = new ApplicationUser
+            {
+                Email = "vlados228@gmail.com",
+                UserName = "vlados228@gmail.com",
+                //Sites = new HashSet<Site> { s3, s4, s1, s2 }
+            };
+            string password = "123456";
+            var result = userManager.Create(admin, password);
+            if (result.Succeeded)
+            {
+                userManager.AddToRole(admin.Id, role1.Name);
+                userManager.AddToRole(admin.Id, role2.Name);
+            }
+
+            Site s1 = new Site { Id = 1, Name = "abw", Rating = 2578, Author = admin };
+            Site s2 = new Site { Id = 2, Name = "av", Rating = 33333, Author = admin };
+            Site s3 = new Site { Id = 3, Name = "vk", Rating = 421, Author = admin };
+            Site s4 = new Site { Id = 4, Name = "facebook", Rating = 28, Author = admin };
 
             context.Sites.Add(s1);
             context.Sites.Add(s2);
