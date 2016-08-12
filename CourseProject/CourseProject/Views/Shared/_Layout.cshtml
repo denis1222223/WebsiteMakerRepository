@@ -40,7 +40,7 @@
                     <li><a href="#about">@Resource.Rating</a></li>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li><a href="#contact">@Resource.Profile</a></li>
+                        <li>@Html.ActionLink(Resource.Profile, "Index", "Profile")</li>
                     }
                 </ul>
 

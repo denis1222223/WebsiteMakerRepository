@@ -1,4 +1,5 @@
 ﻿@using CloudinaryDotNet
+@using CourseProject.Environment
 @using Resources
 
 @model CourseProject.Models.ManageModel
@@ -15,12 +16,12 @@
     <div class="col-md-offset-2">
         @if (Model.Picture == null)
             {
-            @Model.Cloudinary.Api.UrlImgUp.Transform(
+            @CloudinaryInitializer.Cloudinary.Api.UrlImgUp.Transform(
                    new Transformation().Width(200).Height(200).Crop("fill")).BuildImageTag("default_avatar_ww0y7e");
             }
             else
             {
-            @Model.Cloudinary.Api.UrlImgUp.Transform(
+            @CloudinaryInitializer.Cloudinary.Api.UrlImgUp.Transform(
                    new Transformation().Width(200).Height(200).Crop("fill")).BuildImageTag(Model.Picture);
             }
     </div>

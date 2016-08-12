@@ -2,8 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
-using CloudinaryDotNet;
 using Resources;
+using CourseProject.Environment;
 
 namespace CourseProject.Models
 {
@@ -26,27 +26,6 @@ namespace CourseProject.Models
         [Display(Name = "PasswordConfirmNew", ResourceType = typeof(Resource))]
         [Compare("NewPassword", ErrorMessageResourceName = "PasswordCompareError", ErrorMessageResourceType = typeof(Resource))]
         public string ConfirmPassword { get; set; }
-
-        public Cloudinary Cloudinary { get; set; }
-
-        public ManageModel()
-        {
-            Cloudinary = new CloudinaryModel().Cloudinary;
-        }
-    }
-
-    public class CloudinaryModel
-    {
-        public Cloudinary Cloudinary { get; set; }
-
-        public CloudinaryModel()
-        {
-            Cloudinary = new Cloudinary(
-            new Account(
-                "website-maker",
-                "746939985299262",
-                "ma6_4ccKsAk2Q_CiXcDszMKn7A4"));
-        }
     }
 
     public class IndexViewModel

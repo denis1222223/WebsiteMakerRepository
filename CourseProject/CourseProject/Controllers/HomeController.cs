@@ -1,4 +1,5 @@
 ﻿using CloudinaryDotNet;
+using CourseProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace CourseProject.Controllers
     public class HomeController : BaseController
     {       
         public ActionResult Index()
-        {
+        {            
             return View();
         }
 

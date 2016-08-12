@@ -1,11 +1,8 @@
 ﻿@using Microsoft.AspNet.Identity
 @using CloudinaryDotNet
+@using CourseProject.Environment
 @using CourseProject.Models
 @using Resources
-
-@{
-    Cloudinary cloudinary = new CloudinaryModel().Cloudinary;
-}
 
 @if (Request.IsAuthenticated)
 {
@@ -22,7 +19,7 @@
                     }
                     else
                     {
-                        @cloudinary.Api.UrlImgUp.Transform(
+                        @CloudinaryInitializer.Cloudinary.Api.UrlImgUp.Transform(
                              new Transformation().Width(50).Height(50).Crop("fill")).BuildImageTag(
                              ViewBag.ProfilePicture, new StringDictionary("class=img-circle"))
                     }

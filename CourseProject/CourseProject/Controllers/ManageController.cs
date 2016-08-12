@@ -9,6 +9,7 @@ using Microsoft.Owin.Security;
 using CourseProject.Models;
 using CloudinaryDotNet.Actions;
 using CloudinaryDotNet;
+using CourseProject.Environment;
 
 namespace CourseProject.Controllers
 {
@@ -90,7 +91,7 @@ namespace CourseProject.Controllers
         {
             if (Picture != null)
             {
-                var cloudinary = new CloudinaryModel().Cloudinary;
+                var cloudinary = CloudinaryInitializer.Cloudinary;
                 var result = cloudinary.Upload(new ImageUploadParams()
                 {
                     File = new FileDescription(Picture.FileName, Picture.InputStream),

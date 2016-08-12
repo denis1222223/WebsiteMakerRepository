@@ -19,7 +19,6 @@ namespace CourseProject.Controllers
                 var context = new ApplicationDbContext();
                 var user = context.Users.First(u => u.UserName == HttpContext.User.Identity.Name);
                 ViewBag.ProfilePicture = user.Picture;
-                ViewBag.Cloudinary = new CloudinaryModel().Cloudinary;
             }
         }
 
