@@ -50,7 +50,7 @@ namespace CourseProject.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Rating")] Site site)
+        public ActionResult Create([Bind(Include = "Id,Name")] Site site)
         {
             if (ModelState.IsValid)
             {
@@ -60,7 +60,6 @@ namespace CourseProject.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
             return View(site);
         }
 
