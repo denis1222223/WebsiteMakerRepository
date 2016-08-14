@@ -1,0 +1,37 @@
+﻿body {
+    background-color: #ffffff;
+    color: black;
+}
+
+.main .nav{
+    background-color: #e6e6e6;
+}
+
+.navbar{
+    background-color: #e6e6e6;
+    border: none;
+}
+
+.main .nav a {
+    color: black;
+}
+
+.main .nav a:hover {
+    color: white;
+}
+
+.main .nav a:visited {
+    background-color: #e6e6e6;
+}
+
+.footer{
+    background-color: #e6e6e6;   
+}
+
+.text-muted {
+    color: black;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: black;
+}

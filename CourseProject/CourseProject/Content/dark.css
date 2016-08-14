@@ -1,0 +1,32 @@
+﻿body {
+    background-color: #4d4d4d;
+    color: white;
+}
+
+.main .nav{
+    background-color: #262626;
+}
+
+.main .nav a {
+    color: white;
+}
+
+.main .nav a:hover {
+    background-color: #666666;
+}
+
+.main .nav a:visited {
+    background-color: #666666;
+}
+
+.footer{
+    background-color: #262626;   
+}
+
+.text-muted {
+    color: white;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: white;
+}

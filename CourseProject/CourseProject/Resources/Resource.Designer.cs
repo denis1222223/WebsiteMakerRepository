@@ -106,6 +106,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Сделано с помощью WebsiteMaker.
+        /// </summary>
+        public static string Footer {
+            get {
+                return ResourceManager.GetString("Footer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Главная.
         /// </summary>
         public static string Home {

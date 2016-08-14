@@ -240,4 +240,7 @@
   <data name="Required" xml:space="preserve">
     <value>Поле обязательно для заполнения</value>
   </data>
+  <data name="Footer" xml:space="preserve">
+    <value>Сделано с помощью WebsiteMaker</value>
+  </data>
 </root>

@@ -34,6 +34,7 @@ namespace CourseProject.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Site> Sites { get; set; }
+        public DbSet<Page> Pages { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Comment> Comments { get; set; }
 

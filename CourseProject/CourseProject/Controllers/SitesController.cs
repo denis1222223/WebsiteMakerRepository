@@ -15,6 +15,20 @@ namespace CourseProject.Controllers
 {
     public class SitesController : BaseController
     {
+        Dictionary<string, bool> horizontalMenuCheck = new Dictionary<string, bool>()
+        {
+            { "Vertical", false},
+            { "Horizontal", true},
+            { "VerticalAndHorizontal", true},
+            { "None", false}
+        };
+        Dictionary<string, bool> verticalMenuCheck = new Dictionary<string, bool>()
+        {
+            { "Vertical", true},
+            { "Horizontal", false},
+            { "VerticalAndHorizontal", true},
+            { "None", false}
+        };
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Sites
@@ -46,6 +60,14 @@ namespace CourseProject.Controllers
             return View();
         }
 
+        private void FillViewBag()
+        {
+            ViewBag.Theme = Request.Form["Theme"];
+            ViewBag.horizontalMenu = horizontalMenuCheck[Request.Form["Menu"]];
+            ViewBag.verticalMenu = verticalMenuCheck[Request.Form["Menu"]];
+            ViewBag.Template = Request.Form["Template"];
+        }
+
         // POST: Sites/Create
         [HttpPost]
         [Authorize]
@@ -58,7 +80,8 @@ namespace CourseProject.Controllers
                 site.AuthorId = User.Identity.GetUserId();
                 db.Sites.Add(site);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                FillViewBag();
+                return View("GenerateHtml");
             }
             return View(site);
         }

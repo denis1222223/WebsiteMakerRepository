@@ -27,6 +27,12 @@ namespace CourseProject
                       "~/Content/bootstrap.css",
                       "~/Content/bootstrap-social.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/users-styles").Include(
+                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap-social.css",
+                      "~/Content/users-styles.css",
+                      "~/Content/site.css"));
         }
     }
 }

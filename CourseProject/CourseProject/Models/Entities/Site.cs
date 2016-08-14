@@ -13,6 +13,7 @@ namespace CourseProject.Models.Entities
         public Site()
         {
             Tags = new HashSet<Tag>();
+            Pages = new List<Page>();
             Comments = new List<Comment>();
         }
 
@@ -22,6 +23,7 @@ namespace CourseProject.Models.Entities
         public string Name { get; set; }
         public int? Rating { get; set; } 
         public virtual ICollection<Tag> Tags { get; set; }
+        public virtual ICollection<Page> Pages { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
     }
 }

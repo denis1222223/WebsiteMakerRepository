@@ -33,16 +33,35 @@ namespace CourseProject.Environment
                 set.Add(newTag);
         }
 
+        private static bool PrepareString(ref string inputString)
+        {
+            if (String.IsNullOrEmpty(inputString) || String.IsNullOrWhiteSpace(inputString))
+            {
+                return false;
+            }
+            else
+            {
+                inputString = inputString.ToLower();
+                return true;
+            }
+        }
+
         public static HashSet<Tag> Parse(ApplicationDbContext db, String inputString)
         {
-            localDb = db;
-            HashSet<Tag> parsedTags = new HashSet<Tag>();
-            inputString = inputString.ToLower();
-            foreach (Match tagMatch in TagsRegex.Matches(inputString))
-            {
-                AddTagToSet(ref parsedTags, tagMatch.Groups[1].Value);
+            if (PrepareString(ref inputString))
+            { 
+                localDb = db;
+                HashSet<Tag> parsedTags = new HashSet<Tag>();            
+                foreach (Match tagMatch in TagsRegex.Matches(inputString))
+                {
+                    AddTagToSet(ref parsedTags, tagMatch.Groups[1].Value);
+                }
+                return parsedTags;
             }
-            return parsedTags;
+            else
+            {
+                return null;
+            }     
         }
     }
 }

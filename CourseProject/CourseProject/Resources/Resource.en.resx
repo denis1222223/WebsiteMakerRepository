@@ -240,4 +240,7 @@
   <data name="Required" xml:space="preserve">
     <value>Field is required</value>
   </data>
+  <data name="Footer" xml:space="preserve">
+    <value>Made with WebsiteMaker</value>
+  </data>
 </root>

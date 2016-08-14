@@ -1,5 +1,4 @@
 ﻿body {
-    padding-top: 50px;
     padding-bottom: 20px;
     margin-bottom: 60px;
 }
@@ -31,11 +30,10 @@ html {
 }
 
 .logo{
-    padding: 0px 20px;
+    padding: 0px 0px;
 }
 
 .form-create {
-    margin-top: 50px;
     min-width: 170px;
 }
 
