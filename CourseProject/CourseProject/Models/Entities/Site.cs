@@ -21,6 +21,7 @@ namespace CourseProject.Models.Entities
         public string AuthorId { get; set; }
         public ApplicationUser Author { get; set; }
         public string Name { get; set; }
+        public string HtmlCode { get; set; }
         public int? Rating { get; set; } 
         public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<Page> Pages { get; set; }

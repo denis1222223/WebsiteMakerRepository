@@ -28,8 +28,12 @@
                     Html.RenderPartial("_VerticalMenu");
                 }
             </div>
-            <div class="container col-lg-8 col-md-8 col-sm-8 col-xs-9 test" >
+            <div class="container col-lg-8 col-md-8 col-sm-8 col-xs-9" >
                 @Html.Partial('_'+(string)ViewBag.Template)
+            </div>
+            <div class="container col-lg-2 col-md-2 col-sm-2 col-xs-3">
+                <button type="button" class="btn btn-danger delete">Delete</button>
+                <button type="button" class="btn btn-success save">Save</button>
             </div>
         </div>
         <footer class="footer">
@@ -40,5 +44,6 @@
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")
         @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/Scripts/editing-script.js")
     </body>
 </html>

@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using CourseProject.Models;
 using CourseProject.Models.Entities;
 using CourseProject.Environment;
+using System.IO;
 
 namespace CourseProject.Controllers
 {
@@ -22,6 +23,7 @@ namespace CourseProject.Controllers
             { "VerticalAndHorizontal", true},
             { "None", false}
         };
+
         Dictionary<string, bool> verticalMenuCheck = new Dictionary<string, bool>()
         {
             { "Vertical", true},
@@ -29,6 +31,9 @@ namespace CourseProject.Controllers
             { "VerticalAndHorizontal", true},
             { "None", false}
         };
+
+        private Site createdSite { get; set; }
+
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Sites
@@ -72,18 +77,31 @@ namespace CourseProject.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name")] Site site)
+        public ActionResult Create([Bind(Include = "Id,Name")]Site site)
         {
             if (ModelState.IsValid)
             {
                 site.Tags = TagsParser.Parse(db, Request.Form["Tags"]);
                 site.AuthorId = User.Identity.GetUserId();
-                db.Sites.Add(site);
-                db.SaveChanges();
+                createdSite = site;
                 FillViewBag();
                 return View("GenerateHtml");
             }
             return View(site);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public void Save()
+        {
+            string htmlCode;
+            using (var reader = new StreamReader(Request.InputStream))
+            {
+                htmlCode = reader.ReadToEnd();
+            }
+            createdSite.HtmlCode = htmlCode;
+            db.Sites.Add(createdSite);
+            db.SaveChanges();
         }
 
         // GET: Sites/Edit/5
