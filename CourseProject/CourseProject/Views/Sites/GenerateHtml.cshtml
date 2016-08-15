@@ -17,6 +17,7 @@
         <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
     </head>
     <body>
+        @Html.Hidden("Id",(int)ViewBag.Id)
         @if ((bool)ViewBag.horizontalMenu)
         {
             Html.RenderPartial("_HorizontalMenu");

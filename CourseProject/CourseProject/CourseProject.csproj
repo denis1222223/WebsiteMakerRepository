@@ -222,6 +222,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SitesController.cs" />
     <Compile Include="Environment\CloudinaryInitializer.cs" />
+    <Compile Include="Environment\SiteRepository.cs" />
     <Compile Include="Filters\LanguageAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

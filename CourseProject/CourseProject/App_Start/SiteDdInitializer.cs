@@ -14,10 +14,10 @@ namespace CourseProject.App_Start
     {
         protected override void Seed(ApplicationDbContext context)
         {
-            //Site s1 = new Site { Id = 1, Name = "abw" };
-            //Site s2 = new Site { Id = 2, Name = "av" };
-            //Site s3 = new Site { Id = 3, Name = "vk" };
-            //Site s4 = new Site { Id = 4, Name = "facebook" };
+            //Site s1 = new Site { Id = 0, Name = "abw" };
+            //Site s2 = new Site { Id = 1, Name = "av" };
+            //Site s3 = new Site { Id = 2, Name = "vk" };
+            //Site s4 = new Site { Id = 3, Name = "facebook" };
 
             var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
 

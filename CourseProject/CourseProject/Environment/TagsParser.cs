@@ -8,14 +8,20 @@ using CourseProject.Models;
 
 namespace CourseProject.Environment
 {
-    public static class TagsParser
+    public class TagsParser
     {
-        private static string template = @"#([a-zёа-я0-9_]{1,20})";
-        private static Regex TagsRegex = new Regex(template);
+        private string template = @"#([a-zёа-я0-9_]{1,20})";
+        private Regex TagsRegex;
 
-        private static ApplicationDbContext localDb { get; set; }
+        private ApplicationDbContext localDb { get; set; }
 
-        private static Tag GetTag( string tagName)
+        public TagsParser(ApplicationDbContext db)
+        {
+            localDb = db;
+            TagsRegex = new Regex(template);
+        }
+
+        private Tag GetTag( string tagName)
         {
             Tag requiredTag = localDb.Tags.FirstOrDefault(t => t.Name == tagName);
             if (requiredTag != null)
@@ -26,14 +32,14 @@ namespace CourseProject.Environment
             return newTag;
         }
 
-        private static void AddTagToSet(ref HashSet<Tag> set, string tagName)
+        private void AddTagToSet(ref HashSet<Tag> set, string tagName)
         {
             Tag newTag = GetTag(tagName);
             if (!set.Contains(newTag))
                 set.Add(newTag);
         }
 
-        private static bool PrepareString(ref string inputString)
+        private bool PrepareString(ref string inputString)
         {
             if (String.IsNullOrEmpty(inputString) || String.IsNullOrWhiteSpace(inputString))
             {
@@ -46,11 +52,10 @@ namespace CourseProject.Environment
             }
         }
 
-        public static HashSet<Tag> Parse(ApplicationDbContext db, String inputString)
+        public HashSet<Tag> Parse(String inputString)
         {
             if (PrepareString(ref inputString))
             { 
-                localDb = db;
                 HashSet<Tag> parsedTags = new HashSet<Tag>();            
                 foreach (Match tagMatch in TagsRegex.Matches(inputString))
                 {

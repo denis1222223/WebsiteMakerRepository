@@ -32,12 +32,10 @@ namespace CourseProject.Controllers
             { "None", false}
         };
 
-        private Site createdSite { get; set; }
-
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Sites
-        public ActionResult Index()
+        public ActionResult Index(string username)
         {
             return View(db.Sites.ToList());
         }
@@ -65,12 +63,21 @@ namespace CourseProject.Controllers
             return View();
         }
 
-        private void FillViewBag()
+        private void FillViewBag(int siteId)
         {
+            ViewBag.Id = siteId;
             ViewBag.Theme = Request.Form["Theme"];
             ViewBag.horizontalMenu = horizontalMenuCheck[Request.Form["Menu"]];
             ViewBag.verticalMenu = verticalMenuCheck[Request.Form["Menu"]];
             ViewBag.Template = Request.Form["Template"];
+        }
+
+        private void FillSiteModel(Site site)
+        {
+            TagsParser parser = new TagsParser(db);
+            site.Tags = parser.Parse(Request.Form["Tags"]);
+            site.AuthorId = User.Identity.GetUserId();
+            SitesRepository.Add(site, false);
         }
 
         // POST: Sites/Create
@@ -81,26 +88,54 @@ namespace CourseProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                site.Tags = TagsParser.Parse(db, Request.Form["Tags"]);
-                site.AuthorId = User.Identity.GetUserId();
-                createdSite = site;
-                FillViewBag();
+                FillSiteModel(site);
+                FillViewBag(site.Id);
                 return View("GenerateHtml");
             }
             return View(site);
         }
 
-        [HttpPost]
-        [Authorize]
-        public void Save()
+        private string GetHtml()
         {
             string htmlCode;
             using (var reader = new StreamReader(Request.InputStream))
             {
                 htmlCode = reader.ReadToEnd();
             }
-            createdSite.HtmlCode = htmlCode;
-            db.Sites.Add(createdSite);
+            return htmlCode;
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Save(int? id)
+        {
+            Site site = SitesRepository.GetSite(id);
+            if (site == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            site.HtmlCode = GetHtml();
+            if(SitesRepository.Exists((int)id))
+            {
+                UpdateSite(site);
+            }
+            else
+            {
+                CreateSite(site);
+            }
+            SitesRepository.Remove((int)id);
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        private void CreateSite(Site site)
+        {
+            db.Sites.Add(site);
+            db.SaveChanges();
+        }
+
+        private void UpdateSite(Site site)
+        {
+            db.Entry(site).State = EntityState.Modified;
             db.SaveChanges();
         }
 
