@@ -8,3 +8,18 @@
     margin-bottom: 15px;
 }
 
+/*///////////*/
+
+.templateArea{
+    min-height: 100px;
+}
+
+.dragging-active {
+    border: dotted 2px grey;
+}
+
+#toolbar{
+    width: 100px;
+    position: absolute;
+    right: 0;
+}

@@ -243,4 +243,13 @@
   <data name="Footer" xml:space="preserve">
     <value>Made with WebsiteMaker</value>
   </data>
+  <data name="ModalPictureHeader" xml:space="preserve">
+    <value>Pictrue setting</value>
+  </data>
+  <data name="ModalTextHeader" xml:space="preserve">
+    <value>Text setting</value>
+  </data>
+  <data name="ModalVideoHeader" xml:space="preserve">
+    <value>Video setting</value>
+  </data>
 </root>

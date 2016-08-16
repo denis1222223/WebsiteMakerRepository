@@ -1,0 +1,16 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">@ViewBag.ModalHeader</h4>
+</div>
+<div class="modal-body">
+    @RenderBody()
+</div>
+<div class="modal-footer">
+    <button id="buttonDelete" class="btn btn-danger" style="float: left;" 
+            onclick="buttonDelete()" data-dismiss="modal">Удалить</button>
+    <button class="btn btn-default" data-dismiss="modal" onclick="buttonOK()">OK</button>
+</div>

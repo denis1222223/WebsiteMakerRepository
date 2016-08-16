@@ -21,7 +21,8 @@ namespace CourseProject.Environment
             SiteInfo info = new SiteInfo();
             info.Site = site;
             info.SiteExists = SiteExists;
-            sites.Add(site.Id, info);
+            //закомментил потому что ни сайт создать, ни страницу обновить юез ошибки не получалось
+            //sites.Add(site.Id, info);      
         }
 
         public static Site GetSite(int? id)
