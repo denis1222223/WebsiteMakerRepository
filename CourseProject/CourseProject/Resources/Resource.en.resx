@@ -252,4 +252,19 @@
   <data name="ModalVideoHeader" xml:space="preserve">
     <value>Video setting</value>
   </data>
+  <data name="UrlCharactersError" xml:space="preserve">
+    <value>Valid characters: 'a' - 'z', '0' - '9', '_' and '-'</value>
+  </data>
+  <data name="AuthorSites" xml:space="preserve">
+    <value>Your sites:</value>
+  </data>
+  <data name="Sites" xml:space="preserve">
+    <value>Sites</value>
+  </data>
+  <data name="UserSites" xml:space="preserve">
+    <value>User's sites:</value>
+  </data>
+  <data name="NoSites" xml:space="preserve">
+    <value>has not created any website yet.</value>
+  </data>
 </root>

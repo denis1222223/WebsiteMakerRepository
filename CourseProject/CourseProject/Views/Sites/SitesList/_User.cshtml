@@ -1,0 +1,14 @@
+﻿@model CourseProject.Models.UserSitesViewModel
+@foreach (var item in Model.Sites)
+{
+    <tr>
+        <td>
+            @Html.ActionLink(item.Name, Model.UserName + "/" + item.Url)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rating)
+        </td>
+    </tr>
+}
+</table>
+

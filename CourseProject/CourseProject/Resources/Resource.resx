@@ -252,4 +252,19 @@
   <data name="ModalVideoHeader" xml:space="preserve">
     <value>Настройка видео</value>
   </data>
+  <data name="UrlCharactersError" xml:space="preserve">
+    <value>Допустимые символы: 'a' - 'z', '0' - '9', '_' и '-'</value>
+  </data>
+  <data name="AuthorSites" xml:space="preserve">
+    <value>Ваши сайты:</value>
+  </data>
+  <data name="Sites" xml:space="preserve">
+    <value>Сайты</value>
+  </data>
+  <data name="UserSites" xml:space="preserve">
+    <value>Сайты пользователя:</value>
+  </data>
+  <data name="NoSites" xml:space="preserve">
+    <value>еще не создал ни одного сайта.</value>
+  </data>
 </root>

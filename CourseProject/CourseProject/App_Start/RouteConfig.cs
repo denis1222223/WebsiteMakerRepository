@@ -11,13 +11,39 @@ namespace CourseProject
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
+            routes.MapMvcAttributeRoutes();
+
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{username}",
-                defaults: new { controller = "Home", action = "Index", username = "Xyu" }
+                name: "AllSites",
+                url: "{userName}/all",
+                defaults: new { controller = "Sites", action = "Index" }
             );
+
+            routes.MapRoute(
+                name: "Profile",
+                url: "profile/{action}",
+                defaults: new { controller = "Manage", action = "Index" }
+            );
+
+            routes.MapRoute(
+                name: "Account",
+                url: "account/{action}",
+                defaults: new { controller = "Account" }
+            );
+
+            routes.MapRoute(
+                name: "User",
+                url: "{userName}/{siteUrl}/{pageUrl}/{action}",
+                defaults: new { controller = "Sites", action = "Details", pageUrl = "main" }
+            );
+
+            //routes.MapRoute(
+            //    name: "Default",
+            //    url: "{controller}/{action}",
+            //    defaults: new { controller = "Home", action = "Index"}
+            //);
         }
     }
 }
