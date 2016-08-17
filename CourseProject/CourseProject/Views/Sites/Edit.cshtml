@@ -1,51 +1,65 @@
-﻿@model CourseProject.Models.Entities.Site
-
+﻿@model CourseProject.Models.EditViewModel
+@using Resources
 @{
-    ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = Resource.Edit;
+    Layout = null;
 }
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title – WebsiteMaker</title>
 
-<h2>Edit</h2>
+    <link rel="stylesheet" href="~/Content/themes/base/all.css" />
+    <link rel="stylesheet" href="~/Scripts/mediaelement/mediaelementplayer.css" />
 
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Site</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
+    @Styles.Render("~/Content/users-styles")
+    @Styles.Render("~/Content/" + Model.Theme as string + ".css")
+</head>
+<body>
+    @Html.HiddenFor(model => model.SiteUrl, new { Value = Model.SiteUrl })
+    <div class="main container-fluid">
+        <div class="menu">
+            @Html.Raw(Model.MenuHtml)
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Rating, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
-            </div>
+        <div class="container col-lg-8 col-md-8 col-sm-8 col-xs-9">
+            @Html.Raw(Model.ContentHtml)
         </div>
+        <div class="container" id="toolbar">
+            <button type="button" class="btn btn-danger delete">Delete</button>
+            <button type="button" class="btn btn-success save">Save</button>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+            <img id="toolPictrue" src="http://res.cloudinary.com/website-maker/image/upload/v1471300845/toolbar/s_picture.png" />
+            <img id="toolVideo" src="http://res.cloudinary.com/website-maker/image/upload/v1471300845/toolbar/s_video.png" />
+            <img id="toolText" src="http://res.cloudinary.com/website-maker/image/upload/v1471300845/toolbar/s_text.png" />
+
         </div>
     </div>
-}
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted">@DateTime.Now.Year – @Resource.Footer </p>
+        </div>
+    </footer>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+            <!-- Modal content-->
+            <div class="modal-content">
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+            </div>
+
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/mediaelement/mediaelement-and-player.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.0.min.js"></script>
+    @Scripts.Render("~/Scripts/editing-script.js")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>
+

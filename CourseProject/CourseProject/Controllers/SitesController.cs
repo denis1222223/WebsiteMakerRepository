@@ -11,6 +11,7 @@ using CourseProject.Models;
 using CourseProject.Models.Entities;
 using CourseProject.Environment;
 using System.IO;
+using Resources;
 
 namespace CourseProject.Controllers
 {
@@ -33,6 +34,7 @@ namespace CourseProject.Controllers
         };
 
         private ApplicationDbContext db = new ApplicationDbContext();
+        private const string mainPageUrl = "main";
 
         [Route("rating")]
         public ActionResult Rating()
@@ -40,28 +42,45 @@ namespace CourseProject.Controllers
             return View(db.Sites.ToList());
         }
 
-        private UserSitesViewModel CreateSitesListViewModel(ApplicationUser user)
+        private bool CheckCurrentUser(string userName)
         {
-            UserSitesViewModel userSites = new UserSitesViewModel();
-            if (user.UserName == User.Identity.GetUserName())
+            if (userName == User.Identity.GetUserName())
             {
-                userSites.Author = true;
+                return true;
             }
             else
             {
-                userSites.Author = false;
+                return false;
+            }
+        }
+
+        private UserSitesViewModel CreateSitesListViewModel(ApplicationUser user)
+        {
+            UserSitesViewModel userSites = new UserSitesViewModel();
+            if (CheckCurrentUser(user.UserName))
+            {
+                userSites.IsAuthor = true;
+            }
+            else
+            {
+                userSites.IsAuthor = false;
             }
             userSites.Sites = user.Sites.ToList();
             userSites.UserName = user.UserName;
             return userSites;
         }
 
-        // GET: Sites
+        private ApplicationUser FindUserInDb(string userName)
+        {
+            return db.Users.Where(user => user.UserName == userName)
+                    .Include(user => user.Sites)
+                    .AsEnumerable()
+                    .FirstOrDefault(user => user.UserName == userName);
+        }
+
         public ActionResult Index(string userName)
         {
-            ApplicationUser requiredUser = db.Users.Where(user => user.UserName == userName)
-                .AsEnumerable()
-                .FirstOrDefault(user => user.UserName == userName);
+            ApplicationUser requiredUser = FindUserInDb(userName);
             if (requiredUser == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -73,10 +92,9 @@ namespace CourseProject.Controllers
             }
         }
 
-        // GET: Sites/Details/5
-        public ActionResult Details(string user, string site)
+        public ActionResult Details(string userName, string siteUrl, string pageUrl)
         {
-            if (String.IsNullOrEmpty(site))
+            if (String.IsNullOrEmpty(siteUrl))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -87,20 +105,19 @@ namespace CourseProject.Controllers
                 return HttpNotFound();
             }
             ApplicationUser User = requiredSite.Author;
-            return View(site);
+            return View(siteUrl);
         }
 
         // GET: create
         [Authorize]
         [Route("create")]
-        public ActionResult Create()
+        public ActionResult CreateSite()
         {
             return View();
         }
 
-        private void FillCreateViewBag(int siteId)
+        private void FillCreateViewBag()
         {
-            ViewBag.Id = siteId;
             ViewBag.Theme = Request.Form["Theme"];
             ViewBag.horizontalMenu = horizontalMenuCheck[Request.Form["Menu"]];
             ViewBag.verticalMenu = verticalMenuCheck[Request.Form["Menu"]];
@@ -109,25 +126,37 @@ namespace CourseProject.Controllers
 
         private void FillSiteModel(Site site)
         {
+            Page mainPage = new Page { Name = Resource.Home, Url = mainPageUrl, ContentHtml = RenderRazorViewToString("Template/GenerateTemplate", null) };
             TagsParser parser = new TagsParser(db);
             site.Tags = parser.Parse(Request.Form["Tags"]);
             site.AuthorId = User.Identity.GetUserId();
-            SitesRepository.Add(site, false);
+            site.Pages.Add(mainPage);
+            site.MenuHtml = RenderRazorViewToString("Menu/GenerateMenu", null);
+            SitesRepository.Add(site, false, User.Identity.Name);
         }
 
-        // POST: Sites/Create
         [HttpPost]
         [Authorize]
+        [Route("create")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Url")]Site site)
+        public ActionResult CreateSite([Bind(Include = "Id,Name,Url,Theme")]Site site)
         {
             if (ModelState.IsValid)
             {
+                FillCreateViewBag();
                 FillSiteModel(site);
-                FillCreateViewBag(site.Id);
-                return View("GenerateHtml");
+                return new RedirectResult(User.Identity.Name + 
+                    '/' + site.Url + '/' + mainPageUrl + '/' + "edit");
             }
             return View(site);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create()
+        {
+            return View();
         }
 
         private string GetHtml()
@@ -142,27 +171,56 @@ namespace CourseProject.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Save(int? id)
+        public ActionResult SaveSite(string userName, string siteUrl, string contentHtml)
+        {           
+            if (CheckCurrentUser(userName))
+            {
+                Site site = SitesRepository.GetSite(userName + siteUrl);
+                if (site == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                //site.HtmlCode = GetHtml();
+                if (SitesRepository.Exists(id))
+                {
+                    UpdateSite(site);
+                }
+                else
+                {
+                    CreateSiteInDb(site);
+                }
+                SitesRepository.Remove(id);
+                return new HttpStatusCodeResult(HttpStatusCode.OK);
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Save(string userName, string siteUrl)
         {
-            Site site = SitesRepository.GetSite(id);
+            Site site = SitesRepository.GetSite(userName + siteUrl);
             if (site == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             //site.HtmlCode = GetHtml();
-            if(SitesRepository.Exists((int)id))
+            if (SitesRepository.Exists(id))
             {
                 UpdateSite(site);
             }
             else
             {
-                CreateSite(site);
+                CreateSiteInDb(site);
             }
-            SitesRepository.Remove((int)id);
+            SitesRepository.Remove(id);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
-        private void CreateSite(Site site)
+        private void CreateSiteInDb(Site site)
         {
             db.Sites.Add(site);
             db.SaveChanges();
@@ -174,27 +232,64 @@ namespace CourseProject.Controllers
             db.SaveChanges();
         }
 
-        // GET: Sites/Edit/5
-        [Authorize]
-        public ActionResult Edit(int? id)
+        private EditViewModel CreateEditViewModel(Site site, string pageUrl)
         {
-            if (id == null)
+            EditViewModel editModel = new EditViewModel();
+            editModel.MenuHtml = site.MenuHtml;
+            editModel.Theme = site.Theme;
+            editModel.ContentHtml = site.Pages.FirstOrDefault(page => page.Url == pageUrl).ContentHtml;
+            editModel.SiteUrl = site.Url;
+            return editModel;
+        }
+
+        [Authorize]
+        public ActionResult Edit(string userName, string siteUrl, string pageUrl)
+        {
+            if (CheckCurrentUser(userName))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                Site site = SitesRepository.GetSite(userName + siteUrl);
+                if (site == null)
+                {
+                    return new RedirectResult(userName + '/' + siteUrl + "/edit");
+                }
+                EditViewModel editModel = CreateEditViewModel(site, pageUrl);
+                if(editModel.ContentHtml == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(editModel);
             }
-            Site site = db.Sites.Find(id);
-            if (site == null)
+            else
             {
-                return HttpNotFound();
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
-            return View(site);
+        }
+
+        [Authorize]
+        public ActionResult EditSite(string userName, string siteUrl)
+        {
+            if (CheckCurrentUser(userName))
+            {
+                ApplicationUser user = FindUserInDb(userName);
+                Site site = user.Sites.FirstOrDefault(requiredSite => requiredSite.Url == siteUrl);
+                if (site == null)
+                {
+                    return HttpNotFound();
+                }
+                SitesRepository.Add(site, true, userName);
+                return View(site);
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
         }
 
         // POST: Sites/Edit/5
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Rating")] Site site)
+        public ActionResult Edit([Bind(Include = "Name,Rating")] Site site)
         {
             if (ModelState.IsValid)
             {

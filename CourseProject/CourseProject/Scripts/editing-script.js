@@ -1,12 +1,12 @@
 ﻿$(function () {
     $(".save").click(function () {
-        var id = document.getElementById("Id");
+        var id = document.getElementById("SiteUrl");
         var htmlCode = document.documentElement.innerHTML.toString();
         alert("/sites/save/" + id.value);
         $.ajax({
             type: "POST",
-            url: "/sites/save/" + id.value,
-            data: htmlCode,
+            url: $() + id.value,
+            data: { contentHtml: htmlCode },
             datatype: "text",
             success: function (data) {
                 window.location.replace("/sites");
@@ -68,9 +68,8 @@ function clickHandler(e) {
 
 function openModal(modalType) {
     $.ajax({
-        url: "../Modal/GetModal",
-        method: "GET",
-        data: { modalType: modalType },
+        type: "GET",
+        url: "/modal/" + modalType,
         success: function (data) {
             $(".modal-content").html(data);
             fillModal(modalType);

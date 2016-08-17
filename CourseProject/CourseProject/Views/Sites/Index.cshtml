@@ -9,7 +9,7 @@
 }
 
 
-@if (Model.Author)
+@if (Model.IsAuthor)
 {
     <h2>@Resource.AuthorSites</h2>
 }
@@ -20,7 +20,7 @@ else
 
 
 <p>
-    @Html.ActionLink("Create New", "create")
+    @Html.ActionLink("Create New", "CreateSite")
 </p>
 <table class="table">
     <tr>
@@ -34,7 +34,7 @@ else
     </tr>
     @if (Model.Sites.Count > 0)
     {
-        if (Model.Author)
+        if (Model.IsAuthor)
         {
             Html.RenderPartial("SitesList/_Author", Model);
         }

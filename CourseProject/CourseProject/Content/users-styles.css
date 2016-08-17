@@ -1,11 +1,14 @@
 ﻿.main{
-    margin-top: 20px;
     padding: 0;
 }
 
 .main .nav{
     border-radius: 5px 5px;
     margin-bottom: 15px;
+}
+
+.navbar {
+    max-height: 52px;
 }
 
 /*///////////*/

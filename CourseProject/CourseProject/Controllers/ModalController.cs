@@ -10,7 +10,7 @@ namespace CourseProject.Controllers
     [Language]
     public class ModalController : Controller
     {
-        // GET: Modal
+       [Route("modal/{modalType}")]
         public ActionResult GetModal(string modalType)
         {
             string veiwName = "Modal" + modalType.Substring(0, 1).ToUpper() + modalType.Remove(0, 1);

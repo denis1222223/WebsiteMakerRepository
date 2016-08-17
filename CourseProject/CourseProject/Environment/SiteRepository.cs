@@ -14,22 +14,21 @@ namespace CourseProject.Environment
 
     public static class SitesRepository
     {
-        private static Dictionary<int, SiteInfo> sites = new Dictionary<int, SiteInfo>();
+        private static Dictionary<string, SiteInfo> sites = new Dictionary<string, SiteInfo>();
 
-        public static void Add(Site site, bool SiteExists)
+        public static void Add(Site site, bool SiteExists, string userName)
         {
             SiteInfo info = new SiteInfo();
             info.Site = site;
             info.SiteExists = SiteExists;
-            //закомментил потому что ни сайт создать, ни страницу обновить юез ошибки не получалось
-            //sites.Add(site.Id, info);      
+            sites.Add(userName + info.Site.Url, info);      
         }
 
-        public static Site GetSite(int? id)
+        public static Site GetSite(string id)
         {
-            if(id != null || sites.ContainsKey((int)id))
+            if(id != null || sites.ContainsKey(id))
             {
-                return sites[(int)id].Site;
+                return sites[id].Site;
             }
            else
             {
@@ -37,12 +36,12 @@ namespace CourseProject.Environment
             }
         }
 
-        public static bool Exists(int id)
+        public static bool Exists(string id)
         {
             return sites[id].SiteExists;
         }
 
-        public static void Remove(int id)
+        public static void Remove(string id)
         {
             sites.Remove(id);
         }

@@ -61,6 +61,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Добавить.
+        /// </summary>
+        public static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ваши сайты:.
         /// </summary>
         public static string AuthorSites {
@@ -81,9 +90,9 @@ namespace Resources {
         /// <summary>
         ///   Looks up a localized string similar to Создать.
         /// </summary>
-        public static string Create {
+        public static string CreateSite {
             get {
-                return ResourceManager.GetString("Create", resourceCulture);
+                return ResourceManager.GetString("CreateSite", resourceCulture);
             }
         }
         
@@ -93,6 +102,15 @@ namespace Resources {
         public static string CurrentLanguage {
             get {
                 return ResourceManager.GetString("CurrentLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Редактировать.
+        /// </summary>
+        public static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
             }
         }
         
@@ -183,6 +201,15 @@ namespace Resources {
         public static string MaxLengthError {
             get {
                 return ResourceManager.GetString("MaxLengthError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Параметры страницы.
+        /// </summary>
+        public static string ModalPageHeader {
+            get {
+                return ResourceManager.GetString("ModalPageHeader", resourceCulture);
             }
         }
         

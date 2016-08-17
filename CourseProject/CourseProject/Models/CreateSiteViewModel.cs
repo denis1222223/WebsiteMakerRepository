@@ -9,8 +9,6 @@ namespace CourseProject.Models
 {
     public class CreateSiteViewModel
     {
-        public int Id { get; set; }
-
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(Resource))]
         [MaxLength(20, ErrorMessageResourceName = "MaxLengthError", ErrorMessageResourceType = typeof(Resource))]
         [RegularExpression(@"^[A-Za-z0-9_-]+$", ErrorMessageResourceName = "CharactersError", ErrorMessageResourceType = typeof(Resource))]

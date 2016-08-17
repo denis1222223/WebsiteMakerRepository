@@ -22,6 +22,18 @@ namespace CourseProject
             );
 
             routes.MapRoute(
+                name: "Edit",
+                url: "{userName}/{siteUrl}/edit",
+                defaults: new { controller = "Sites", action = "EditSite" }
+            );
+
+            routes.MapRoute(
+                name: "Save",
+                url: "{userName}/{siteUrl}/save",
+                defaults: new { controller = "Sites", action = "SaveSite" }
+            );
+
+            routes.MapRoute(
                 name: "Profile",
                 url: "profile/{action}",
                 defaults: new { controller = "Manage", action = "Index" }
@@ -31,7 +43,7 @@ namespace CourseProject
                 name: "Account",
                 url: "account/{action}",
                 defaults: new { controller = "Account" }
-            );
+            );         
 
             routes.MapRoute(
                 name: "User",

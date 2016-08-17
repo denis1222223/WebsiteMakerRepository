@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Create" xml:space="preserve">
+  <data name="CreateSite" xml:space="preserve">
     <value>Создать</value>
   </data>
   <data name="CurrentLanguage" xml:space="preserve">
@@ -266,5 +266,14 @@
   </data>
   <data name="NoSites" xml:space="preserve">
     <value>еще не создал ни одного сайта.</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="ModalPageHeader" xml:space="preserve">
+    <value>Параметры страницы</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Добавить</value>
   </data>
 </root>

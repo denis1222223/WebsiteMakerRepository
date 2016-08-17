@@ -9,7 +9,7 @@ namespace CourseProject.Models
     public class UserSitesViewModel
     {
         public string UserName { get; set; }
-        public bool Author { get; set; }
+        public bool IsAuthor { get; set; }
         public List<Site> Sites { get; set; }
     }
 }

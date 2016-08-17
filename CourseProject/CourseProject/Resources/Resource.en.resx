@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Create" xml:space="preserve">
+  <data name="CreateSite" xml:space="preserve">
     <value>Create</value>
   </data>
   <data name="CurrentLanguage" xml:space="preserve">
@@ -244,13 +244,13 @@
     <value>Made with WebsiteMaker</value>
   </data>
   <data name="ModalPictureHeader" xml:space="preserve">
-    <value>Pictrue setting</value>
+    <value>Pictrue settings</value>
   </data>
   <data name="ModalTextHeader" xml:space="preserve">
-    <value>Text setting</value>
+    <value>Text settings</value>
   </data>
   <data name="ModalVideoHeader" xml:space="preserve">
-    <value>Video setting</value>
+    <value>Video settings</value>
   </data>
   <data name="UrlCharactersError" xml:space="preserve">
     <value>Valid characters: 'a' - 'z', '0' - '9', '_' and '-'</value>
@@ -266,5 +266,14 @@
   </data>
   <data name="NoSites" xml:space="preserve">
     <value>has not created any website yet.</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="ModalPageHeader" xml:space="preserve">
+    <value>Page settings</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
   </data>
 </root>
