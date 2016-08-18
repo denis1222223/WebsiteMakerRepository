@@ -1,13 +1,14 @@
 ﻿$(function () {
     $(".save").click(function () {
-        var contentHtml = document.documentElement.innerHTML.toString();
+        var contentJson = getContentJSON();
+        var menuJson = getMenuJSON();
         $.ajax({
-            type: 'post',
-            dataType: 'text',
-            url: '../save',
-            data: { 'code': contentHtml },
-            success: function () {
-                window.location.replace("../../all");
+            type: 'POST',
+            dataType: 'json',
+            url: 'save',
+            data: {
+                'contentJson': contentJson,
+                'menuJson': menuJson
             }
         });
     });

@@ -373,6 +373,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\save-script.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Account\DisplayEmail.cshtml" />
     <Content Include="Views\Sites\SitesList\_User.cshtml" />
