@@ -1,15 +1,13 @@
 ﻿$(function () {
     $(".save").click(function () {
-        var id = document.getElementById("SiteUrl");
-        var htmlCode = document.documentElement.innerHTML.toString();
-        alert("/sites/save/" + id.value);
+        var contentHtml = document.documentElement.innerHTML.toString();
         $.ajax({
-            type: "POST",
-            url: $() + id.value,
-            data: { contentHtml: htmlCode },
-            datatype: "text",
-            success: function (data) {
-                window.location.replace("/sites");
+            type: 'post',
+            dataType: 'text',
+            url: '../save',
+            data: { 'code': contentHtml },
+            success: function () {
+                window.location.replace("../../all");
             }
         });
     });

@@ -10,7 +10,7 @@ namespace CourseProject.Models.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
-        public string ContentHtml { get; set; }
+        public string ContentJson { get; set; }
         public Site Site { get; set; }
     }
 }

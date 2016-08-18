@@ -12,6 +12,7 @@ using CourseProject.Models.Entities;
 using CourseProject.Environment;
 using System.IO;
 using Resources;
+using Newtonsoft.Json.Linq;
 
 namespace CourseProject.Controllers
 {
@@ -126,12 +127,12 @@ namespace CourseProject.Controllers
 
         private void FillSiteModel(Site site)
         {
-            Page mainPage = new Page { Name = Resource.Home, Url = mainPageUrl, ContentHtml = RenderRazorViewToString("Template/GenerateTemplate", null) };
+            Page mainPage = new Page { Name = Resource.Home, Url = mainPageUrl, ContentJson = RenderRazorViewToString("Template/GenerateTemplate", null) };
             TagsParser parser = new TagsParser(db);
             site.Tags = parser.Parse(Request.Form["Tags"]);
             site.AuthorId = User.Identity.GetUserId();
             site.Pages.Add(mainPage);
-            site.MenuHtml = RenderRazorViewToString("Menu/GenerateMenu", null);
+            site.MenuJson = RenderRazorViewToString("Menu/GenerateMenu", null);
             SitesRepository.Add(site, false, User.Identity.Name);
         }
 
@@ -171,11 +172,10 @@ namespace CourseProject.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult SaveSite(string userName, string siteUrl, string contentHtml)
-        {           
+        public ActionResult SaveSite(string userName, string siteUrl, string code)
+        {
             if (CheckCurrentUser(userName))
             {
-                //  id не существует в текущем контексте. не компилилось
                 //Site site = SitesRepository.GetSite(userName + siteUrl);
                 //if (site == null)
                 //{
@@ -237,9 +237,9 @@ namespace CourseProject.Controllers
         private EditViewModel CreateEditViewModel(Site site, string pageUrl)
         {
             EditViewModel editModel = new EditViewModel();
-            editModel.MenuHtml = site.MenuHtml;
+            editModel.MenuHtml = site.MenuJson;
             editModel.Theme = site.Theme;
-            editModel.ContentHtml = site.Pages.FirstOrDefault(page => page.Url == pageUrl).ContentHtml;
+            editModel.ContentHtml = site.Pages.FirstOrDefault(page => page.Url == pageUrl).ContentJson;
             editModel.SiteUrl = site.Url;
             return editModel;
         }
