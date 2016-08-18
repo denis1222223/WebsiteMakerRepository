@@ -64,16 +64,15 @@
     </div>
 
     <script>
-        var contentJson = @Html.Raw(Model.ContentJson);
-        var menuJson = @Html.Raw(Model.MenuJson);
-        alert(contentJson);
-        alert(menuJson);
+        var contentJSON = @Html.Raw(Model.ContentJson);
+        var menuJSON = @Html.Raw(Model.MenuJson);
     </script>
 
     @Scripts.Render("~/bundles/jquery")
     <script src="~/Scripts/mediaelement/mediaelement-and-player.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.12.0.min.js"></script>
     <script src="~/Scripts/jquery.cropit.js"></script>
+    @Scripts.Render("~/Scripts/fill-script.js")
     @Scripts.Render("~/Scripts/editing-script.js")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/bootstrap")
