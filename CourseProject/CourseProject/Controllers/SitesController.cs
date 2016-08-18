@@ -13,6 +13,8 @@ using CourseProject.Environment;
 using System.IO;
 using Resources;
 using Newtonsoft.Json.Linq;
+using CourseProject.Models.JsonModels;
+using Newtonsoft.Json;
 
 namespace CourseProject.Controllers
 {
@@ -117,22 +119,11 @@ namespace CourseProject.Controllers
             return View();
         }
 
-        private void FillCreateViewBag()
-        {
-            ViewBag.Theme = Request.Form["Theme"];
-            ViewBag.horizontalMenu = horizontalMenuCheck[Request.Form["Menu"]];
-            ViewBag.verticalMenu = verticalMenuCheck[Request.Form["Menu"]];
-            ViewBag.Template = Request.Form["Template"];
-        }
-
         private void FillSiteModel(Site site)
-        {
-            Page mainPage = new Page { Name = Resource.Home, Url = mainPageUrl, ContentJson = RenderRazorViewToString("Template/GenerateTemplate", null) };
+        { 
             TagsParser parser = new TagsParser(db);
             site.Tags = parser.Parse(Request.Form["Tags"]);
             site.AuthorId = User.Identity.GetUserId();
-            site.Pages.Add(mainPage);
-            site.MenuJson = RenderRazorViewToString("Menu/GenerateMenu", null);
             SitesRepository.Add(site, false, User.Identity.Name);
         }
 
@@ -144,12 +135,56 @@ namespace CourseProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                FillCreateViewBag();
+                CreateJsonModels(site);
                 FillSiteModel(site);
                 return new RedirectResult(User.Identity.Name + 
                     '/' + site.Url + '/' + mainPageUrl + '/' + "edit");
             }
             return View(site);
+        }
+
+        private void CreateJsonModels(Site site)
+        {
+            GenerateMenuJson(site);
+            GenerateContentJson(site);
+        }
+
+        private void GenerateContentJson(Site site)
+        {
+            ContentJsonModel content = new ContentJsonModel();
+            content.ContentTemplate = Request.Form["Template"];
+            Page mainPage = new Page { Name = Resource.Home, Url = mainPageUrl, ContentJson = JsonConvert.SerializeObject(content) };
+            site.Pages.Add(mainPage);
+        }
+
+        private void GenerateMenuJson(Site site)
+        {
+            MenuJsonModel menu = new MenuJsonModel();
+            menu.HorizontalMenuExist = horizontalMenuCheck[Request.Form["Menu"]];
+            menu.VerticalMenuExist = verticalMenuCheck[Request.Form["Menu"]];
+            AddHomeToMenu(menu, site.Url);
+            site.MenuJson = JsonConvert.SerializeObject(menu);
+        }
+
+        private void AddHomeToMenu(MenuJsonModel menu, string siteUrl)
+        {
+            if (menu.HorizontalMenuExist)
+            {
+                menu.HorizontalMenu.Add(new MenuItemJsonModel
+                {
+                    Title = Resource.Home,
+                    Link = User.Identity.GetUserName() + '/' + siteUrl + '/' + mainPageUrl
+                });
+            }
+            else
+                if (menu.VerticalMenuExist)
+            {
+                menu.VerticalMenu.Add(new MenuItemJsonModel
+                {
+                    Title = Resource.Home,
+                    Link = User.Identity.GetUserName() + '/' + siteUrl + '/' + mainPageUrl
+                });
+            }
         }
 
         [HttpPost]
@@ -237,9 +272,9 @@ namespace CourseProject.Controllers
         private EditViewModel CreateEditViewModel(Site site, string pageUrl)
         {
             EditViewModel editModel = new EditViewModel();
-            editModel.MenuHtml = site.MenuJson;
+            editModel.MenuJson = site.MenuJson;
             editModel.Theme = site.Theme;
-            editModel.ContentHtml = site.Pages.FirstOrDefault(page => page.Url == pageUrl).ContentJson;
+            editModel.ContentJson = site.Pages.FirstOrDefault(page => page.Url == pageUrl).ContentJson;
             editModel.SiteUrl = site.Url;
             return editModel;
         }
@@ -255,7 +290,8 @@ namespace CourseProject.Controllers
                     return new RedirectResult(userName + '/' + siteUrl + "/edit");
                 }
                 EditViewModel editModel = CreateEditViewModel(site, pageUrl);
-                if(editModel.ContentHtml == null)
+                FillEditViewBag(site, editModel);
+                if(editModel.ContentJson == null)
                 {
                     return HttpNotFound();
                 }
@@ -265,6 +301,14 @@ namespace CourseProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
+        }
+
+        private void FillEditViewBag(Site site, EditViewModel editModel)
+        {
+            JToken token = JObject.Parse(site.MenuJson);
+            ViewBag.horizontalMenu = token.SelectToken("horizontal_menu_exist");
+            ViewBag.verticalMenu = token.SelectToken("vertical_menu_exist");
+            ViewBag.Template = JObject.Parse(editModel.ContentJson).SelectToken("content_template");
         }
 
         [Authorize]

@@ -19,13 +19,22 @@
     @Styles.Render("~/Content/" + Model.Theme as string + ".css")
 </head>
 <body>
-    @Html.HiddenFor(model => model.SiteUrl, new { Value = Model.SiteUrl })
+    @*Html.HiddenFor(model => model.SiteUrl, new { Value = Model.SiteUrl })*@
     <div class="main container-fluid">
         <div class="menu">
-            @Html.Raw(Model.MenuHtml)
+            @if ((bool)ViewBag.horizontalMenu)
+            {
+                Html.RenderPartial("Menu/_HorizontalMenu");
+            }
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                @if ((bool)ViewBag.verticalMenu)
+                {
+                    Html.RenderPartial("Menu/_VerticalMenu");
+                }
+            </div>
         </div>
         <div class="container content col-lg-8 col-md-8 col-sm-8 col-xs-9">
-            @Html.Raw(Model.ContentHtml)
+            @Html.Partial("Template/_" + ViewBag.Template as string)
         </div>
         <div class="container" id="toolbar">
             <button type="button" class="btn btn-danger delete">Delete</button>
@@ -53,6 +62,13 @@
 
         </div>
     </div>
+
+    <script>
+        var contentJson = @Html.Raw(Model.ContentJson);
+        var menuJson = @Html.Raw(Model.MenuJson);
+        alert(contentJson);
+        alert(menuJson);
+    </script>
 
     @Scripts.Render("~/bundles/jquery")
     <script src="~/Scripts/mediaelement/mediaelement-and-player.min.js"></script>

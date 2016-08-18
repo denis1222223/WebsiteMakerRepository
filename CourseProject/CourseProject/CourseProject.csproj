@@ -239,6 +239,10 @@
     <Compile Include="Models\Entities\Site.cs" />
     <Compile Include="Models\Entities\Tag.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\JsonModels\ContentItemJsonModel.cs" />
+    <Compile Include="Models\JsonModels\ContentJsonModel.cs" />
+    <Compile Include="Models\JsonModels\MenuItemJsonModel.cs" />
+    <Compile Include="Models\JsonModels\MenuJsonModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\UserSitesViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
