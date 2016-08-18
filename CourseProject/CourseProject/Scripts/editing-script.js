@@ -22,9 +22,9 @@ $('#toolbar').draggable({
     axis: "y"
 });
 
-var toolMarkupPicture = $("<li class='picture item sortable list-group-item ui-draggable ui-draggable-handle'><img src='http://res.cloudinary.com/website-maker/image/upload/v1471180013/toolbar/picture.png'></li>")
-var toolMarkupVideo = $("<li class='video item sortable list-group-item ui-draggable ui-draggable-handle'><img src='http://res.cloudinary.com/website-maker/image/upload/v1471180013/toolbar/video.png'></li>")
-var toolMarkupText = $("<li class='text item sortable list-group-item ui-draggable ui-draggable-handle'><img src='http://res.cloudinary.com/website-maker/image/upload/v1471180013/toolbar/text.png'></li>")
+var toolMarkupPicture = $("<li class='picture item sortable list-group-item'><img src='http://res.cloudinary.com/website-maker/image/upload/v1471180013/toolbar/picture.png'></li>")
+var toolMarkupVideo = $("<li class='video item sortable list-group-item'><img src='http://res.cloudinary.com/website-maker/image/upload/v1471180013/toolbar/video.png'></li>")
+var toolMarkupText = $("<li class='text item sortable list-group-item'><img src='http://res.cloudinary.com/website-maker/image/upload/v1471180013/toolbar/text.png'></li>")
 
 function initializeTool(toolType, markup) {
     $(toolType).draggable( {
@@ -50,7 +50,6 @@ initializeTool('#toolText', toolMarkupText);
 
 $('.templateArea').sortable({
     connectWith: '.templateArea',
-    containment: "html",
     stop: function () {
         $('.templateArea').removeClass("dragging-active");
     },
@@ -79,6 +78,12 @@ function openModal(modalType) {
 }
 
 function fillModal(modalType) {
+    switch (modalType) {
+        case 'text': { fillText(); break; }
+    }  
+}
+
+function fillText() {
     $('#modalTextarea').val($("#active").text());
 }
 
@@ -91,25 +96,25 @@ function buttonOK() {
     $('#active').width("").height("");
     $('#active').css("border", "none");
     $('#active').css("background-color", "transparent");
-
-    // $('#active').height(300);
     var itemType = $('#active')[0].classList[0];
     switch (itemType) {
         case 'text': { setText(); break; }
         case 'video': { setVideo(); break; }
+        case 'picture': { setPicture(); break; }
     }
 };
 
 function setText() {
     var newText = $('#modalTextarea').val();
-    $('#active').html("<div style='col-md-12 col-lg-12 col-sm-12 col-xs-12'><p>" + newText + "</p></div>");
+    $('#active').html("<div><p>" + newText + "</p></div>");
+}
+
+function setPicture() {
+    $('.export').click();
 }
 
 function setVideo() {
-    $('#active').html(
-    "<video id='youtube1' width='100%' '><source src='' type='video/youtube' ></video>"
-    );
- //   $('#youtube1').
-    $('#active').children('video').children('source').attr("src", $('#modalVideo').val());
-    $('#youtube1').mediaelementplayer();
+    var video = $("<video id='video' width='100%' height='320px'><source src='" + $('#modalVideo').val() + "'type='video/youtube' ></video>");
+    $('#active').html(video.prop('outerHTML'));
+    $('#active').children('#video').mediaelementplayer();
 }

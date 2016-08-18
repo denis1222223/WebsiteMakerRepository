@@ -222,6 +222,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ModalController.cs" />
     <Compile Include="Controllers\SitesController.cs" />
+    <Compile Include="Environment\Base64Decoder.cs" />
     <Compile Include="Environment\CloudinaryInitializer.cs" />
     <Compile Include="Environment\SiteRepository.cs" />
     <Compile Include="Filters\LanguageAttribute.cs" />
@@ -332,6 +333,7 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.12.0.js" />
     <Content Include="Scripts\jquery-ui-1.12.0.min.js" />
+    <Content Include="Scripts\jquery.cropit.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />

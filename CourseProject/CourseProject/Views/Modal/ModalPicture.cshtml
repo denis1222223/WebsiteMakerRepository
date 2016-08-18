@@ -2,5 +2,80 @@
     ViewBag.ModalHeader = Resources.Resource.ModalPictureHeader;
     Layout = "~/Views/Modal/ModalLayout.cshtml";
 }
+<div class="row">
+    <div class="image-editor">
+        <input id="browse" type="file" class="cropit-image-input">
+        <div class="cropit-preview"></div>
+        <input type="range" class="cropit-image-zoom-input" width:250px >
+       
+    </div>
+</div>
+<button class="export" hidden>Export</button>
 
-<p>Картинка</p>
+<script>
+    function dropImage(picUrl) {
+        $('.image-editor').cropit({
+            minZoom: 'fill',
+            maxZoom: 3,
+            initialZoom: 'image',
+            smallImage: 'allow',
+            imageState: {
+                src: picUrl
+            }
+        });
+    }
+
+    function uploadPicture(imageData) {
+        $.ajax({
+            url: "/uploadPicture/",
+            method: "POST",
+            data: { pictureDataUrl: imageData },
+            success: function (data) {
+                $('#active').html("<img src='" + data + "' />");
+            }
+        });
+    }
+
+    dropImage('https://pp.vk.me/c635100/v635100070/34104/CovzgnW9Pmk.jpg');
+
+    $('.export').click(function () {
+        var imageData = $('.image-editor').cropit('export', {
+            type: 'image/jpeg',
+            quality: .75
+        });
+        uploadPicture(imageData);
+    });
+
+    $('.cropit-preview').resizable({
+        containment: '.image-editor',
+        stop: function () {
+            $('.image-editor').cropit('previewSize', {
+                width: $('.cropit-preview').width(),
+                height: $('.cropit-preview').height()
+            });
+        }
+    });
+
+    function showPreview(file) {
+
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            getSrcLink(e.target.result);
+        }
+        reader.readAsDataURL(file);
+    }
+
+    function getSrcLink(dataURL) {
+        $.ajax({
+            url: "../Modal/GetPreviewReferense",
+            method: "POST",
+            data: { pictureDataUrl: dataURL },
+            success: function (data) {
+
+                console.log("loaded");
+                //        resetImage();
+                dropImage(data);
+            }
+        });
+    }
+</script>

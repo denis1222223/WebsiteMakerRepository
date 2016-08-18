@@ -175,21 +175,22 @@ namespace CourseProject.Controllers
         {           
             if (CheckCurrentUser(userName))
             {
-                Site site = SitesRepository.GetSite(userName + siteUrl);
-                if (site == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                //site.HtmlCode = GetHtml();
-                if (SitesRepository.Exists(id))
-                {
-                    UpdateSite(site);
-                }
-                else
-                {
-                    CreateSiteInDb(site);
-                }
-                SitesRepository.Remove(id);
+                //  id не существует в текущем контексте. не компилилось
+                //Site site = SitesRepository.GetSite(userName + siteUrl);
+                //if (site == null)
+                //{
+                //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //}
+                ////site.HtmlCode = GetHtml();
+                //if (SitesRepository.Exists(id))
+                //{
+                //    UpdateSite(site);
+                //}
+                //else
+                //{
+                //    CreateSiteInDb(site);
+                //}
+                //SitesRepository.Remove(id);
                 return new HttpStatusCodeResult(HttpStatusCode.OK);
             }
             else
@@ -202,21 +203,22 @@ namespace CourseProject.Controllers
         [Authorize]
         public ActionResult Save(string userName, string siteUrl)
         {
-            Site site = SitesRepository.GetSite(userName + siteUrl);
-            if (site == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            //site.HtmlCode = GetHtml();
-            if (SitesRepository.Exists(id))
-            {
-                UpdateSite(site);
-            }
-            else
-            {
-                CreateSiteInDb(site);
-            }
-            SitesRepository.Remove(id);
+            //  id не существует в текущем контексте. не компилилось
+            //Site site = SitesRepository.GetSite(userName + siteUrl);
+            //if (site == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            ////site.HtmlCode = GetHtml();
+            //if (SitesRepository.Exists(id))
+            //{
+            //    UpdateSite(site);
+            //}
+            //else
+            //{
+            //    CreateSiteInDb(site);
+            //}
+            //SitesRepository.Remove(id);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
@@ -326,6 +328,21 @@ namespace CourseProject.Controllers
             db.Sites.Remove(site);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [Route("uploadPicture")]
+        public string UploadPicture(string pictureDataUrl)
+        {
+            var binData = new Base64Decoder().Decode(pictureDataUrl);
+            using (var stream = new MemoryStream(binData))
+            {
+                var result = CloudinaryInitializer.Cloudinary.Upload(new CloudinaryDotNet.Actions.ImageUploadParams()
+                {
+                    File = new CloudinaryDotNet.Actions.FileDescription("pic", stream),
+                    Folder = "content",
+                });
+                return result.SecureUri.ToString();
+            }
         }
 
         protected override void Dispose(bool disposing)
