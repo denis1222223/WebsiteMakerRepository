@@ -280,6 +280,7 @@ C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bi
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\Microsoft.AI.WindowsServer.xml
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\Microsoft.ApplicationInsights.xml
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\Newtonsoft.Json.xml
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\System.Net.Http.Formatting.xml
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\System.Web.Http.xml
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\System.Web.Http.WebHost.xml
@@ -291,7 +292,6 @@ C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bi
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\System.Web.WebPages.Deployment.xml
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\System.Web.WebPages.Razor.xml
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\Antlr3.Runtime.pdb
-C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\Newtonsoft.Json.xml
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\EntityFramework.xml
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\EntityFramework.SqlServer.xml
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\Microsoft.AspNet.Identity.Core.xml

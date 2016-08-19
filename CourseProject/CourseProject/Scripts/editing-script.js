@@ -7,8 +7,8 @@
             dataType: 'json',
             url: '',
             data: {
-                'contentJson': contentJson,
-                'menuJson': menuJson
+                'contentJson': JSON.stringify(contentJson),
+                'menuJson': JSON.stringify(menuJson)
             }
         });
     });
@@ -28,7 +28,7 @@ $(function () {
         var link = $(this).attr('href');
         event.preventDefault();
         SavePage();
-        $(location).attr('href', '/' + link + '/edit');
+        $(location).attr('href', link + '/edit');
     });
 });
 
@@ -62,9 +62,9 @@ $('#toolbar').draggable({
     axis: "y"
 });
 
-var toolMarkupPicture = $("<li class='picture item sortable list-group-item'><img src='http://res.cloudinary.com/website-maker/image/upload/v1471180013/toolbar/picture.png'></li>")
-var toolMarkupVideo = $("<li class='video item sortable list-group-item'><img src='http://res.cloudinary.com/website-maker/image/upload/v1471180013/toolbar/video.png'></li>")
-var toolMarkupText = $("<li class='text item sortable list-group-item'><img src='http://res.cloudinary.com/website-maker/image/upload/v1471180013/toolbar/text.png'></li>")
+var toolMarkupPicture = $("<li class='picture item sortable list-group-item' style='width: 100px;'><img src='http://res.cloudinary.com/website-maker/image/upload/v1471180013/toolbar/picture.png'></li>")
+var toolMarkupVideo = $("<li class='video item sortable list-group-item' style='width: 100px;'><img src='http://res.cloudinary.com/website-maker/image/upload/v1471180013/toolbar/video.png'></li>")
+var toolMarkupText = $("<li class='text item sortable list-group-item' style='width: 100px;'><img src='http://res.cloudinary.com/website-maker/image/upload/v1471180013/toolbar/text.png'></li>")
 
 function initializeTool(toolType, markup) {
     $(toolType).draggable( {

@@ -66,7 +66,7 @@ function getMenuItemsJSON(menuId) {
     var items = [];
     $.each($('#' + menuId).find('.menu-item'), function (i, item) {
         var menuItem = {};
-        menuItem["link"] = $(item).prop("href");
+        menuItem["link"] = $(item).attr("href");
         menuItem["title"] = $(item).text();
         items.push(menuItem);
     });

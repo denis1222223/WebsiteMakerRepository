@@ -179,7 +179,7 @@ namespace CourseProject.Controllers
                 menu.HorizontalMenu.Add(new MenuItemJsonModel
                 {
                     Title = Resource.Home,
-                    Link = User.Identity.GetUserName() + '/' + siteUrl + '/' + mainPageUrl
+                    Link = '/' + User.Identity.GetUserName() + '/' + siteUrl + '/' + mainPageUrl
                 });
             }
             else
