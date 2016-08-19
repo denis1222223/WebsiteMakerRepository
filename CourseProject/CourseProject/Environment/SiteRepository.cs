@@ -44,7 +44,10 @@ namespace CourseProject.Environment
 
         public static void Remove(string id)
         {
-            sites.Remove(id);
+            if (id != null && sites.ContainsKey(id))
+            {
+                sites.Remove(id);
+            }
         }
 
     }

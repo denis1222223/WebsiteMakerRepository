@@ -19,7 +19,7 @@
     @Styles.Render("~/Content/" + Model.Theme as string + ".css")
 </head>
 <body>
-    @*Html.HiddenFor(model => model.SiteUrl, new { Value = Model.SiteUrl })*@
+    @Html.AntiForgeryToken()
     <div class="main container-fluid">
         <div class="menu">
             @if ((bool)ViewBag.horizontalMenu)
@@ -64,9 +64,9 @@
     </div>
 
     <script>
+        var homePageDeletionError = "@Resource.HomePageDeletionError";
         var contentJSON = @Html.Raw(Model.ContentJson);
         var menuJSON = @Html.Raw(Model.MenuJson);
-        console.log(menuJSON);
     </script>
 
     @Scripts.Render("~/bundles/jquery")

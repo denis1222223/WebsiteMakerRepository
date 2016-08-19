@@ -15,7 +15,6 @@ function fillMenu() {
 
 function addMenuItems(items, menu) {
     $.each(items, function (i, item) {
-        console.log(item);
         $(menu).find('.add').before("<li><a href='" + item.link + "' class='menu-item' >" + item.title + "</a></li>");
     })
 }

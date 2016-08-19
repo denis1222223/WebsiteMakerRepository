@@ -1,4 +1,37 @@
-﻿$(function () {
+﻿mainPageUrl = 'main';
+
+$(function () {
+    $(".delete").click(function () {
+        var page = $(location).attr('href').split("/")[5];
+        if (page != mainPageUrl)
+        {
+            var url = location.pathname,
+            shortUrl = url.substring(0, url.lastIndexOf("/"));
+            var link = $('a[href="' + shortUrl + '"]');
+            link.parent().remove();
+            deletePage();
+            $(location).attr('href', '../' + mainPageUrl +'/edit');
+        }
+        else
+            alert(page);
+    });
+});
+
+function deletePage() {
+    var menuJson = getMenuJSON();
+    var token = $('[name=__RequestVerificationToken]').val();
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: 'delete',
+        data: {
+            __RequestVerificationToken: token,
+            'menuJson': JSON.stringify(menuJson)
+        },
+    });
+}
+
+$(function () {
     $(".save").click(function () {
         savePage();
     });
@@ -12,10 +45,11 @@ $(function () {
             dataType: 'json',
             url: '../edit',
             data: {
+                'pageUrl': $(location).attr('href').split("/")[5],
                 'contentJson': JSON.stringify(contentJson)
             },
         });
-        $(location).attr("href", "../../all");
+        $(location).attr('href', "../../all");
     });
 });
 

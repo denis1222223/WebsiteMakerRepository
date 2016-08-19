@@ -276,4 +276,10 @@
   <data name="Add" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="HomePageDeletionError" xml:space="preserve">
+    <value>You can't delete the main page</value>
+  </data>
 </root>

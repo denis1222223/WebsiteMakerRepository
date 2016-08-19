@@ -20,15 +20,18 @@ else
 
 
 <p>
-    @Html.ActionLink("Create New", "CreateSite")
+    @Html.ActionLink(Resource.CreateSite, "CreateSite")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayName("Name")
+            @Html.DisplayName(@Resource.Name)
         </th>
         <th>
-            @Html.DisplayName("Rating")
+            @Html.DisplayName(@Resource.Rating)
+        </th>
+        <th>
+            @Html.DisplayName("URL")
         </th>
         <th></th>
     </tr>

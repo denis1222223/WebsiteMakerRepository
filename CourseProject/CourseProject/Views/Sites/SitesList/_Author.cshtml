@@ -11,9 +11,12 @@
             @Html.DisplayFor(modelItem => item.Rating)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.Url)
+        </td>
+        <td>
             <a href=@('/' + Model.UserName + "/" + item.Url + "/edit")>@Resource.Edit</a> |
             @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            <a href=@('/' + Model.UserName + "/" + item.Url + "/delete")>@Resource.Delete</a>
         </td>
     </tr>
 }

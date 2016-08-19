@@ -140,14 +140,15 @@ namespace CourseProject.Controllers
                 return new RedirectResult(User.Identity.Name +
                     '/' + site.Url + '/' + mainPageUrl + '/' + "edit");
             }
-            return View(site);
+            return View(new CreateSiteViewModel());
         }
 
         private void CheckSiteUrl(Site newSite)
         {
-            var user = FindUserInDb(User.Identity.Name);
-            if (user.Sites.FirstOrDefault(site => site.Url == newSite.Url) != null)
-            {
+            if (db.Sites.Include(site => site.Author)
+                    .Where(site => site.Url == newSite.Url && site.Author.UserName == User.Identity.Name)
+                    .FirstOrDefault() != null)
+            { 
                 newSite.Url += "1";
             }
         }
@@ -197,7 +198,7 @@ namespace CourseProject.Controllers
                 menu.VerticalMenu.Add(new MenuItemJsonModel
                 {
                     Title = Resource.Home,
-                    Link = User.Identity.GetUserName() + '/' + siteUrl + '/' + mainPageUrl
+                    Link = '/' + User.Identity.GetUserName() + '/' + siteUrl + '/' + mainPageUrl
                 });
             }
         }
@@ -306,7 +307,7 @@ namespace CourseProject.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult EditSite(string userName, string siteUrl, string contentJson)
+        public ActionResult EditSite(string userName, string siteUrl, string pageUrl, string contentJson)
         {
             if (CheckCurrentUser(userName))
             {
@@ -316,7 +317,7 @@ namespace CourseProject.Controllers
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-                SaveJson(site, mainPageUrl, contentJson, null);
+                SaveJson(site, pageUrl, contentJson, null);
                 PutSiteToDb(site, siteId);
                 SitesRepository.Remove(siteId);
                 return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -347,7 +348,11 @@ namespace CourseProject.Controllers
             }
             if (!String.IsNullOrEmpty(contentJson))
             {
-                site.Pages.FirstOrDefault(page => page.Url == pageUrl).ContentJson = contentJson;
+                Page savedPage = site.Pages.FirstOrDefault(page => page.Url == pageUrl);
+                if (savedPage != null)
+                {
+                    savedPage.ContentJson = contentJson;
+                }
             }
         }
 
@@ -383,30 +388,69 @@ namespace CourseProject.Controllers
             }
         }
 
-        // GET: Sites/Delete/5
         [Authorize]
-        public ActionResult Delete(int? id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(string userName, string siteUrl, string pageUrl, string menuJson)
         {
-            if (id == null)
+            Site deletedPageSite = SitesRepository.GetSite(userName + siteUrl);
+            if (deletedPageSite != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                deletedPageSite.MenuJson = menuJson;               
+                DeletePageFromSite(deletedPageSite, pageUrl);
             }
-            Site site = db.Sites.Find(id);
-            if (site == null)
-            {
-                return HttpNotFound();
-            }
-            return View(site);
+            return new HttpStatusCodeResult(HttpStatusCode.OK); ;
         }
 
-        // POST: Sites/Delete/5
-        [Authorize]
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        private void DeletePageFromSite(Site deletedPageSite, string pageUrl)
         {
-            Site site = db.Sites.Find(id);
-            db.Sites.Remove(site);
+            Page deletedPage = deletedPageSite.Pages.FirstOrDefault(page => page.Url == pageUrl);
+            if (deletedPage != null)
+            {
+                deletedPageSite.Pages.Remove(deletedPage);
+                if (db.Pages.FirstOrDefault(page => page.Url == deletedPage.Url) !=null )
+                {
+                    db.Pages.Remove(deletedPage);
+                }
+            }
+        }
+
+        [Authorize]
+        public ActionResult DeleteSite(string userName, string siteUrl)
+        {
+            if (CheckCurrentUser(userName))
+            {
+                Site deletedSite = db.Sites.Include(site => site.Author)
+                    .Where(site => site.Url == siteUrl && site.Author.UserName == userName)
+                    .FirstOrDefault();
+                SitesRepository.Remove(deletedSite.Author.UserName + deletedSite.Url);
+                if (deletedSite == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(CreateDeleteSiteViewModel(deletedSite));
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+        }
+
+        private DeleteSiteViewModel CreateDeleteSiteViewModel(Site deletedSite)
+        {
+            DeleteSiteViewModel viewModel = new DeleteSiteViewModel();
+            viewModel.Name = deletedSite.Name;
+            viewModel.Url = deletedSite.Url;
+            viewModel.Rating = deletedSite.Rating;
+            return viewModel;
+        }
+
+        [Authorize]
+        [HttpPost, ActionName("DeleteSite")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(string userName, string siteUrl)
+        {
+            Site deletedSite = db.Sites.Include(site => site.Author)
+                   .Where(site => site.Url == siteUrl && site.Author.UserName == userName)
+                   .FirstOrDefault();
+            db.Sites.Remove(deletedSite);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -276,4 +276,10 @@
   <data name="Add" xml:space="preserve">
     <value>Добавить</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="HomePageDeletionError" xml:space="preserve">
+    <value>Вы не можете удалить главную страницу.</value>
+  </data>
 </root>

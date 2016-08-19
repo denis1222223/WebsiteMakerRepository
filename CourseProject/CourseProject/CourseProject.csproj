@@ -233,6 +233,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CreatePageViewModel.cs" />
     <Compile Include="Models\CreateSiteViewModel.cs" />
+    <Compile Include="Models\DeleteSiteViewModel.cs" />
     <Compile Include="Models\EditViewModel.cs" />
     <Compile Include="Models\Entities\Comment.cs" />
     <Compile Include="Models\Entities\Page.cs" />
@@ -412,7 +413,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Sites\CreateSite.cshtml" />
-    <Content Include="Views\Sites\Delete.cshtml" />
+    <Content Include="Views\Sites\DeleteSite.cshtml" />
     <Content Include="Views\Sites\Details.cshtml" />
     <Content Include="Views\Sites\Edit.cshtml" />
     <Content Include="Views\Sites\Index.cshtml" />
