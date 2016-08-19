@@ -5,7 +5,7 @@
         $.ajax({
             type: 'POST',
             dataType: 'json',
-            url: 'save',
+            url: '',
             data: {
                 'contentJson': contentJson,
                 'menuJson': menuJson
@@ -13,6 +13,47 @@
         });
     });
 });
+
+function SavePage() {
+    $.ajax({
+        type: 'post',
+        dataType: 'json',
+        url: '',
+        data: { 'contentJson': null, 'menuJson': null },
+    });
+}
+
+$(function () {
+    $(".menu-item").click(function () {
+        var link = $(this).attr('href');
+        event.preventDefault();
+        SavePage();
+        $(location).attr('href', '/' + link + '/edit');
+    });
+});
+
+$(function () {
+    $(".add").click(function () {
+        event.preventDefault();
+        openModal('page');
+    });
+});
+
+function submitForm() {
+    var pageForm = $('#createForm');
+    $.validator.unobtrusive.parse(pageForm);
+    pageForm.validate();
+    var newPage = $('#Url').val();
+    pageForm.attr('action', '../' + newPage + '/create');
+    pageForm.submit();
+    return newPage;
+}
+
+function createPage() {
+    SavePage();
+    var newPage = submitForm();
+    $(this).attr('data-dismiss', "modal");
+}
 
 //////////////////////////
 

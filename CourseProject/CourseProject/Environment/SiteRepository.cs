@@ -21,16 +21,16 @@ namespace CourseProject.Environment
             SiteInfo info = new SiteInfo();
             info.Site = site;
             info.SiteExists = SiteExists;
-            sites.Add(userName + info.Site.Url, info);      
+            sites.Add(userName + info.Site.Url, info);
         }
 
         public static Site GetSite(string id)
         {
-            if(id != null || sites.ContainsKey(id))
+            if (id != null && sites.ContainsKey(id))
             {
                 return sites[id].Site;
             }
-           else
+            else
             {
                 return null;
             }

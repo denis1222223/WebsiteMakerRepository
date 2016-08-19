@@ -2,6 +2,7 @@
 @using Resources
 @{
     ViewBag.ModalHeader = Resources.Resource.ModalPageHeader;
+    Layout = null;
 }
 
 <div class="modal-header">
@@ -9,8 +10,8 @@
     <h4 class="modal-title">@ViewBag.ModalHeader</h4>
 </div>
 <div class="modal-body">
-    <form class="create-form col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4"
-          id="createForm" method="post" action=@User.Identity.Name role="form">
+    <form class="create-form"
+          id="createForm" method="post" action="/" role="form">
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -41,7 +42,9 @@
             </div>
         </div>
     </form>
-    </div>
-<div class="modal-footer">
-    <button class="btn btn-default" data-dismiss="modal" onclick="createPage()">@Resource.CreateSite</button>
 </div>
+<div class="modal-footer">
+    <button class="btn btn-default" type="submit" onclick="createPage()">@Resource.CreateSite</button>
+</div>
+
+@Scripts.Render("~/Scripts/create-functions.js")

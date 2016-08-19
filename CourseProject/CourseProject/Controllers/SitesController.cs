@@ -131,11 +131,11 @@ namespace CourseProject.Controllers
         [Authorize]
         [Route("create")]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateSite([Bind(Include = "Id,Name,Url,Theme")]Site site)
+        public ActionResult CreateSite([Bind(Include = "Name,Url,Theme")]Site site)
         {
             if (ModelState.IsValid)
             {
-                CreateJsonModels(site);
+                GenerateJson(site);
                 FillSiteModel(site);
                 return new RedirectResult(User.Identity.Name +
                     '/' + site.Url + '/' + mainPageUrl + '/' + "edit");
@@ -143,18 +143,24 @@ namespace CourseProject.Controllers
             return View(site);
         }
 
-        private void CreateJsonModels(Site site)
+        private void GenerateJson(Site site)
         {
             GenerateMenuJson(site);
-            GenerateContentJson(site);
+            CreateMainPage(site);
         }
 
-        private void GenerateContentJson(Site site)
+        private void CreateMainPage(Site site)
+        {
+            Page mainPage = new Page { Name = Resource.Home, Url = mainPageUrl };
+            GenerateContentJson(mainPage);
+            site.Pages.Add(mainPage);
+        }
+
+        private void GenerateContentJson(Page page)
         {
             ContentJsonModel content = new ContentJsonModel();
             content.ContentTemplate = Request.Form["Template"];
-            Page mainPage = new Page { Name = Resource.Home, Url = mainPageUrl, ContentJson = JsonConvert.SerializeObject(content) };
-            site.Pages.Add(mainPage);
+            page.ContentJson = JsonConvert.SerializeObject(content);
         }
 
         private void GenerateMenuJson(Site site)
@@ -190,14 +196,31 @@ namespace CourseProject.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create()
+        public ActionResult Create(string userName, string siteUrl, string pageUrl, [Bind(Include = "Name,Url")]Page page)
         {
-            return View();
+            Site site = SitesRepository.GetSite(userName + siteUrl);
+            if (site == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            GenerateContentJson(page);
+            CheckPageUrl(site, page);
+            site.Pages.Add(page);
+            return new RedirectResult('/' + userName + '/' +
+                siteUrl + '/' + page.Url + "/edit");
+        }
+
+        private void CheckPageUrl(Site site, Page newPage)
+        {
+            if (site.Pages.FirstOrDefault(page => page.Url == newPage.Url) != null)
+            {
+                newPage.Url += "1";
+            }
         }
 
         [HttpPost]
         [Authorize]
-        public ActionResult SaveSite(string userName, string siteUrl, string contentJson, string menuJson)
+        public ActionResult EditSite(string userName, string siteUrl, string contentJson, string menuJson)
         {
             if (CheckCurrentUser(userName))
             {
@@ -256,7 +279,7 @@ namespace CourseProject.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Save(string userName, string siteUrl, string pageUrl, string contentJson, string menuJson)
+        public ActionResult Edit(string userName, string siteUrl, string pageUrl, string contentJson, string menuJson)
         {
             Site site = SitesRepository.GetSite(userName + siteUrl);
             if (site == null)
@@ -267,13 +290,23 @@ namespace CourseProject.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
-        private EditViewModel CreateEditViewModel(Site site, string pageUrl)
+        private void FillEditViewModel(EditViewModel editModel, Site site, Page page)
         {
-            EditViewModel editModel = new EditViewModel();
             editModel.MenuJson = site.MenuJson;
             editModel.Theme = site.Theme;
-            editModel.ContentJson = site.Pages.FirstOrDefault(page => page.Url == pageUrl).ContentJson;
+            editModel.ContentJson = page.ContentJson;
             editModel.SiteUrl = site.Url;
+        }
+
+        private EditViewModel CreateEditViewModel(Site site, string pageUrl)
+        {
+            Page page = site.Pages.FirstOrDefault(requiredPage => requiredPage.Url == pageUrl);
+            if (page == null)
+            {
+                return null;
+            }
+            EditViewModel editModel = new EditViewModel();
+            FillEditViewModel(editModel, site, page);
             return editModel;
         }
 
@@ -285,14 +318,14 @@ namespace CourseProject.Controllers
                 Site site = SitesRepository.GetSite(userName + siteUrl);
                 if (site == null)
                 {
-                    return new RedirectResult(userName + '/' + siteUrl + "/edit");
+                    return new RedirectResult('/' + userName + '/' + siteUrl + "/edit");
                 }
                 EditViewModel editModel = CreateEditViewModel(site, pageUrl);
-                FillEditViewBag(site, editModel);
-                if (editModel.ContentJson == null)
+                if (editModel == null)
                 {
                     return HttpNotFound();
                 }
+                FillEditViewBag(site, editModel);
                 return View(editModel);
             }
             else
@@ -327,21 +360,6 @@ namespace CourseProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
-        }
-
-        // POST: Sites/Edit/5
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Name,Rating")] Site site)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(site).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(site);
         }
 
         // GET: Sites/Delete/5
