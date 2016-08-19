@@ -32,11 +32,11 @@
                     </div>
                 </form>
                 <ul class="nav navbar-nav">
-                    <li class="active">@Html.ActionLink(Resource.Home, "Index", "Home")</li>
-                    <li><a href="#about">@Resource.Rating</a></li>
+                    <li>@Html.ActionLink(Resource.Home, "Index", "Home")</li>
+                    <li><a href="/rating">@Resource.Rating</a></li>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink(Resource.Profile, "Index", "Profile")</li>
+                        <li><a href=@(User.Identity.Name + "/all")>@Resource.Profile</a></li>
                     }
                 </ul>
 

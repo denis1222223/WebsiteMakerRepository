@@ -135,11 +135,21 @@ namespace CourseProject.Controllers
             if (ModelState.IsValid)
             {
                 GenerateJson(site);
+                CheckSiteUrl(site);
                 FillSiteModel(site);
                 return new RedirectResult(User.Identity.Name +
                     '/' + site.Url + '/' + mainPageUrl + '/' + "edit");
             }
             return View(site);
+        }
+
+        private void CheckSiteUrl(Site newSite)
+        {
+            var user = FindUserInDb(User.Identity.Name);
+            if (user.Sites.FirstOrDefault(site => site.Url == newSite.Url) != null)
+            {
+                newSite.Url += "1";
+            }
         }
 
         private void GenerateJson(Site site)
@@ -231,65 +241,6 @@ namespace CourseProject.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult EditSite(string userName, string siteUrl, string contentJson, string menuJson)
-        {
-            if (CheckCurrentUser(userName))
-            {
-                string siteId = userName + siteUrl;
-                Site site = SitesRepository.GetSite(siteId);
-                if (site == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                SaveJson(site, mainPageUrl, contentJson, menuJson);
-                PutSiteToDb(site, siteId);
-                SitesRepository.Remove(siteId);
-                return new HttpStatusCodeResult(HttpStatusCode.OK);
-            }
-            else
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            }
-        }
-
-        private void PutSiteToDb(Site site, string siteId)
-        {
-            if (SitesRepository.Exists(siteId))
-            {
-                UpdateSite(site);
-            }
-            else
-            {
-                CreateSiteInDb(site);
-            }
-        }
-
-        private void SaveJson(Site site, string pageUrl, string contentJson, string menuJson)
-        {
-            if (!String.IsNullOrEmpty(menuJson))
-            {
-                site.MenuJson = menuJson;
-            }
-            if (!String.IsNullOrEmpty(contentJson))
-            {
-                site.Pages.FirstOrDefault(page => page.Url == pageUrl).ContentJson = contentJson;
-            }
-        }
-
-        private void CreateSiteInDb(Site site)
-        {
-            db.Sites.Add(site);
-            db.SaveChanges();
-        }
-
-        private void UpdateSite(Site site)
-        {
-            db.Entry(site).State = EntityState.Modified;
-            db.SaveChanges();
-        }
-
-        [HttpPost]
-        [Authorize]
         public ActionResult Edit(string userName, string siteUrl, string pageUrl, string contentJson, string menuJson)
         {
             Site site = SitesRepository.GetSite(userName + siteUrl);
@@ -353,6 +304,65 @@ namespace CourseProject.Controllers
             ViewBag.Template = JObject.Parse(editModel.ContentJson).SelectToken("content_template");
         }
 
+        [HttpPost]
+        [Authorize]
+        public ActionResult EditSite(string userName, string siteUrl, string contentJson)
+        {
+            if (CheckCurrentUser(userName))
+            {
+                string siteId = userName + siteUrl;
+                Site site = SitesRepository.GetSite(siteId);
+                if (site == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                SaveJson(site, mainPageUrl, contentJson, null);
+                PutSiteToDb(site, siteId);
+                SitesRepository.Remove(siteId);
+                return new HttpStatusCodeResult(HttpStatusCode.OK);
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+        }
+
+        private void PutSiteToDb(Site site, string siteId)
+        {
+            if (SitesRepository.Exists(siteId))
+            {
+                UpdateSite(site);
+            }
+            else
+            {
+                CreateSiteInDb(site);
+            }
+        }
+
+        private void SaveJson(Site site, string pageUrl, string contentJson, string menuJson)
+        {
+            if (!String.IsNullOrEmpty(menuJson))
+            {
+                site.MenuJson = menuJson;
+            }
+            if (!String.IsNullOrEmpty(contentJson))
+            {
+                site.Pages.FirstOrDefault(page => page.Url == pageUrl).ContentJson = contentJson;
+            }
+        }
+
+        private void CreateSiteInDb(Site site)
+        {
+            db.Sites.Add(site);
+            db.SaveChanges();
+        }
+
+        private void UpdateSite(Site site)
+        {
+            db.Entry(site).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
         [Authorize]
         public ActionResult EditSite(string userName, string siteUrl)
         {
@@ -365,7 +375,7 @@ namespace CourseProject.Controllers
                     return HttpNotFound();
                 }
                 SitesRepository.Add(site, true, userName);
-                return View(site);
+                return new RedirectResult('/' + userName + '/' + siteUrl + '/' + mainPageUrl + "/edit");
             }
             else
             {

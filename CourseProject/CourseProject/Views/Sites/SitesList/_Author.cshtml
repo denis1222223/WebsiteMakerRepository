@@ -1,4 +1,6 @@
 ﻿@model CourseProject.Models.UserSitesViewModel
+@using Resources
+
 @foreach (var item in Model.Sites)
 {
     <tr>
@@ -9,7 +11,7 @@
             @Html.DisplayFor(modelItem => item.Rating)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            <a href=@('/' + Model.UserName + "/" + item.Url + "/edit")>@Resource.Edit</a> |
             @Html.ActionLink("Details", "Details", new { id = item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id = item.Id })
         </td>

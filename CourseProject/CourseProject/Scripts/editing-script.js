@@ -1,10 +1,25 @@
 ﻿$(function () {
     $(".save").click(function () {
-        SavePage();
+        savePage();
     });
 });
 
-function SavePage() {
+$(function () {
+    $(".saveSite").click(function () {
+        var contentJson = getContentJSON();
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: '../edit',
+            data: {
+                'contentJson': JSON.stringify(contentJson)
+            },
+        });
+        $(location).attr("href", "../../all");
+    });
+});
+
+function savePage() {
     var contentJson = getContentJSON();
     var menuJson = getMenuJSON();
     $.ajax({
@@ -22,7 +37,7 @@ $(function () {
     $(".menu-item").click(function () {
         var link = $(this).attr('href');
         event.preventDefault();
-        SavePage();
+        savePage();
         $(location).attr('href', link + '/edit');
     });
 });
@@ -47,7 +62,7 @@ function submitForm() {
 }
 
 function createPage() {
-    SavePage();
+    savePage();
     submitForm();
     $(this).attr('data-dismiss', "modal");
 }

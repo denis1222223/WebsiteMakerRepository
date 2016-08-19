@@ -20,6 +20,7 @@ namespace CourseProject.Environment
         {
             SiteInfo info = new SiteInfo();
             info.Site = site;
+            info.Site.Pages = site.Pages;
             info.SiteExists = SiteExists;
             sites.Add(userName + info.Site.Url, info);
         }
