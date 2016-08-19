@@ -1,25 +1,20 @@
 ﻿$(function () {
     $(".save").click(function () {
-        var contentJson = getContentJSON();
-        var menuJson = getMenuJSON();
-        $.ajax({
-            type: 'POST',
-            dataType: 'json',
-            url: '',
-            data: {
-                'contentJson': JSON.stringify(contentJson),
-                'menuJson': JSON.stringify(menuJson)
-            }
-        });
+        SavePage();
     });
 });
 
 function SavePage() {
+    var contentJson = getContentJSON();
+    var menuJson = getMenuJSON();
     $.ajax({
-        type: 'post',
+        type: 'POST',
         dataType: 'json',
         url: '',
-        data: { 'contentJson': null, 'menuJson': null },
+        data: {
+            'contentJson': JSON.stringify(contentJson),
+            'menuJson': JSON.stringify(menuJson)
+        },
     });
 }
 
@@ -32,26 +27,28 @@ $(function () {
     });
 });
 
+var menuType;
+
 $(function () {
     $(".add").click(function () {
         event.preventDefault();
         openModal('page');
+        menuType = $(this).parent().attr('id');
     });
 });
 
 function submitForm() {
     var pageForm = $('#createForm');
     $.validator.unobtrusive.parse(pageForm);
+    $('#menuType').val(menuType);
     pageForm.validate();
-    var newPage = $('#Url').val();
-    pageForm.attr('action', '../' + newPage + '/create');
+    pageForm.attr('action', '../' + $('#Url').val() + '/create');
     pageForm.submit();
-    return newPage;
 }
 
 function createPage() {
     SavePage();
-    var newPage = submitForm();
+    submitForm();
     $(this).attr('data-dismiss', "modal");
 }
 
@@ -114,7 +111,7 @@ function openModal(modalType) {
             fillModal(modalType);
             $('#myModal').modal('show');
         }
-    }); 
+    });  
 }
 
 function fillModal(modalType) {

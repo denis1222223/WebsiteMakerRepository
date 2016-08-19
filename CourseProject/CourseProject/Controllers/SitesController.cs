@@ -111,7 +111,6 @@ namespace CourseProject.Controllers
             return View(siteUrl);
         }
 
-        // GET: create
         [Authorize]
         [Route("create")]
         public ActionResult CreateSite()
@@ -204,10 +203,22 @@ namespace CourseProject.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             GenerateContentJson(page);
-            CheckPageUrl(site, page);
+            CheckPageUrl(site, page);   
+            AddPageToMenu(site, page.Name, '/' + userName + '/' + siteUrl + '/' + page.Url);       
             site.Pages.Add(page);
             return new RedirectResult('/' + userName + '/' +
                 siteUrl + '/' + page.Url + "/edit");
+        }
+
+        private void AddPageToMenu(Site site, string title, string link)
+        {
+            JObject menuJson = JObject.Parse(site.MenuJson);
+            JArray menu = (JArray)menuJson[Request.Form["menuType"]];
+            JObject jsonObject = new JObject();
+            jsonObject.Add("title", title);
+            jsonObject.Add("link", link);
+            menu.Add(jsonObject);
+            site.MenuJson = menuJson.ToString();
         }
 
         private void CheckPageUrl(Site site, Page newPage)

@@ -6,15 +6,16 @@ fillMenu();
 
 function fillMenu() {
     if (menuJSON.horizontal_menu_exist) {
-        addMenuItems(menuJSON.horizontal_menu, '#horizontalMenu');
+        addMenuItems(menuJSON.horizontal_menu, '#horizontal_menu');
     }
     if (menuJSON.vertical_menu_exist) {
-        addMenuItems(menuJSON.vertical_menu, '#verticalMenu');
+        addMenuItems(menuJSON.vertical_menu, '#vertical_menu');
     }
 }
 
 function addMenuItems(items, menu) {
     $.each(items, function (i, item) {
+        console.log(item);
         $(menu).find('.add').before("<li><a href='" + item.link + "' class='menu-item' >" + item.title + "</a></li>");
     })
 }

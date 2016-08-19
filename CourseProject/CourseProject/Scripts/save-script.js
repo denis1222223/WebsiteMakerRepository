@@ -57,8 +57,8 @@ function getMenuJSON() {
     var jsonObject = {};
     jsonObject["vertical_menu_exist"] = menuJSON.vertical_menu_exist;
     jsonObject["horizontal_menu_exist"] = menuJSON.horizontal_menu_exist;
-    jsonObject["vertical_menu"] = getMenuItemsJSON("verticalMenu");
-    jsonObject["horizontal_menu"] = getMenuItemsJSON("horizontalMenu");
+    jsonObject["vertical_menu"] = getMenuItemsJSON("vertical_menu");
+    jsonObject["horizontal_menu"] = getMenuItemsJSON("horizontal_menu");
     return jsonObject;
 }
 
