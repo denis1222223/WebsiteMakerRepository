@@ -12,9 +12,15 @@ function fillMenu() {
 }
 
 function addMenuItems(items, menu) {
-    $.each(items, function (i, item) {
-        $(menu).find('.add').before("<li><a href='" + item.link + "' class='menu-item' >" + item.title + "</a></li>");
-    })
+    if ($(menu).children('.add').length) {
+        $.each(items, function (i, item) {
+            $(menu).find('.add').before("<li><a href='" + item.link + "' class='menu-item' >" + item.title + "</a></li>");
+        })
+    } else {
+        $.each(items, function (i, item) {
+            $(menu).append("<li><a href='" + item.link + "' class='menu-item' >" + item.title + "</a></li>");
+        })
+    }
 }
 
 function fillContent() {

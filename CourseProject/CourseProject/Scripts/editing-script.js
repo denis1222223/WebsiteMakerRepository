@@ -107,7 +107,10 @@ $(".item").bind("click", clickHandler);
 
 $('#toolbar').draggable({
     containment: "html",
-    axis: "y"
+    axis: "y",
+    stop: function (e) {
+        $('#toolbar').css("left", "");
+    }
 });
 
 var toolMarkupPicture = $("<li class='picture item sortable list-group-item' style='width: 100px;'><span class='glyphicon glyphicon-picture toolbarSpan' /></li>")
