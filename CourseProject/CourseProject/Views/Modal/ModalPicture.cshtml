@@ -4,15 +4,26 @@
 }
 <div class="row">
     <div class="image-editor">
-        <input id="browse" type="file" class="cropit-image-input">
+        <div class="row" style="padding-left:30px;">
+            <button id="browseBtn" style="float:left; margin:10px;"><span class="glyphicon glyphicon-folder-open"></span></button>
+            <input id="browseInput" type="file" class="cropit-image-input">
+            <div id="rangeBlock">
+                <span class="glyphicon glyphicon-search" style="float:left; margin:5px;"></span>
+                <input type="range" class="cropit-image-zoom-input" style="width:150px; float:left; margin:5px;">
+                <span class="glyphicon glyphicon-search" style="font-size:22px; margin-left:5px;"></span>
+            </div>
+        </div>   
+
         <div class="cropit-preview"></div>
-        <input type="range" class="cropit-image-zoom-input" width:250px >
-       
-    </div>
+</div>
 </div>
 <button class="export" hidden>Export</button>
 
 <script>
+    $('#browseBtn').click(function () {
+        $('#browseInput').click();
+    });
+
     function dropImage(picUrl) {
         $('.image-editor').cropit({
             minZoom: 'fill',
@@ -31,12 +42,13 @@
             method: "POST",
             data: { pictureDataUrl: imageData },
             success: function (data) {
-                $('#active').html("<img src='" + data + "' />");
+                $('#active').html("<img src='" + data + "' style='max-width:100%'/>");
+                $('#active').attr('data-value', data);
             }
         });
     }
 
-    dropImage('https://pp.vk.me/c635100/v635100070/34104/CovzgnW9Pmk.jpg');
+    dropImage('');
 
     $('.export').click(function () {
         var imageData = $('.image-editor').cropit('export', {
@@ -71,9 +83,6 @@
             method: "POST",
             data: { pictureDataUrl: dataURL },
             success: function (data) {
-
-                console.log("loaded");
-                //        resetImage();
                 dropImage(data);
             }
         });

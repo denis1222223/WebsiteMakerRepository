@@ -17,6 +17,7 @@
 
     @Styles.Render("~/Content/users-styles")
     @Styles.Render("~/Content/" + Model.Theme as string + ".css")
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 </head>
 <body>
     @Html.AntiForgeryToken()
@@ -37,13 +38,18 @@
             @Html.Partial("Template/_" + ViewBag.Template as string)
         </div>
         <div class="container" id="toolbar">
-            <button type="button" class="btn btn-danger delete">Delete</button>
-            <button type="button" class="btn btn-success save">Save</button>
-            <button type="button" class="btn btn-success saveSite">Save site</button>
-            <img id="toolPictrue" src="http://res.cloudinary.com/website-maker/image/upload/v1471300845/toolbar/s_picture.png" />
-            <img id="toolVideo" src="http://res.cloudinary.com/website-maker/image/upload/v1471300845/toolbar/s_video.png" />
-            <img id="toolText" src="http://res.cloudinary.com/website-maker/image/upload/v1471300845/toolbar/s_text.png" />
-
+            <div id="toolPicture" class="btn btn-default btn-block"><span class="glyphicon glyphicon-picture toolbarSpan" /></div>
+            <div id="toolVideo" class="btn btn-default btn-block"><span class="glyphicon glyphicon-film toolbarSpan" /></div>
+            <div id="toolText" class="btn btn-default btn-block"><span class="glyphicon glyphicon-text-size toolbarSpan" /></div>
+            <br />
+            <input id="toggle-comment" type="checkbox" data-on="<span class='glyphicon glyphicon-comment toolbarSpan' /> On"
+                   data-off="<span class='glyphicon glyphicon-comment toolbarSpan' /> Off" checked data-toggle="toggle" data-onstyle="default">
+            <input id="toggle-raiting" type="checkbox" data-on="<span class='glyphicon glyphicon-star toolbarSpan' /> On" style="margin-top:5px"
+                   data-off="<span class='glyphicon glyphicon-star toolbarSpan' /> Off" checked data-toggle="toggle" data-onstyle="default">
+            <br /> <br />
+            <button type="button" class="btn btn-default save btn-block"><span class="glyphicon glyphicon-floppy-disk toolbarSpan" /></button>
+            <button type="button" class="btn btn-default delete btn-block"><span class="glyphicon glyphicon-trash toolbarSpan" /></button>
+            <button type="button" class="btn btn-default saveSite btn-block"><span class="glyphicon glyphicon-log-out toolbarSpan" /></button>
         </div>
     </div>
     <footer class="footer">
@@ -79,6 +85,7 @@
     @Scripts.Render("~/Scripts/editing-script.js")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 </body>
 </html>
 

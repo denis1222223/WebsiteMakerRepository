@@ -103,14 +103,16 @@ function createPage() {
 
 //////////////////////////
 
+$(".item").bind("click", clickHandler);
+
 $('#toolbar').draggable({
     containment: "html",
     axis: "y"
 });
 
-var toolMarkupPicture = $("<li class='picture item sortable list-group-item' style='width: 100px;'><img src='http://res.cloudinary.com/website-maker/image/upload/v1471180013/toolbar/picture.png'></li>")
-var toolMarkupVideo = $("<li class='video item sortable list-group-item' style='width: 100px;'><img src='http://res.cloudinary.com/website-maker/image/upload/v1471180013/toolbar/video.png'></li>")
-var toolMarkupText = $("<li class='text item sortable list-group-item' style='width: 100px;'><img src='http://res.cloudinary.com/website-maker/image/upload/v1471180013/toolbar/text.png'></li>")
+var toolMarkupPicture = $("<li class='picture item sortable list-group-item' style='width: 100px;'><span class='glyphicon glyphicon-picture toolbarSpan' /></li>")
+var toolMarkupVideo = $("<li class='video item sortable list-group-item' style='width: 100px;'><span class='glyphicon glyphicon-film toolbarSpan' /></li>")
+var toolMarkupText = $("<li class='text item sortable list-group-item' style='width: 100px;'><span class='glyphicon glyphicon-text-size toolbarSpan' /></li>")
 
 function initializeTool(toolType, markup) {
     $(toolType).draggable( {
@@ -130,7 +132,7 @@ function initializeTool(toolType, markup) {
     });
 }
 
-initializeTool('#toolPictrue', toolMarkupPicture);
+initializeTool('#toolPicture', toolMarkupPicture);
 initializeTool('#toolVideo', toolMarkupVideo);
 initializeTool('#toolText', toolMarkupText);
 
@@ -178,7 +180,6 @@ function buttonDelete() {
 };
 
 function buttonOK() {
-    $('#active').addClass("col-md-12 col-lg-12 col-sm-12 col-xs-12");
     $('#active').width("").height("");
     $('#active').css("border", "none");
     $('#active').css("background-color", "transparent");
@@ -193,6 +194,7 @@ function buttonOK() {
 function setText() {
     var newText = $('#modalTextarea').val();
     $('#active').html("<div><p>" + newText + "</p></div>");
+    $('#active').attr('data-value', newText);
 }
 
 function setPicture() {
@@ -200,7 +202,9 @@ function setPicture() {
 }
 
 function setVideo() {
-    var video = $("<video id='video' width='100%' height='320px'><source src='" + $('#modalVideo').val() + "'type='video/youtube' ></video>");
+    src = $('#modalVideo').val();
+    var video = $("<video id='video' width='100%' height='320px'><source src='" + src + "'type='video/youtube' ></video>");
     $('#active').html(video.prop('outerHTML'));
     $('#active').children('#video').mediaelementplayer();
+    $('#active').attr('data-value', src);
 }

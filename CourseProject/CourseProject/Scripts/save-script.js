@@ -19,7 +19,8 @@ function getAllAreaItems(area) {
     var items = [];
     $.each(area.children, function (i, item) {
         var itemJSON = makeItem(item, area.id);
-        items.push(itemJSON);
+        if (itemJSON["value"] != undefined)
+            items.push(itemJSON);
     });
     return items;
 }
@@ -29,28 +30,8 @@ function makeItem(item, place) {
     itemJSON["place"] = place;
     var itemType = item.classList[0];
     itemJSON["content_type"] = itemType;
-    itemJSON["value"] = getItemValue(item, itemType);
+    itemJSON["value"] = $(item).data("value");
     return itemJSON;
-}
-
-function getItemValue(item, itemType) {
-    switch (itemType) {
-        case "video": { return getVideoValue(item); break; }
-        case "picture": { return getPictureValue(item); break; }
-        case "text": { return getTextValue(item); break; }
-    }
-}
-
-function getVideoValue(item) {
-    return $(item).find('#video').find('source').prop("src");
-}
-
-function getTextValue(item) {
-    return $(item).find('div').find('p').text();
-}
-
-function getPictureValue(item) {
-    return $(item).find('img').prop("src");
 }
 
 function getMenuJSON() {

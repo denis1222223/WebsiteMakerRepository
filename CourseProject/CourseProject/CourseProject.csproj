@@ -328,10 +328,12 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Scripts\bootstrap-toggle.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\create-functions.js" />
     <Content Include="Scripts\editing-script.js" />
+    <Content Include="Content\bootstrap-toggle.less" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\fill-script.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />

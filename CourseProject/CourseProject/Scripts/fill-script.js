@@ -1,7 +1,5 @@
-﻿//var contentJSON = $.parseJSON(jsonContentString);
+﻿
 fillContent();
-
-//var menuJSON = $.parseJSON(jsonMenuString);
 fillMenu();
 
 function fillMenu() {
@@ -45,26 +43,28 @@ function addVideo(item) {
 
 function addText(item) {
     var newText = generateTextItem(item.value);
-    $('#' + item.place).append(newText);
+    if (newText) {
+        $('#' + item.place).append(newText);
+    }
 }
 
-function generatePictureItem(src){
-    var picMarkup = "<li class='picture item sortable list-group-item col-md-12 col-lg-12 col-sm-12 col-xs-12'"+
-        "style='position: relative; left: 0px; top: 0px; border: none; background-color: transparent;'>"+
-        "<img src='" + src + "'></li>"
+function generatePictureItem(src) {
+    var picMarkup = "<li class='picture item sortable list-group-item' data-value='" + src + "' " +
+        "style='position: relative; left: 0px; top: 0px; border: none; background-color: transparent;'>" +
+        "<img src='" + src + "' style='max-width:100%'></li>"
     return picMarkup;
 }
 
 function generateVideoItem(src) {
     var video = $("<video id='video' width='100%' height='320px'><source src='" + src + "'type='video/youtube' ></video>");
-    var videoDOM = $("<li class='video item sortable list-group-item' style='position: relative; left: 0px; top: 0px;'></li>");
+    var videoDOM = $("<li class='video item sortable list-group-item' data-value='" + src + "' style='position: relative; left: 0px; top: 0px; background-color:transparent; border: none;'></li>");
     videoDOM.html(video.prop('outerHTML'));
     videoDOM.children('#video').mediaelementplayer();
     return videoDOM;
 }
 
 function generateTextItem(text) {
-    var textMarkup = "<li class='picture item sortable list-group-item col-md-12 col-lg-12 col-sm-12 col-xs-12'" +
+    var textMarkup = "<li class='text item sortable list-group-item' data-value='" + text + "' " +
         "style='position: relative; left: 0px; top: 0px; border: none; background-color: transparent;'>" +
         "<div><p>" + text + "</p></div></li>"
     return textMarkup;
