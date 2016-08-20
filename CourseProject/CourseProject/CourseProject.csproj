@@ -234,7 +234,7 @@
     <Compile Include="Models\CreatePageViewModel.cs" />
     <Compile Include="Models\CreateSiteViewModel.cs" />
     <Compile Include="Models\DeleteSiteViewModel.cs" />
-    <Compile Include="Models\EditViewModel.cs" />
+    <Compile Include="Models\DetailsViewModel.cs" />
     <Compile Include="Models\Entities\Comment.cs" />
     <Compile Include="Models\Entities\Page.cs" />
     <Compile Include="Models\Entities\Site.cs" />

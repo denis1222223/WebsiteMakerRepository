@@ -1,3 +1,7 @@
-﻿<ul class="nav nav-pills nav-stacked" id="vertical_menu">
-    <li class="add" id="verticalAdd"><a href="#">@Resources.Resource.Add</a></li>
+﻿@model CourseProject.Models.DetailsViewModel
+<ul class="nav nav-pills nav-stacked" id="vertical_menu">
+    @if (Model.IsEdit)
+    {
+        <li id="verticalAdd" class="add"><a href="#">@Resources.Resource.Add</a></li>;
+    }
 </ul>

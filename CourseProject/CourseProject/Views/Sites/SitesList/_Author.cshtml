@@ -1,22 +1,22 @@
 ﻿@model CourseProject.Models.UserSitesViewModel
 @using Resources
 
-@foreach (var item in Model.Sites)
+@foreach (var site in Model.Sites)
 {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            @Html.DisplayFor(modelItem => site.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Rating)
+            @Html.DisplayFor(modelItem => site.Rating)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Url)
+            @Html.DisplayFor(modelItem => site.Url)
         </td>
         <td>
-            <a href=@('/' + Model.UserName + "/" + item.Url + "/edit")>@Resource.Edit</a> |
-            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-            <a href=@('/' + Model.UserName + "/" + item.Url + "/delete")>@Resource.Delete</a>
+            <a href=@('/' + Model.UserName + "/" + site.Url + "/edit")>@Resource.Edit</a> |
+            <a href=@('/' + Model.UserName + "/" + site.Url + "/details")> @Resource.Details </a> |
+            <a href=@('/' + Model.UserName + "/" + site.Url + "/delete")>@Resource.Delete</a>
         </td>
     </tr>
 }

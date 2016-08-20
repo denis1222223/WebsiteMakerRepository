@@ -282,4 +282,7 @@
   <data name="HomePageDeletionError" xml:space="preserve">
     <value>Вы не можете удалить главную страницу.</value>
   </data>
+  <data name="Details" xml:space="preserve">
+    <value>Просмотреть</value>
+  </data>
 </root>

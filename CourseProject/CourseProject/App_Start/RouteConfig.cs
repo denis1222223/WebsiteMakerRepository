@@ -28,6 +28,12 @@ namespace CourseProject
             );
 
             routes.MapRoute(
+                name: "Details",
+                url: "{userName}/{siteUrl}/details",
+                defaults: new { controller = "Sites", action = "SiteDetails" }
+            );
+
+            routes.MapRoute(
                 name: "Delete",
                 url: "{userName}/{siteUrl}/delete",
                 defaults: new { controller = "Sites", action = "DeleteSite" }

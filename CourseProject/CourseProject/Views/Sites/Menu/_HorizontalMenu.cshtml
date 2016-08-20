@@ -1,4 +1,5 @@
-﻿@using Resources
+﻿@model CourseProject.Models.DetailsViewModel
+@using Resources
 <div class="navbar navbar-inverse">
     <div class="container">
         <div class="navbar-header">
@@ -19,7 +20,10 @@
                 </div>
             </form>
             <ul class="nav navbar-nav" id="horizontal_menu">
-                <li id="horizontalAdd" class="add"><a href="#">@Resource.Add</a></li>
+                @if (Model.IsEdit)
+                {
+                    <li id="horizontalAdd" class="add"><a href="#">@Resource.Add</a></li>
+                }
             </ul>
         </div>
     </div>

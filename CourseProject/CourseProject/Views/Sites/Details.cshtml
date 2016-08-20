@@ -1,52 +1,59 @@
-﻿@using CourseProject.Models.Entities;
-@model CourseProject.Models.Entities.Site
-
+﻿@model CourseProject.Models.DetailsViewModel
+@using Resources
 @{
-    ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = Model.SiteName;
+    Layout = null;
 }
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title – WebsiteMaker</title>
 
-<h2>Details</h2>
+        <link rel="stylesheet" href="~/Content/themes/base/all.css" />
+        <link rel="stylesheet" href="~/Scripts/mediaelement/mediaelementplayer.css" />
 
-<div>
-    <h4>Site</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+        @Styles.Render("~/Content/users-styles")
+        @Styles.Render("~/Content/" + Model.Theme as string + ".css")
+        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    </head>
+    <body>
+        @Html.AntiForgeryToken()
+        <div class="main container-fluid">
+            <div class="menu">
+                @if (Model.horizontalMenu)
+                {
+                    Html.RenderPartial("Menu/_HorizontalMenu");
+                }
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    @if (Model.verticalMenu)
+                    {
+                        Html.RenderPartial("Menu/_VerticalMenu");
+                    }
+                </div>
+            </div>
+            <div class="container content col-lg-8 col-md-8 col-sm-8 col-xs-9">
+                @Html.Partial("Template/_" + Model.Template)
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="container">
+                <p class="text-muted">@DateTime.Now.Year – @Resource.Footer </p>
+            </div>
+        </footer>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+        <script>
+            var contentJSON = @Html.Raw(Model.ContentJson);
+            var menuJSON = @Html.Raw(Model.MenuJson);
+        </script>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Rating)
-        </dt>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/Scripts/fill-script.js")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/bootstrap")
+        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    </body>
+</html>
 
-        <dd>
-            @Html.DisplayFor(model => model.Rating)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Author.UserName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Author.UserName)
-        </dd>
-
-    </dl>
-
-    <div class="display-label"><b>Теги</b></div>
-    <ul>
-        @foreach (Tag c in Model.Tags)
-        {
-            <li>@c.Name</li>
-        }
-    </ul>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

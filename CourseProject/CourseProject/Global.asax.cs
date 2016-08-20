@@ -1,4 +1,5 @@
 ﻿using CourseProject.App_Start;
+using CourseProject.Environment;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -19,6 +20,7 @@ namespace CourseProject
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             //Database.SetInitializer(new SiteDdInitializer());
+            SitesRepository.InitializeRepositoryTimer();
         }
     }
 }

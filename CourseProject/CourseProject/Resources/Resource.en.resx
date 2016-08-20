@@ -282,4 +282,7 @@
   <data name="HomePageDeletionError" xml:space="preserve">
     <value>You can't delete the main page</value>
   </data>
+  <data name="Details" xml:space="preserve">
+    <value>Browse</value>
+  </data>
 </root>
