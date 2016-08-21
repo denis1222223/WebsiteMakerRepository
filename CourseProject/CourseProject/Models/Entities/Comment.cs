@@ -8,16 +8,16 @@ namespace CourseProject.Models.Entities
 {
     public class Comment
     {
-        public Comment(ApplicationUser author, string text, Site site)
+        public Comment(string AuthorId, string text, Site site)
         {
-            Author = author;
+            this.AuthorId = AuthorId;
             Text = text;
             Site = site;
             Date = DateTime.Now;
         }
         public Comment() { }
         public int Id { get; set; }
-        [Required]
+        public string AuthorId { get; set; }
         public ApplicationUser Author { get; set; }
         public string Text { get; set; }
         public DateTime Date { get; set; }

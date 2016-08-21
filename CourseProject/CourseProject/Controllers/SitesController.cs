@@ -391,17 +391,33 @@ namespace CourseProject.Controllers
 
         private void CreateSiteInDb(Site site)
         {
-            try
-            {
-                foreach (Comment comment in site.Comments)
+                foreach(Comment comment in site.Comments)
                 {
-                    try
-                    {
-                        db.Entry(comment.Author).State = EntityState.Modified;
-                    }catch { }
-                    db.Entry(comment).State = EntityState.Added;
+                    db.Comments.Add(comment);
                 }
                 db.Sites.Add(site);
+                db.SaveChanges();                     
+        }
+
+        public void UpdateSite(Site editedSite)
+        {
+            foreach (Page page in editedSite.Pages)
+            {
+                if (page.Id == 0)
+                {
+                    db.Pages.Add(page);
+                }
+            }
+            db.Entry(editedSite).State = EntityState.Modified;
+            foreach (Comment comment in editedSite.Comments)
+            {
+                if (comment.Id == 0)
+                {
+                    db.Comments.Add(comment);
+                }
+            }          
+            try
+            {
                 db.SaveChanges();
             }
             catch (DbEntityValidationException dbEx)
@@ -416,37 +432,6 @@ namespace CourseProject.Controllers
                     }
                 }
             }
-        }
-
-        public void UpdateSite(Site editedSite)
-        {
-            foreach (Comment comment in editedSite.Comments)
-            {
-                if (comment.Id != 0)
-                {
-                    db.Entry(comment).State = EntityState.Modified;
-                    db.Entry(comment.Author).State = EntityState.Modified;
-                }
-                else
-                {
-                    db.Entry(comment).State = EntityState.Added;
-                }
-            }
-
-            foreach (Page page in editedSite.Pages)
-            {
-                if (page.Id != 0)
-                {
-                    db.Entry(page).State = EntityState.Modified;
-                }
-                else
-                {
-                    db.Entry(page).State = EntityState.Added;
-                }
-            }
-            
-            db.Entry(editedSite).State = EntityState.Modified;
-            db.SaveChanges();
         }
 
         [Authorize]
@@ -469,8 +454,7 @@ namespace CourseProject.Controllers
 
         private bool AddSiteToRepository(string userName, string siteUrl, bool siteExists)
         {
-            Site editedSite = db.Sites.Include(site => site.Author)
-                    .Where(site => site.Url == siteUrl && site.Author.UserName == userName)
+            Site editedSite = db.Sites.Where(site => site.Url == siteUrl && site.Author.UserName == userName)
                     .FirstOrDefault();
             if (editedSite == null)
             {
@@ -557,7 +541,7 @@ namespace CourseProject.Controllers
             Site site = SitesRepository.GetSite(userName + siteUrl);
             if (site == null) { return null; }
             Comment comment = FillComment(site, commentText);
-            site.Comments.Insert(0, comment);
+            site.Comments.Add(comment);
             
             //db.Comments.Add(comment);
             //db.Entry(comment).State = EntityState.Added;
@@ -596,7 +580,7 @@ namespace CourseProject.Controllers
         private Comment FillComment(Site site, string commentText)
         {
             ApplicationUser currentUser = FindUserInDb(User.Identity.Name);
-            Comment comment = new Comment(currentUser, commentText, site);
+            Comment comment = new Comment(User.Identity.GetUserId(), commentText, site);
             return comment;
         }
 

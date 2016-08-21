@@ -18,7 +18,7 @@ namespace CourseProject.Models
         public string Template { get; set; }
         public bool IsEdit { get; set; }
         public bool AllowComments { get; set; }
-        public List<Comment> Comments { get; set; }
+        public ICollection<Comment> Comments { get; set; }
         public bool AllowRating { get; set; }
         public int Rating { get; set; }
         public bool AlreadyRated { get; set; }

@@ -28,7 +28,7 @@ namespace CourseProject.Models.Entities
         public int Rating { get; set; } 
         public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<Page> Pages { get; set; }
-        public virtual List<Comment> Comments { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
         public bool AllowComments { get; set; }
         public bool AllowRating { get; set; }
         public List<string> RatedUsers { get; set; }
