@@ -15,6 +15,7 @@ namespace CourseProject.Models.Entities
             Tags = new HashSet<Tag>();
             Pages = new List<Page>();
             Comments = new List<Comment>();
+            RatedUsers = new List<string>();
         }
 
         public int Id { get; set; }
@@ -24,9 +25,12 @@ namespace CourseProject.Models.Entities
         public string Url { get; set; }
         public string Theme { get; set; }
         public string MenuJson { get; set; }
-        public int? Rating { get; set; } 
+        public int Rating { get; set; } 
         public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<Page> Pages { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual List<Comment> Comments { get; set; }
+        public bool AllowComments { get; set; }
+        public bool AllowRating { get; set; }
+        public List<string> RatedUsers { get; set; }
     }
 }

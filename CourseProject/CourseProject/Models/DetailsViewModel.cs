@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Newtonsoft.Json.Linq;
+using CourseProject.Models.Entities;
 
 namespace CourseProject.Models
 {
@@ -16,5 +17,10 @@ namespace CourseProject.Models
         public string ContentJson { get; set; }
         public string Template { get; set; }
         public bool IsEdit { get; set; }
+        public bool AllowComments { get; set; }
+        public List<Comment> Comments { get; set; }
+        public bool AllowRating { get; set; }
+        public int Rating { get; set; }
+        public bool AlreadyRated { get; set; }
     }
 }

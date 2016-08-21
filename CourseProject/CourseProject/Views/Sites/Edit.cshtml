@@ -17,7 +17,7 @@
 
         @Styles.Render("~/Content/users-styles")
         @Styles.Render("~/Content/" + Model.Theme as string + ".css")
-        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+        @Styles.Render("~/Content/bootstrap-toggle.less")
     </head>
     <body>
         @Html.AntiForgeryToken()
@@ -36,6 +36,10 @@
             </div>
             <div class="container content col-lg-8 col-md-8 col-sm-8 col-xs-9">
                 @Html.Partial("Template/_" + Model.Template)
+                @if ((Model.AllowComments) && (Model.Comments != null))
+                {
+                    @Html.Partial("_Comments")
+                }      
             </div>
             <div class="container" id="toolbar">
                 <div id="toolPicture" class="btn btn-default btn-block"><span class="glyphicon glyphicon-picture toolbarSpan" /></div>
@@ -43,15 +47,29 @@
                 <div id="toolText" class="btn btn-default btn-block"><span class="glyphicon glyphicon-text-size toolbarSpan" /></div>
                 <br />
                 <input id="toggle-comment" type="checkbox" data-on="<span class='glyphicon glyphicon-comment toolbarSpan' /> On"
-                       data-off="<span class='glyphicon glyphicon-comment toolbarSpan' /> Off" checked data-toggle="toggle" data-onstyle="default">
-                <input id="toggle-raiting" type="checkbox" data-on="<span class='glyphicon glyphicon-star toolbarSpan' /> On" style="margin-top:5px"
-                       data-off="<span class='glyphicon glyphicon-star toolbarSpan' /> Off" checked data-toggle="toggle" data-onstyle="default">
+                       data-off="<span class='glyphicon glyphicon-comment toolbarSpan' /> Off"
+                       @if (Model.AllowComments)
+                       {
+                            @Html.Raw("checked")
+                       }
+                        data-toggle="toggle" data-onstyle="default">
+                <input id="toggle-rating" type="checkbox" data-on="<span class='glyphicon glyphicon-star toolbarSpan' /> On" style="margin-top:5px"
+                       data-off="<span class='glyphicon glyphicon-star toolbarSpan' /> Off" 
+                       @if (Model.AllowRating)
+                       {
+                            @Html.Raw("checked")
+                       }
+                        data-toggle="toggle" data-onstyle="default">
                 <br /> <br />
                 <button type="button" class="btn btn-default save btn-block"><span class="glyphicon glyphicon-floppy-disk toolbarSpan" /></button>
                 <button type="button" class="btn btn-default delete btn-block"><span class="glyphicon glyphicon-trash toolbarSpan" /></button>
                 <button type="button" class="btn btn-default saveSite btn-block"><span class="glyphicon glyphicon-log-out toolbarSpan" /></button>
             </div>
-        </div>
+        </div> 
+        @if (Model.AllowRating)
+        {
+            @Html.Partial("_Rating")
+        }
         <footer class="footer">
             <div class="container">
                 <p class="text-muted">@DateTime.Now.Year – @Resource.Footer </p>
@@ -73,19 +91,24 @@
             var homePageDeletionError = "@Resource.HomePageDeletionError";
             var contentJSON = @Html.Raw(Model.ContentJson);
             var menuJSON = @Html.Raw(Model.MenuJson);
-        </script>
-
+            var commentsAllow = false;
+            @if (Model.AllowComments)
+            {
+                @Html.Raw("commentsAllow = true;");
+            }
+        </script>        
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryval")
-        <script src="~/Scripts/mediaelement/mediaelement-and-player.min.js"></script>
-        <script src="~/Scripts/jquery-ui-1.12.0.min.js"></script>
-        <script src="~/Scripts/jquery.cropit.js"></script>
+        @Scripts.Render("~/Scripts/mediaelement/mediaelement-and-player.min.js")
+        @Scripts.Render("~/Scripts/jquery-ui-1.12.0.min.js")
+        @Scripts.Render("~/Scripts/jquery.cropit.js")
         @Scripts.Render("~/Scripts/fill-script.js")
         @Scripts.Render("~/Scripts/save-script.js")
-        @Scripts.Render("~/Scripts/editing-script.js")
+        @Scripts.Render("~/Scripts/editing-script.js")       
         @Scripts.Render("~/bundles/modernizr")
         @Scripts.Render("~/bundles/bootstrap")
-        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+        @Scripts.Render("~/Scripts/bootstrap-toggle.js")
+        @Scripts.Render("~/Scripts/comments-script.js")
     </body>
 </html>
 

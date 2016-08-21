@@ -240,6 +240,7 @@
     <Compile Include="Models\Entities\Site.cs" />
     <Compile Include="Models\Entities\Tag.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\JsonModels\CommentJsonModel.cs" />
     <Compile Include="Models\JsonModels\ContentItemJsonModel.cs" />
     <Compile Include="Models\JsonModels\ContentJsonModel.cs" />
     <Compile Include="Models\JsonModels\MenuItemJsonModel.cs" />
@@ -331,6 +332,7 @@
     <Content Include="Scripts\bootstrap-toggle.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\comments-script.js" />
     <Content Include="Scripts\create-functions.js" />
     <Content Include="Scripts\editing-script.js" />
     <Content Include="Content\bootstrap-toggle.less" />
@@ -435,6 +437,8 @@
     <Content Include="Views\Sites\Menu\GenerateMenu.cshtml" />
     <Content Include="Views\Sites\Template\GenerateTemplate.cshtml" />
     <Content Include="Views\Modal\ModalPage.cshtml" />
+    <Content Include="Views\Sites\_Comments.cshtml" />
+    <Content Include="Views\Sites\_Rating.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

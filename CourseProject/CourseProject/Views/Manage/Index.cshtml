@@ -10,37 +10,29 @@
 
 <h2>@ViewBag.Title.</h2>
 
-<div class="col-md-12">
+<div class="col-md-12 col-lg-12 col-md-12 col-xs-12">
     <h4>@Resource.PictureChanging</h4>
     <hr />
-    <div class="col-md-offset-2">
-        @if (Model.Picture == null)
-            {
-            @CloudinaryInitializer.Cloudinary.Api.UrlImgUp.Transform(
-                   new Transformation().Width(200).Height(200).Crop("fill")).BuildImageTag("default_avatar_ww0y7e");
-            }
-            else
-            {
-            @CloudinaryInitializer.Cloudinary.Api.UrlImgUp.Transform(
-                   new Transformation().Width(200).Height(200).Crop("fill")).BuildImageTag(Model.Picture);
-            }
+    <div class="row">
+        <div class="image-editor" data-picture-src="@Model.Picture">
+            <div class="row">
+                <button id="browseBtn" style="float:left; margin-left:20px; font-size:20px;"><span class="glyphicon glyphicon-folder-open"></span></button>
+                <input id="browseInput" type="file" class="cropit-image-input" style="visibility:hidden">
+                <div id="rangeBlock" style="margin-top:10px;">
+                    <span class="glyphicon glyphicon-search" style="float:left; margin:5px;"></span>
+                    <input type="range" class="cropit-image-zoom-input" style="width:150px; float:left; margin:5px;">
+                    <span class="glyphicon glyphicon-search" style="font-size:22px; margin-left:5px;"></span>
+                </div>
+            </div>
+
+            <div class="cropit-preview"></div>
+        </div>
     </div>
-    <br>
-    @using (Html.BeginForm("ChangeImage", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
-    {
-        @Html.LabelFor(m => m.Picture, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            <input type="file" id="Picture" name="Picture" accept="image/*">
-        </div>
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="@Resource.PictureSave" class="btn btn-default" />
-        </div>
-    }
-    <br>
+    <button class="export btn btn-default" hidden>@Resource.PictureSave</button>
 </div>
 
 
-<div class="col-md-12">
+<div class="col-md-12 col-lg-12 col-md-12 col-xs-12">
     <br>
     <h4>@Resource.PasswordChanging</h4>
     <hr />
@@ -76,8 +68,89 @@
             </div>
         </div>
     }
-    <br/>
+    <br />
 </div>
+
+<style>
+    #browseInput{
+        position: absolute; 
+        top: -100px;
+    }
+
+    .cropit-preview {
+        background-color: #f8f8f8;
+        background-size: cover;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        margin-top: 7px;
+        width: 250px;
+        height: 250px;
+    }
+
+    .cropit-preview-image-container {
+        cursor: move;
+    }
+
+    .image-size-label {
+        margin-top: 10px;
+    }
+
+    input, .export {
+        display: block;
+    }
+
+    button {
+        margin-top: 10px;
+    }
+</style>
+
+
+@Scripts.Render("~/Scripts/jquery.cropit.js")
+<script>
+    $('#browseBtn').click(function () {
+        $('#browseInput').click();
+    });
+
+    function dropImage(picUrl) {
+        $('.image-editor').cropit({
+            minZoom: 'fill',
+            maxZoom: 3,
+            initialZoom: 'image',
+            smallImage: 'allow',
+            imageState: {
+                src: picUrl
+            }
+        });
+    }
+
+    function uploadPicture(imageData) {
+        $.ajax({
+            url: "/uploadPicture/",
+            method: "POST",
+            data: {
+                pictureDataUrl: imageData,
+                folder: "avatars"
+            },
+            success: function() {
+                alert("Сохранено");
+            }
+        });
+    }
+
+    if ($('.image-editor').data("picture-src") != undefined) {
+        dropImage($('.image-editor').data("picture-src"));
+    } else {
+        dropImage('');
+    }
+
+    $('.export').click(function () {
+        var imageData = $('.image-editor').cropit('export', {
+        type: 'image/jpeg',
+            quality: .75
+        });
+        uploadPicture(imageData);
+    });
+</script>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

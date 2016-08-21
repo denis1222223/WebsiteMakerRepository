@@ -17,9 +17,13 @@ namespace CourseProject.Controllers
             base.OnActionExecuted(filterContext);
             if (HttpContext.User.Identity.IsAuthenticated)
             {
-                var context = new ApplicationDbContext();
-                var user = context.Users.First(u => u.UserName == HttpContext.User.Identity.Name);
-                ViewBag.ProfilePicture = user.Picture;
+                try
+                {
+                    var context = new ApplicationDbContext();
+                    var user = context.Users.First(u => u.UserName == HttpContext.User.Identity.Name);
+                    ViewBag.ProfilePicture = user.Picture;
+                }
+                catch { }
             }
         }
 

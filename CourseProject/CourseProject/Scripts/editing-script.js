@@ -46,7 +46,9 @@ $(function () {
             url: '../edit',
             data: {
                 'pageUrl': $(location).attr('href').split("/")[5],
-                'contentJson': JSON.stringify(contentJson)
+                'contentJson': JSON.stringify(contentJson),
+                'allowComments': $("#toggle-comment").prop("checked"),
+                'allowRating': $("#toggle-rating").prop("checked")
             },
         });
         $(location).attr('href', "../../all");
@@ -62,7 +64,9 @@ function savePage() {
         url: '',
         data: {
             'contentJson': JSON.stringify(contentJson),
-            'menuJson': JSON.stringify(menuJson)
+            'menuJson': JSON.stringify(menuJson),
+            'allowComments': $("#toggle-comment").prop("checked"),
+            'allowRating': $("#toggle-rating").prop("checked")
         },
     });
 }

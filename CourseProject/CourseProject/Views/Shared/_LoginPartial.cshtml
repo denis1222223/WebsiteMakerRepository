@@ -1,7 +1,4 @@
 ﻿@using Microsoft.AspNet.Identity
-@using CloudinaryDotNet
-@using CourseProject.Environment
-@using CourseProject.Models
 @using Resources
 
 @if (Request.IsAuthenticated)
@@ -19,9 +16,7 @@
                     }
                     else
                     {
-                        @CloudinaryInitializer.Cloudinary.Api.UrlImgUp.Transform(
-                             new Transformation().Width(50).Height(50).Crop("fill")).BuildImageTag(
-                             ViewBag.ProfilePicture, new StringDictionary("class=img-circle"))
+                        <img src="@ViewBag.ProfilePicture" class="img-circle" style="width:50px; height:50px;" />
                     }
                     <span class="caret"></span>
                 </a>

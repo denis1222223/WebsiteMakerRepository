@@ -10,6 +10,7 @@ using CourseProject.Models;
 using CloudinaryDotNet.Actions;
 using CloudinaryDotNet;
 using CourseProject.Environment;
+using System.IO;
 
 namespace CourseProject.Controllers
 {
@@ -35,9 +36,9 @@ namespace CourseProject.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -87,21 +88,33 @@ namespace CourseProject.Controllers
             return View(model);
         }
 
-        public ActionResult ChangeImage(HttpPostedFileBase Picture)
+        [Route("uploadPicture")]
+        public string UploadPicture(string pictureDataUrl, string folder)
         {
-            if (Picture != null)
+            var binData = new Base64Decoder().Decode(pictureDataUrl);
+            if (binData == null)
+                return "";
+            using (var stream = new MemoryStream(binData))
             {
-                var cloudinary = CloudinaryInitializer.Cloudinary;
-                var result = cloudinary.Upload(new ImageUploadParams()
+                var result = CloudinaryInitializer.Cloudinary.Upload(new CloudinaryDotNet.Actions.ImageUploadParams()
                 {
-                    File = new FileDescription(Picture.FileName, Picture.InputStream),
-                    Folder = "avatars"
+                    File = new CloudinaryDotNet.Actions.FileDescription("pic", stream),
+                    Folder = folder,
                 });
-                var user = UserManager.FindById(User.Identity.GetUserId());
-                cloudinary.DeleteResources(new string[] { user.Picture });
-                UserManager.SetPicture(user.Id, result.PublicId);            
+                var pictureUrl = result.SecureUri.ToString();
+                if (folder == "avatars")
+                    ChangeImage(pictureUrl);
+                return pictureUrl;
             }
-            return RedirectToAction("Index", "Manage");
+        }
+
+        public void ChangeImage(string pictureUrl)
+        {
+            if (pictureUrl != null)
+            {
+                var user = UserManager.FindById(User.Identity.GetUserId());
+                UserManager.SetPicture(user.Id, pictureUrl);
+            }
         }
 
         //
@@ -375,7 +388,7 @@ namespace CourseProject.Controllers
             base.Dispose(disposing);
         }
 
-#region 
+        #region 
         // Используется для защиты от XSRF-атак при добавлении внешних имен входа
         private const string XsrfKey = "XsrfId";
 
@@ -426,6 +439,6 @@ namespace CourseProject.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }

@@ -24,10 +24,14 @@ namespace CourseProject.Environment
         public static void Add(Site site, bool siteExists, string userName)
         {
             SiteInfo info = FillSiteInfo(site, siteExists, userName);
-            if (!sites.ContainsKey(userName + site.Url))
+            try
             {
-                sites.Add(userName + info.Site.Url, info);
+                if (!sites.ContainsKey(userName + site.Url))
+                {
+                    sites.Add(userName + site.Url, info);
+                }
             }
+            catch { }         
         }
 
         private static SiteInfo FillSiteInfo(Site site, bool siteExists, string userName)
@@ -35,6 +39,7 @@ namespace CourseProject.Environment
             SiteInfo info = new SiteInfo();
             info.Site = site;
             info.Site.Pages = site.Pages;
+            info.Site.Comments = site.Comments;
             info.SiteExists = siteExists;
             info.LastAccessTime = DateTime.UtcNow;
             return info;
@@ -53,6 +58,7 @@ namespace CourseProject.Environment
             {
                 if((DateTime.UtcNow - info.Value.LastAccessTime).TotalMilliseconds > checkPeriod)
                 {
+                    new Controllers.SitesController().UpdateSite(info.Value.Site);
                     sites.Remove(info.Key);
                 }
             }

@@ -15,6 +15,8 @@ using Resources;
 using Newtonsoft.Json.Linq;
 using CourseProject.Models.JsonModels;
 using Newtonsoft.Json;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 
 namespace CourseProject.Controllers
 {
@@ -153,6 +155,7 @@ namespace CourseProject.Controllers
                 GenerateJson(site);
                 CheckSiteUrl(site);
                 FillSiteModel(site);
+
                 return new RedirectResult(User.Identity.Name +
                     '/' + site.Url + '/' + mainPageUrl + '/' + "edit");
             }
@@ -258,15 +261,22 @@ namespace CourseProject.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Edit(string userName, string siteUrl, string pageUrl, string contentJson, string menuJson)
+        public ActionResult Edit(string userName, string siteUrl, string pageUrl, string contentJson, string menuJson, bool allowComments = true, bool allowRating = true)
         {
             Site editedSite = SitesRepository.GetSite(userName + siteUrl);
             if (editedSite == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            SaveToggles(editedSite, allowComments, allowRating);
             SaveJson(editedSite, pageUrl, contentJson, menuJson);
             return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        private void SaveToggles(Site site, bool allowComments, bool allowRating)
+        {
+            site.AllowComments = allowComments;
+            site.AllowRating = allowRating;
         }
 
         private void FillDetailsViewModel(DetailsViewModel detailsModel, Site site, Page page, bool isEdit)
@@ -276,6 +286,12 @@ namespace CourseProject.Controllers
             detailsModel.ContentJson = page.ContentJson;
             detailsModel.SiteName = site.Name;
             detailsModel.IsEdit = isEdit;
+            detailsModel.AllowComments = site.AllowComments;
+            if (page.Url == mainPageUrl)
+                detailsModel.Comments = site.Comments;
+            detailsModel.AllowRating = site.AllowRating;
+            detailsModel.Rating = site.Rating;
+            detailsModel.AlreadyRated = site.RatedUsers.Contains(User.Identity.GetUserId());
         }
 
         private DetailsViewModel CreateDetailsViewModel(Site site, string pageUrl, bool isEdit)
@@ -375,13 +391,61 @@ namespace CourseProject.Controllers
 
         private void CreateSiteInDb(Site site)
         {
-            db.Sites.Add(site);
-            db.SaveChanges();
+            try
+            {
+                foreach (Comment comment in site.Comments)
+                {
+                    try
+                    {
+                        db.Entry(comment.Author).State = EntityState.Modified;
+                    }catch { }
+                    db.Entry(comment).State = EntityState.Added;
+                }
+                db.Sites.Add(site);
+                db.SaveChanges();
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Property: {0} Error: {1}",
+                                                validationError.PropertyName,
+                                                validationError.ErrorMessage);
+                    }
+                }
+            }
         }
 
-        private void UpdateSite(Site site)
+        public void UpdateSite(Site editedSite)
         {
-            db.Entry(site).State = EntityState.Modified;
+            foreach (Comment comment in editedSite.Comments)
+            {
+                if (comment.Id != 0)
+                {
+                    db.Entry(comment).State = EntityState.Modified;
+                    db.Entry(comment.Author).State = EntityState.Modified;
+                }
+                else
+                {
+                    db.Entry(comment).State = EntityState.Added;
+                }
+            }
+
+            foreach (Page page in editedSite.Pages)
+            {
+                if (page.Id != 0)
+                {
+                    db.Entry(page).State = EntityState.Modified;
+                }
+                else
+                {
+                    db.Entry(page).State = EntityState.Added;
+                }
+            }
+            
+            db.Entry(editedSite).State = EntityState.Modified;
             db.SaveChanges();
         }
 
@@ -485,19 +549,75 @@ namespace CourseProject.Controllers
             return RedirectToAction("Index");
         }
 
-        [Route("uploadPicture")]
-        public string UploadPicture(string pictureDataUrl)
+        [HttpPost]
+        [Authorize]
+        [Route("add_comment")]
+        public string AddComment(string userName, string siteUrl, string commentText)
         {
-            var binData = new Base64Decoder().Decode(pictureDataUrl);
-            using (var stream = new MemoryStream(binData))
+            Site site = SitesRepository.GetSite(userName + siteUrl);
+            if (site == null) { return null; }
+            Comment comment = FillComment(site, commentText);
+            site.Comments.Insert(0, comment);
+            
+            //db.Comments.Add(comment);
+            //db.Entry(comment).State = EntityState.Added;
+            //try
+            //{
+            //    db.SaveChanges();
+            //}           
+            //catch (DbEntityValidationException dbEx)
+            //{
+            //    foreach (var validationErrors in dbEx.EntityValidationErrors)
+            //    {
+            //        foreach (var validationError in validationErrors.ValidationErrors)
+            //        {
+            //            Trace.TraceInformation("Property: {0} Error: {1}",
+            //                                    validationError.PropertyName,
+            //                                    validationError.ErrorMessage);
+            //        }
+            //    }
+            //}
+            return GetCommentJsonString(comment);
+        }
+
+        private string GetCommentJsonString(Comment comment)
+        {
+          //  ApplicationUser author = FindUserInDb(User.Identity.Name);
+            var commentJson = new CommentJsonModel()
             {
-                var result = CloudinaryInitializer.Cloudinary.Upload(new CloudinaryDotNet.Actions.ImageUploadParams()
-                {
-                    File = new CloudinaryDotNet.Actions.FileDescription("pic", stream),
-                    Folder = "content",
-                });
-                return result.SecureUri.ToString();
+                Text = comment.Text,
+                AuthorName = comment.Author.UserName,
+                AuthorPicture = comment.Author.Picture,
+                DateTime = comment.Date.ToString()
+            };
+            return JsonConvert.SerializeObject(commentJson);
+        }
+
+        private Comment FillComment(Site site, string commentText)
+        {
+            ApplicationUser currentUser = FindUserInDb(User.Identity.Name);
+            Comment comment = new Comment(currentUser, commentText, site);
+            return comment;
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("add_rating")]
+        public int AddRating(string userName, string siteUrl)
+        {
+            Site site = SitesRepository.GetSite(userName + siteUrl);
+            if (site == null) { return 0; }
+            if (site.RatedUsers.Contains(User.Identity.GetUserId()))
+            {
+                site.Rating--;
+                site.RatedUsers.Remove(User.Identity.GetUserId());
             }
+            else
+            {
+                site.Rating++;
+                site.RatedUsers.Add(User.Identity.GetUserId());
+            }
+            return site.Rating;
         }
 
         protected override void Dispose(bool disposing)

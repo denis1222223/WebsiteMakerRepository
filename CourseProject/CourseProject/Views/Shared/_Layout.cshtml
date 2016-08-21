@@ -9,6 +9,11 @@
     <title>@ViewBag.Title – WebsiteMaker</title>
     @Styles.Render("~/Content/css")
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("scripts", required: false)
 </head>
 
 <body>
@@ -65,9 +70,5 @@
         </div>
     </footer>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/modernizr")
-    @RenderSection("scripts", required: false)
 </body>
 </html>

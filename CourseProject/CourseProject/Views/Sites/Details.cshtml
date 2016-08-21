@@ -36,8 +36,16 @@
             </div>
             <div class="container content col-lg-8 col-md-8 col-sm-8 col-xs-9">
                 @Html.Partial("Template/_" + Model.Template)
+                @if ((Model.AllowComments) && (Model.Comments != null))
+                {
+                    @Html.Partial("_Comments")
+                }
             </div>
         </div>
+        @if (Model.AllowRating)
+        {
+            @Html.Partial("_Rating")
+        }
         <footer class="footer">
             <div class="container">
                 <p class="text-muted">@DateTime.Now.Year – @Resource.Footer </p>
@@ -53,7 +61,8 @@
         @Scripts.Render("~/Scripts/fill-script.js")
         @Scripts.Render("~/bundles/modernizr")
         @Scripts.Render("~/bundles/bootstrap")
-        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+        @Scripts.Render("~/Scripts/bootstrap-toggle.js")
+        @Scripts.Render("~/Scripts/comments-script.js")
     </body>
 </html>
 

@@ -1,0 +1,18 @@
+﻿@model CourseProject.Models.DetailsViewModel
+
+<div id="ratingBox">
+    <span id="ratingStar" class="glyphicon 
+          @if (Model.AlreadyRated)
+          {
+              @Html.Raw("glyphicon-star")
+          }
+          else
+          {
+              @Html.Raw("glyphicon-star-empty")
+          }
+          ">
+    </span>
+    <div id="ratingValue">
+        @Model.Rating
+    </div>
+</div>
