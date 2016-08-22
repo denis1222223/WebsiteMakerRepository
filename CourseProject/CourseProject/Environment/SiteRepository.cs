@@ -1,4 +1,5 @@
-﻿using CourseProject.Models.Entities;
+﻿using CourseProject.LuceneInfrastructure;
+using CourseProject.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,8 +19,22 @@ namespace CourseProject.Environment
     public static class SitesRepository
     {
         private static int checkPeriod = 1200000;
-
+        private static Timer timer = new Timer(new TimerCallback(CheckSites), null, 0, checkPeriod);
+        private static SiteWriter luceneSiteWriter = new SiteWriter(new LuceneService());
         private static Dictionary<string, SiteInfo> sites = new Dictionary<string, SiteInfo>();
+
+        internal static SiteWriter LuceneSiteWriter
+        {
+            get
+            {
+                return luceneSiteWriter;
+            }
+
+            private set
+            {
+                luceneSiteWriter = value;
+            }
+        }
 
         public static void Add(Site site, bool siteExists, string userName)
         {
@@ -31,7 +46,7 @@ namespace CourseProject.Environment
                     sites.Add(userName + site.Url, info);
                 }
             }
-            catch { }         
+            catch { }
         }
 
         private static SiteInfo FillSiteInfo(Site site, bool siteExists, string userName)
@@ -45,22 +60,15 @@ namespace CourseProject.Environment
             return info;
         }
 
-        internal static void InitializeRepositoryTimer()
-        {
-            
-            TimerCallback CheckSitesCallback = new TimerCallback(CheckSites);
-            Timer timer = new Timer( CheckSitesCallback, null, 0, checkPeriod);
-        }
-
         private static void CheckSites(object state)
         {
-            foreach(var info in sites)
+            foreach (var info in sites)
             {
-                if((DateTime.UtcNow - info.Value.LastAccessTime).TotalMilliseconds > checkPeriod)
+                if ((DateTime.UtcNow - info.Value.LastAccessTime).TotalMilliseconds > checkPeriod)
                 {
-                    new Controllers.SitesController().UpdateSite(info.Value.Site);
                     sites.Remove(info.Key);
                 }
+                LuceneSiteWriter.Optimize();
             }
         }
 

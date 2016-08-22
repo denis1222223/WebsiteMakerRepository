@@ -19,9 +19,12 @@ else
 }
 
 
-<p>
-    @Html.ActionLink(Resource.CreateSite, "CreateSite")
-</p>
+@if (Model.IsAuthor)
+{
+    <p>
+        @Html.ActionLink(Resource.CreateSite, "CreateSite")
+    </p>
+}
 <table class="table">
     <tr>
         <th>

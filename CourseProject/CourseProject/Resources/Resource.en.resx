@@ -285,4 +285,7 @@
   <data name="Details" xml:space="preserve">
     <value>Browse</value>
   </data>
+  <data name="NothingFound" xml:space="preserve">
+    <value>Nothing found</value>
+  </data>
 </root>

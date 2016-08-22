@@ -285,4 +285,7 @@
   <data name="Details" xml:space="preserve">
     <value>Просмотреть</value>
   </data>
+  <data name="NothingFound" xml:space="preserve">
+    <value>Ничего не найдено</value>
+  </data>
 </root>

@@ -14,9 +14,9 @@
             </a>
         </div>
         <div class="navbar-collapse collapse">
-            <form class="navbar-form navbar-left" role="search">
+            <form class="navbar-form navbar-left" method="post" role="search" action="/search">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder=@Resource.Search>
+                    <input type="text" class="form-control" name="searchQuery" placeholder=@Resource.Search>
                 </div>
             </form>
             <ul class="nav navbar-nav" id="horizontal_menu">

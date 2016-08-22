@@ -52,6 +52,14 @@
       <HintPath>..\packages\Duke.Owin.VkontakteMiddleware.1.2.0.0\lib\net45\Duke.Owin.VkontakteMiddleware.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Lucene.Net, Version=3.0.3.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -231,6 +239,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Lucene\LuceneService.cs" />
+    <Compile Include="Lucene\SiteWriter.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
@@ -423,7 +433,6 @@
     <Content Include="Views\Sites\Details.cshtml" />
     <Content Include="Views\Sites\Edit.cshtml" />
     <Content Include="Views\Sites\Index.cshtml" />
-    <Content Include="Views\Sites\GenerateHtml.cshtml" />
     <Content Include="Views\Sites\Menu\_HorizontalMenu.cshtml" />
     <Content Include="Views\Sites\Menu\_VerticalMenu.cshtml" />
     <Content Include="Views\Sites\Template\_TwoPart.cshtml" />
@@ -436,8 +445,6 @@
     <Content Include="Views\Sites\Rating.cshtml" />
     <Content Include="Views\Sites\SitesList\_Author.cshtml" />
     <Content Include="Views\Sites\SitesList\_NoSites.cshtml" />
-    <Content Include="Views\Sites\Menu\GenerateMenu.cshtml" />
-    <Content Include="Views\Sites\Template\GenerateTemplate.cshtml" />
     <Content Include="Views\Modal\ModalPage.cshtml" />
     <Content Include="Views\Sites\_Comments.cshtml" />
     <Content Include="Views\Sites\_Rating.cshtml" />
@@ -446,6 +453,7 @@
     <Content Include="Views\UsersAdmin\Details.cshtml" />
     <Content Include="Views\UsersAdmin\Edit.cshtml" />
     <Content Include="Views\UsersAdmin\Index.cshtml" />
+    <Content Include="Views\Sites\SearchData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

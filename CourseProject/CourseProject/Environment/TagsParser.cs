@@ -10,7 +10,7 @@ namespace CourseProject.Environment
 {
     public class TagsParser
     {
-        private string template = @"#([a-zёа-я0-9_]{1,20})";
+        private string template = @"(\s|^)([a-zёа-я0-9_]{1,20})";
         private Regex TagsRegex;
 
         private ApplicationDbContext localDb { get; set; }
@@ -21,7 +21,7 @@ namespace CourseProject.Environment
             TagsRegex = new Regex(template);
         }
 
-        private Tag GetTag( string tagName)
+        private Tag GetTag(string tagName)
         {
             Tag requiredTag = localDb.Tags.FirstOrDefault(t => t.Name == tagName);
             if (requiredTag != null)
@@ -32,7 +32,7 @@ namespace CourseProject.Environment
             return newTag;
         }
 
-        private void AddTagToSet(ref HashSet<Tag> set, string tagName)
+        private void AddTagToSet(HashSet<Tag> set, string tagName)
         {
             Tag newTag = GetTag(tagName);
             if (!set.Contains(newTag))
@@ -55,18 +55,18 @@ namespace CourseProject.Environment
         public HashSet<Tag> Parse(String inputString)
         {
             if (PrepareString(ref inputString))
-            { 
-                HashSet<Tag> parsedTags = new HashSet<Tag>();            
+            {
+                HashSet<Tag> parsedTags = new HashSet<Tag>();
                 foreach (Match tagMatch in TagsRegex.Matches(inputString))
                 {
-                    AddTagToSet(ref parsedTags, tagMatch.Groups[1].Value);
+                    AddTagToSet(parsedTags, tagMatch.Groups[2].Value);
                 }
                 return parsedTags;
             }
             else
             {
                 return null;
-            }     
+            }
         }
     }
 }

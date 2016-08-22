@@ -17,6 +17,7 @@ using CourseProject.Models.JsonModels;
 using Newtonsoft.Json;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using System.Linq.Expressions;
 
 namespace CourseProject.Controllers
 {
@@ -155,7 +156,7 @@ namespace CourseProject.Controllers
                 GenerateJson(site);
                 CheckSiteUrl(site);
                 FillSiteModel(site);
-
+                SitesRepository.LuceneSiteWriter.AddItemsToIndex(site, User.Identity.GetUserName());
                 return new RedirectResult(User.Identity.Name +
                     '/' + site.Url + '/' + mainPageUrl + '/' + "edit");
             }
@@ -381,6 +382,7 @@ namespace CourseProject.Controllers
                 SaveJson(editedSite, pageUrl, contentJson, null);
                 PutSiteToDb(editedSite, editedSiteId);
                 SitesRepository.Remove(editedSiteId);
+                SitesRepository.LuceneSiteWriter.UpdateItemsToIndex(editedSite, userName);
                 return new HttpStatusCodeResult(HttpStatusCode.OK);
             }
             else
@@ -556,6 +558,7 @@ namespace CourseProject.Controllers
             Site deletedSite = db.Sites.Include(site => site.Author)
                    .Where(site => site.Url == siteUrl && site.Author.UserName == userName)
                    .FirstOrDefault();
+            SitesRepository.LuceneSiteWriter.DeleteItemsFromIndex(deletedSite, userName);
             db.Sites.Remove(deletedSite);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -588,9 +591,39 @@ namespace CourseProject.Controllers
 
         private Comment FillComment(Site site, string commentText)
         {
-          //  ApplicationUser currentUser = FindUserInDb(User.Identity.Name);
-            Comment comment = new Comment(User.Identity.GetUserId(), commentText, site);
-            return comment;
+            Comment newComment = new Comment(User.Identity.GetUserId(), commentText, site);
+            return newComment;
+        }
+
+        [Route("search")]
+        public ActionResult SearchData(string searchQuery)
+        {
+            string[] searchResult = SitesRepository.LuceneSiteWriter.luceneService.Search(searchQuery);
+            TagsParser tagsParser = new TagsParser(db);
+            HashSet<Tag> tags = tagsParser.Parse(searchQuery);
+            return View(searchResult);
+        }
+
+        private string[] SearchSitesByTags(HashSet<Tag> tags)
+        {
+            int minMatchCount = 1;
+            if (tags.Count > 2)
+                minMatchCount = 2;
+            List<string> result = new List<string>();
+            var seachedSites = db.Sites.Where(site => site.Tags.All(tag => tags.Where(t => t.Name == tag.Name).Count() > minMatchCount)); //db.Sites.Where(s => ((HashSet<Tag>)s.Tags).Intersect(tags, new TagsComparer()).Count() > minMatchCount);   
+                                                                                                                                          //SelectMany(s => s.Tags.Where(tag => tag.Name == tags.Where(tage => tage. )).Distinct() // Intersect(tags)).ToList<Tag>().Count > minMatchCount);
+            foreach (Site site in seachedSites)
+            {
+                result.Add('/' + site.Author.UserName + '/' + site.Url);
+            }
+            return result.ToArray();
+        }
+
+        private int CheckMatch(ICollection<Tag> siteTags, HashSet<Tag> requestedTags)
+        {
+            HashSet<Tag> matchedTags = new HashSet<Tag>(requestedTags);
+            matchedTags.IntersectWith(siteTags);
+            return matchedTags.Count;
         }
 
         [HttpPost]

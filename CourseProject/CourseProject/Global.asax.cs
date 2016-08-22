@@ -20,7 +20,6 @@ namespace CourseProject
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             //Database.SetInitializer(new SiteDdInitializer());
-            SitesRepository.InitializeRepositoryTimer();
         }
     }
 }

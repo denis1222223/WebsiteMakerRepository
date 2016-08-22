@@ -335,3 +335,7 @@ C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\ob
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\CourseProject.dll
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\CourseProject.pdb
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\obj\Debug\CourseProject.csprojResolveAssemblyReference.cache
+C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\Lucene.Net.dll
+C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\Lucene.Net.pdb
+C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\Lucene.Net.xml
