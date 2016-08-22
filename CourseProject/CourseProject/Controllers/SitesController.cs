@@ -288,10 +288,38 @@ namespace CourseProject.Controllers
             detailsModel.IsEdit = isEdit;
             detailsModel.AllowComments = site.AllowComments;
             if (page.Url == mainPageUrl)
-                detailsModel.Comments = site.Comments;
+                detailsModel.Comments = GetCommentsViewInfo(site);
             detailsModel.AllowRating = site.AllowRating;
             detailsModel.Rating = site.Rating;
             detailsModel.AlreadyRated = site.RatedUsers.Contains(User.Identity.GetUserId());
+        }
+
+        private List<CommentViewModel> GetCommentsViewInfo(Site site)
+        {
+            //var users = db.Users.Where(user => user.Comments.Count(c => c.Site.Id == site.Id) != 0).ToList();
+            var users = db.Users.ToList();
+            var commentsViews = new List<CommentViewModel>();
+            foreach (var comment in site.Comments)
+            {
+                var commentView = new CommentViewModel();
+                FillCommentInfo(commentView, comment);
+                FillAuthorInfo(commentView, users, comment);
+                commentsViews.Add(commentView);
+            }
+            return commentsViews;
+        }
+
+        private void FillCommentInfo(CommentViewModel commentView, Comment comment)
+        {
+            commentView.DateTime = comment.Date.ToString();
+            commentView.Text = comment.Text;
+        }
+
+        private void FillAuthorInfo(CommentViewModel commentView, List<ApplicationUser> users, Comment comment)
+        {
+            var user = users.Where(u => u.Id == comment.AuthorId).FirstOrDefault();
+            commentView.AuthorName = user.UserName;
+            commentView.AuthorPicture = user.Picture;
         }
 
         private DetailsViewModel CreateDetailsViewModel(Site site, string pageUrl, bool isEdit)
@@ -535,43 +563,24 @@ namespace CourseProject.Controllers
 
         [HttpPost]
         [Authorize]
-        [Route("add_comment")]
-        public string AddComment(string userName, string siteUrl, string commentText)
+        [Route("comment")]
+        public string Comment(string userName, string siteUrl, string commentText)
         {
             Site site = SitesRepository.GetSite(userName + siteUrl);
             if (site == null) { return null; }
             Comment comment = FillComment(site, commentText);
             site.Comments.Add(comment);
-            
-            //db.Comments.Add(comment);
-            //db.Entry(comment).State = EntityState.Added;
-            //try
-            //{
-            //    db.SaveChanges();
-            //}           
-            //catch (DbEntityValidationException dbEx)
-            //{
-            //    foreach (var validationErrors in dbEx.EntityValidationErrors)
-            //    {
-            //        foreach (var validationError in validationErrors.ValidationErrors)
-            //        {
-            //            Trace.TraceInformation("Property: {0} Error: {1}",
-            //                                    validationError.PropertyName,
-            //                                    validationError.ErrorMessage);
-            //        }
-            //    }
-            //}
             return GetCommentJsonString(comment);
         }
 
         private string GetCommentJsonString(Comment comment)
         {
-          //  ApplicationUser author = FindUserInDb(User.Identity.Name);
-            var commentJson = new CommentJsonModel()
+            ApplicationUser author = FindUserInDb(User.Identity.Name);
+            var commentJson = new CommentViewModel()
             {
                 Text = comment.Text,
-                AuthorName = comment.Author.UserName,
-                AuthorPicture = comment.Author.Picture,
+                AuthorName = author.UserName,
+                AuthorPicture = author.Picture,
                 DateTime = comment.Date.ToString()
             };
             return JsonConvert.SerializeObject(commentJson);
@@ -579,29 +588,46 @@ namespace CourseProject.Controllers
 
         private Comment FillComment(Site site, string commentText)
         {
-            ApplicationUser currentUser = FindUserInDb(User.Identity.Name);
+          //  ApplicationUser currentUser = FindUserInDb(User.Identity.Name);
             Comment comment = new Comment(User.Identity.GetUserId(), commentText, site);
             return comment;
         }
 
         [HttpPost]
         [Authorize]
-        [Route("add_rating")]
-        public int AddRating(string userName, string siteUrl)
+        [Route("rate")]
+        public int Rate(string userName, string siteUrl)
         {
             Site site = SitesRepository.GetSite(userName + siteUrl);
-            if (site == null) { return 0; }
+            if (site == null) {
+                return 0;
+            }
+            AddRating(site);          
+            return site.Rating;
+        }
+
+        private void AddRating(Site site)
+        {
             if (site.RatedUsers.Contains(User.Identity.GetUserId()))
             {
-                site.Rating--;
-                site.RatedUsers.Remove(User.Identity.GetUserId());
+                DecrementRating(site);
             }
             else
             {
-                site.Rating++;
-                site.RatedUsers.Add(User.Identity.GetUserId());
+                IncrementRating(site);
             }
-            return site.Rating;
+        }
+
+        private void IncrementRating(Site site)
+        {
+            site.Rating++;
+            site.RatedUsers.Add(User.Identity.GetUserId());
+        }
+
+        private void DecrementRating(Site site)
+        {
+            site.Rating--;
+            site.RatedUsers.Remove(User.Identity.GetUserId());
         }
 
         protected override void Dispose(bool disposing)

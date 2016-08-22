@@ -107,7 +107,7 @@ function createPage() {
 
 //////////////////////////
 
-$(".item").bind("click", clickHandler);
+$(".item").bind("dblclick", clickHandler);
 
 $('#toolbar').draggable({
     containment: "html",
@@ -132,8 +132,8 @@ function initializeTool(toolType, markup) {
             $('.templateArea').addClass("dragging-active");
         },
         stop: function () {
-            $(".item").unbind("click");
-            $(".item").bind("click", clickHandler);
+            $(".item").unbind("dblclick");
+            $(".item").bind("dblclick", clickHandler);
             $('.templateArea').removeClass("dragging-active");
         }
     });

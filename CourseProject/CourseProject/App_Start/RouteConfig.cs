@@ -49,19 +49,19 @@ namespace CourseProject
                 name: "Account",
                 url: "account/{action}",
                 defaults: new { controller = "Account" }
-            );         
+            );
+
+            //routes.MapRoute(
+            //    name: "Admin",
+            //    url: "admin/{action}",
+            //    defaults: new { controller = "UserAdmin", action = "Index" }
+            //);
 
             routes.MapRoute(
                 name: "User",
                 url: "{userName}/{siteUrl}/{pageUrl}/{action}",
                 defaults: new { controller = "Sites", action = "Details", pageUrl = "main" }
             );
-
-            //routes.MapRoute(
-            //    name: "Default",
-            //    url: "{controller}/{action}",
-            //    defaults: new { controller = "Home", action = "Index"}
-            //);
         }
     }
 }

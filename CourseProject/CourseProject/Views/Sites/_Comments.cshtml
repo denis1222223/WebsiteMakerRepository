@@ -1,25 +1,28 @@
 ﻿@model CourseProject.Models.DetailsViewModel
 
 <div id="commentBox" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <div id="commentConstructor" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <textarea id="commentTextarea" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></textarea>
-        <button id="commentSend" class="btn btn-default">Send</button>
-    </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div id="commentConstructor" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <textarea id="commentTextarea" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></textarea>
+            <button id="commentSend" class="btn btn-default">Send</button>
+        </div>
+    }   
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <ul class="list-group" id="commentList">
-            @*@foreach (var comment in Model.Comments)
+            @foreach (var comment in Model.Comments)
             {
                 <li class="list-group-item comment">
                     <div class="commentInfo row">
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <img src="@comment.Author.Picture" class="img-circle" style="width:60px; height:60px;" />
+                            <img src="@comment.AuthorPicture" class="img-circle" style="width:60px; height:60px;" />
                         </div>
                         <div class="author-date">
                             <div class="commentAuthor">
-                                @comment.Author.UserName
+                                @comment.AuthorName
                             </div>
                             <div class="commentDate">
-                                @comment.Date
+                                @comment.DateTime
                             </div>
                         </div>
                     </div>
@@ -28,7 +31,7 @@
                         <p>@comment.Text</p>
                     </div>
                 </li>
-            }*@
+            }
         </ul>
     </div>
 </div>

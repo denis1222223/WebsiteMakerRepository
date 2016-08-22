@@ -6,14 +6,14 @@
     e.preventDefault();
 });
 
-function sendComment(commentText) {
-    var userName = $(location).attr('href').split("/")[3];
-    var siteUrl = $(location).attr('href').split("/")[4];
+var userName = $(location).attr('href').split("/")[3];
+var siteUrl = $(location).attr('href').split("/")[4];
 
+function sendComment(commentText) {
     $.ajax({
         type: 'POST',
         dataType: 'text',
-        url: "/add_comment",
+        url: "/comment",
         data: {
             'userName': userName,
             'siteUrl': siteUrl,
@@ -38,33 +38,26 @@ function makeCommentMarkup(comment) {
 }
 
 function appendComment(comment) {
-    var commentMarkup = makeCommentMarkup(comment);  
-    if ($('.comment').length == 0) {
-        $('#commentList').before($(commentMarkup));
-    } else {
-        $('.comment').first().before($(commentMarkup));
-    }
+    var commentMarkup = makeCommentMarkup(comment);
+    $('#commentList').append(commentMarkup);
+    $("html, body").animate({ scrollTop: $(document).height() }, 1000);
     $('#commentTextarea').val("");
 }
 
-$('#ratingBox').click(function (e) {
-    var url;
-    if ($(location).attr('href').split("/").length == 7)
-        url = '../add_rating';
-    else
-        url = 'add_rating';
+function rateClick() {
     $.ajax({
         type: 'POST',
-        url: url,
+        dataType: 'text',
+        url: "/rate",
+        data: {
+            'userName': userName,
+            'siteUrl': siteUrl
+        },
         success: function (data) {
-            if (data != undefined) {
-                setRating(data);
-            } else {
-                alert("Оценивать могут только авторизированные пользователи.");
-            }
+            setRating(data);
         }
     });
-});
+}
 
 function setRating(rating) {
     $('#ratingValue').text(rating);

@@ -1,6 +1,12 @@
 ﻿@model CourseProject.Models.DetailsViewModel
 
-<div id="ratingBox">
+<div id="ratingBox"
+    
+     @if (User.Identity.IsAuthenticated)
+     {
+         @Html.Raw("onclick='rateClick()'");
+     }
+     >
     <span id="ratingStar" class="glyphicon 
           @if (Model.AlreadyRated)
           {

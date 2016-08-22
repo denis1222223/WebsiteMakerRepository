@@ -19,11 +19,8 @@ namespace CourseProject
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // настройка логина, пароля отправителя
             var from = "denis12222223@gmail.com";
             var pass = "denis160797";
-
-            // адрес и порт smtp-сервера, с которого мы и будем отправлять письмо
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
 
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
@@ -31,7 +28,6 @@ namespace CourseProject
             client.Credentials = new System.Net.NetworkCredential(from, pass);
             client.EnableSsl = true;
 
-            // создаем письмо: message.Destination - адрес получателя
             var mail = new MailMessage(from, message.Destination);
             mail.Subject = message.Subject;
             mail.Body = message.Body;
@@ -45,12 +41,10 @@ namespace CourseProject
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Подключите здесь службу SMS, чтобы отправить текстовое сообщение.
             return Task.FromResult(0);
         }
     }
 
-    // Настройка диспетчера пользователей приложения. UserManager определяется в ASP.NET Identity и используется приложением.
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
         public ApplicationUserManager(IUserStore<ApplicationUser> store)
@@ -112,6 +106,20 @@ namespace CourseProject
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
+        }
+    }
+
+    // Configure the RoleManager used in the application. RoleManager is defined in the ASP.NET Identity core assembly
+    public class ApplicationRoleManager : RoleManager<IdentityRole>
+    {
+        public ApplicationRoleManager(IRoleStore<IdentityRole, string> roleStore)
+            : base(roleStore)
+        {
+        }
+
+        public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
+        {
+            return new ApplicationRoleManager(new RoleStore<IdentityRole>(context.Get<ApplicationDbContext>()));
         }
     }
 

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Web;
 using CourseProject.Models.Entities;
 
-namespace CourseProject.Models.JsonModels
+namespace CourseProject.Models
 {
-    public class CommentJsonModel
+    public class CommentViewModel
     {
         [JsonProperty("text")]
         public string Text { get; set; }
