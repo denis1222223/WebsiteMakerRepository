@@ -11,5 +11,6 @@ namespace CourseProject.Models
         public string UserName { get; set; }
         public bool IsAuthor { get; set; }
         public List<Site> Sites { get; set; }
+        public int Rating { get; set; }
     }
 }

@@ -45,7 +45,8 @@ namespace CourseProject.Controllers
         [Route("rating")]
         public ActionResult Rating()
         {
-            return View(db.Sites.ToList());
+            List<Site> mostRatedSites = db.Sites.Include(site => site.Author).ToList().OrderByDescending(s => s.Rating).Take(10).ToList();
+            return View(mostRatedSites);
         }
 
         private bool CheckCurrentUser(string userName)
@@ -73,7 +74,20 @@ namespace CourseProject.Controllers
             }
             userSites.Sites = user.Sites.ToList();
             userSites.UserName = user.UserName;
+            FillRating(userSites);
             return userSites;
+        }
+
+        private void FillRating(UserSitesViewModel userSites)
+        {
+            foreach (var site in userSites.Sites)
+            {
+                var currentSiteState = SitesRepository.GetSite(userSites.UserName + site.Url);
+                if (currentSiteState != null)
+                {
+                    site.Rating = currentSiteState.Rating;
+                }
+            }
         }
 
         private ApplicationUser FindUserInDb(string userName)
@@ -433,7 +447,11 @@ namespace CourseProject.Controllers
         {
             foreach (Page page in editedSite.Pages)
             {
-                if (page.Id == 0)
+                if (page.Id != 0)
+                {
+                    db.Entry(page).State = EntityState.Modified;
+                }
+                else
                 {
                     db.Pages.Add(page);
                 }

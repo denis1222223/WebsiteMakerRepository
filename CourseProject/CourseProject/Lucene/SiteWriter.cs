@@ -37,7 +37,9 @@ namespace CourseProject.LuceneInfrastructure
 
         private void AddDocumentToWriter(string userName, Site site, Page page, IndexWriter writer)
         {
-            string tags = string.Join(" ", site.Tags.Select(x => x.Name).ToArray());
+            string tags = "";
+            if (site.Tags != null)
+               tags = string.Join(" ", site.Tags.Select(x => x.Name).ToArray());           
             Document newDocument = new Document();
             newDocument.Add(new Field(luceneService.allFieldsOfDocument[0], userName + site.Url + page.Url, Field.Store.YES, Field.Index.NOT_ANALYZED));
             newDocument.Add(new Field(luceneService.allFieldsOfDocument[4], page.ContentJson, Field.Store.YES, Field.Index.ANALYZED));

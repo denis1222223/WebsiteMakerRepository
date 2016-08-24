@@ -1,4 +1,5 @@
 ﻿@model CourseProject.Models.UserSitesViewModel
+@using CourseProject.Environment
 @foreach (var site in Model.Sites)
 {
     <tr>
@@ -6,7 +7,7 @@
             <a href=@('/' + Model.UserName + "/" + site.Url + "/details")> @site.Name </a>
         </td>
         <td>
-            @Html.DisplayFor(modelItem => site.Rating)
+            @Html.DisplayFor(modelItem => Model.Rating)
         </td>
         <td>
             @Html.DisplayFor(modelItem => site.Url)

@@ -17,7 +17,7 @@ namespace CourseProject.LuceneInfrastructure
         private string[] fieldsToSearchOn = { "Content", "PageUrl", "Tags" };
         internal string[] allFieldsOfDocument = { "Id", "UserName", "SiteUrl", "PageUrl", "Content", "Tags"};
         private FSDirectory luceneDirectory;
-        private string dataFolder = "C:/Users/Vladislav/Desktop/WebsiteMakerRepository/CourseProject/CourseProject";
+        private string dataFolder = "C:/Users/denis/Desktop/WebsiteMakerRepository/CourseProject/CourseProject";
         private const int HitsLimit = 10;
 
         public LuceneService()

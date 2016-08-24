@@ -153,7 +153,11 @@ namespace CourseProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+                var user = new ApplicationUser {
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    Picture = "http://res.cloudinary.com/website-maker/image/upload/v1470265668/default_avatar_ww0y7e.png"
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -374,7 +378,11 @@ namespace CourseProject.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+                var user = new ApplicationUser {
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    Picture = "http://res.cloudinary.com/website-maker/image/upload/v1470265668/default_avatar_ww0y7e.png"
+                };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

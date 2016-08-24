@@ -157,6 +157,7 @@
     border: solid 1px lightgrey;
     border-radius: 15px;
     text-align: center;
+    color: black;
     width: 80px;
     height: 80px;
     position: fixed;

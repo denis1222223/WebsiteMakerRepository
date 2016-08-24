@@ -26,9 +26,10 @@ namespace CourseProject.App_Start
 
             var admin = new ApplicationUser
             {
-                Email = "denis1222223@mail.ru",
-                UserName = "denis1222223",
-                EmailConfirmed = true
+                Email = "admin@mail.ru",
+                UserName = "admin",
+                EmailConfirmed = true,
+                Picture = "http://res.cloudinary.com/website-maker/image/upload/v1470265668/default_avatar_ww0y7e.png"
             };
             string password = "denis160797";
             var result = userManager.Create(admin, password);

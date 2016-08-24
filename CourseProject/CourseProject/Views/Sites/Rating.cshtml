@@ -1,4 +1,5 @@
-﻿@model CourseProject.Models.Entities.Site
+﻿@using Resources
+@model List<CourseProject.Models.Entities.Site>
 
 @{
     ViewBag.Title = "Rating";
@@ -6,4 +7,33 @@
 }
 
 <h2>Rating</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName(@Resource.Name)
+        </th>
+        <th>
+            @Html.DisplayName(@Resource.Rating)
+        </th>
+        <th>
+            @Html.DisplayName(@Resource.UserName)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var site in Model)
+    {
+        <tr>
+            <td>
+                <a href=@('/' + site.Author.UserName + "/" + site.Url + "/details")> @site.Name </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => site.Rating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => site.Author.UserName)
+            </td>
+        </tr>
+    }
+</table>
 

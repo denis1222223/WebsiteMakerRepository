@@ -339,3 +339,7 @@ C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bi
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\Lucene.Net.dll
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\Lucene.Net.pdb
 C:\Users\Vladislav\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\Lucene.Net.xml
+C:\Users\denis\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\denis\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\Lucene.Net.dll
+C:\Users\denis\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\Lucene.Net.pdb
+C:\Users\denis\Desktop\WebsiteMakerRepository\CourseProject\CourseProject\bin\Lucene.Net.xml
